@@ -252,34 +252,6 @@
     }
   }
 
-  /* ---- Studio -------------------------------------------------------------
-     Product photography is supplied as cut-outs on transparent backgrounds, so
-     the set is ours to light. A soft key from above-left, a cooler fill, and a
-     floor that lifts toward the horizon — the piece then sits IN a room instead
-     of floating on a flat swatch. Same recipe everywhere, so a grid of ten
-     products reads as one shoot. */
-  .studio {
-    background-color: rgb(var(--c-shade));
-    background-image:
-      /* contact shadow the garment sits into */
-      radial-gradient(58% 12% at 50% 92%, rgb(var(--c-mark) / 0.16) 0%, transparent 70%),
-      /* floor lift */
-      linear-gradient(to top, rgb(var(--c-mark) / 0.07) 0%, transparent 42%),
-      /* cool fill from the lower right */
-      radial-gradient(80% 70% at 82% 88%, rgb(var(--c-chrome) / 0.16) 0%, transparent 60%),
-      /* key light, above left */
-      radial-gradient(72% 62% at 26% 12%, #ffffff 0%, rgb(var(--c-shade)) 62%);
-  }
-
-  /* The club runs dark, where a white key would blow out. */
-  .theme-dark .studio {
-    background-image:
-      radial-gradient(58% 12% at 50% 92%, #000000 0%, transparent 70%),
-      linear-gradient(to top, #000000 0%, transparent 42%),
-      radial-gradient(80% 70% at 82% 88%, rgb(var(--c-chrome) / 0.1) 0%, transparent 60%),
-      radial-gradient(72% 62% at 26% 12%, rgb(var(--c-chrome) / 0.22) 0%, rgb(var(--c-shade)) 62%);
-  }
-
   /* Brushed metal plate for small surfaces (badges, chips, hardware) */
   .chrome-plate {
     background-image: var(--silver);

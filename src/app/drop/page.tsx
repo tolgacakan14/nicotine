@@ -19,7 +19,6 @@ export const metadata: Metadata = {
  */
 export default function DropPage() {
   const products = CURRENT_DROP.products;
-  const [a, b, c, d, e, f, g, h] = products;
 
   return (
     <>
@@ -53,56 +52,18 @@ export default function DropPage() {
         items={[`${CURRENT_DROP.code}`, "NEVER RESTOCKED"]}
       />
 
-      {/* ---------- Piece 01 / 02 : two-up ---------- */}
-      <section className="shell grid gap-x-4 gap-y-14 py-20 sm:gap-x-6 sm:py-28 lg:grid-cols-12">
-        <Reveal className="lg:col-span-6">
-          <ProductCard product={a} index={0} tall priority />
-        </Reveal>
-        <Reveal delay={0.08} className="lg:col-span-5 lg:col-start-8 lg:self-end lg:pb-16">
-          <ProductCard product={b} index={1} />
-        </Reveal>
-      </section>
-
-      {/* ---------- Pieces 03 – 05 : three-up ---------- */}
-      <section className="shell grid grid-cols-2 gap-x-4 gap-y-14 py-20 sm:gap-x-6 sm:py-28 lg:grid-cols-3">
-        {[c, d, e].map((product, i) => (
-          <Reveal
-            key={product.slug}
-            delay={0.06 * i}
-            className={i === 2 ? "col-span-2 lg:col-span-1" : ""}
-          >
-            <ProductCard product={product} index={i + 2} />
-          </Reveal>
-        ))}
-      </section>
-
-      {/* ---------- Piece 06 : offset feature ---------- */}
-      <section className="shell grid items-center gap-10 py-20 sm:py-28 lg:grid-cols-12">
-        <Reveal className="lg:col-span-7">
-          <ProductCard product={f} index={5} tall />
-        </Reveal>
-        <Reveal delay={0.08} className="lg:col-span-4 lg:col-start-9">
-          <p className="eyebrow">PIECE 06</p>
-          <h2 className="mt-4 font-display text-big font-black uppercase leading-none text-mark">
-            {f.name}
-          </h2>
-          <p className="mt-5 font-mono text-[11px] tracking-wide2 text-chrome">
-            <Price value={f.price} /> — {f.colorway}
-          </p>
-          <Link href={`/product/${f.slug}`} className="btn-ghost mt-8 inline-block">
-            <span>VIEW PIECE</span>
-          </Link>
-        </Reveal>
-      </section>
-
-      {/* ---------- Pieces 07 / 08 ---------- */}
-      <section className="shell grid grid-cols-2 gap-x-4 gap-y-14 pb-24 sm:gap-x-6 sm:pb-32 lg:grid-cols-12">
-        <Reveal className="lg:col-span-5">
-          <ProductCard product={g} index={6} />
-        </Reveal>
-        <Reveal delay={0.08} className="lg:col-span-5 lg:col-start-7">
-          <ProductCard product={h} index={7} />
-        </Reveal>
+      {/* ---------- The drop: every piece the same size ----------
+          A uniform square grid, not an editorial rhythm of feature tiles. On a
+          collection page a hierarchy fights the shopper — the job here is
+          comparing pieces, and equal squares are what make that possible. */}
+      <section className="shell py-16 sm:py-20">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 lg:grid-cols-4">
+          {products.map((product, i) => (
+            <Reveal key={product.slug} delay={0.04 * (i % 4)}>
+              <ProductCard product={product} index={i} square priority={i < 4} />
+            </Reveal>
+          ))}
+        </div>
       </section>
 
       {/* ---------- Foot ---------- */}

@@ -55,47 +55,79 @@ export default async function ProductPage({ params }: Params) {
           <span className="text-mark">{product.name}</span>
         </nav>
 
-        <div className="mt-10 grid gap-12 lg:grid-cols-12 lg:gap-10">
-          {/* ---------- Gallery ---------- */}
-          <div className="lg:col-span-7">
+        {/* Three rails: what it is on the left, the shots down the middle, how
+            to buy it on the right. Both outer rails stick while the images
+            scroll — the piece stays the thing that moves, and the price and
+            size never leave the screen on a long product. */}
+        <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-8">
+          {/* ---------- What it is ---------- */}
+          <div className="lg:col-span-3">
+            <div className="lg:sticky lg:top-[calc(var(--nav-h)+2.5rem)]">
+              <h1 className="font-display text-big font-black uppercase leading-[0.95] text-mark">
+                {product.name}
+              </h1>
+
+              <ul className="mt-6 space-y-1.5">
+                {product.specs?.map((spec) => (
+                  <li
+                    key={spec}
+                    className="flex gap-2 font-mono text-[11px] uppercase tracking-wide2 text-haze"
+                  >
+                    <span className="text-ash">•</span>
+                    {spec}
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-8 space-y-4">
+                {product.description.map((paragraph, i) => (
+                  <p key={i} className="max-w-[34ch] text-sm leading-relaxed text-haze">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+
+              <p className="mt-8 font-mono text-[10px] uppercase tracking-wide2 text-ash">
+                {drop.code} — {drop.title}
+              </p>
+            </div>
+          </div>
+
+          {/* ---------- The shots ---------- */}
+          <div className="lg:col-span-6">
             <ProductGallery product={product} />
           </div>
 
-          {/* ---------- Buy column ---------- */}
-          <div className="lg:col-span-4 lg:col-start-9">
+          {/* ---------- How to buy it ---------- */}
+          <div className="lg:col-span-3">
             <div className="lg:sticky lg:top-[calc(var(--nav-h)+2.5rem)]">
-              <p className="eyebrow">
-                {drop.code} — {drop.title}
+              <p className="font-mono text-lg tracking-wide2 text-mark">
+                <Price value={product.price} />
               </p>
-              <h1 className="mt-4 font-display text-big font-black uppercase leading-none text-mark">
-                {product.name}
-              </h1>
-              <p className="mt-4 flex items-center gap-4">
-                <span className="font-mono text-sm tracking-wide2 text-mark">
-                  <Price value={product.price} />
-                </span>
-                <span className="eyebrow">{product.colorway}</span>
-              </p>
+              <p className="eyebrow mt-1">{product.colorway}</p>
 
-              <div className="rule my-8" />
+              <div className="mt-8">
+                <AddToCart product={product} dropCode={drop.code} />
+              </div>
 
-              <AddToCart product={product} dropCode={drop.code} />
-
-              <div className="rule my-8" />
-
-              {/* One line of description, then the spec that actually matters */}
-              <p className="text-sm leading-relaxed text-haze">{product.description[0]}</p>
-
-              <dl className="mt-8 flex gap-6 border-t border-line pt-6">
-                <dt className="eyebrow w-24 shrink-0">MATERIAL</dt>
-                <dd className="text-sm text-haze">{product.materials}</dd>
+              <dl className="mt-10 space-y-3 border-t border-line pt-5">
+                <div className="flex gap-4">
+                  <dt className="eyebrow w-20 shrink-0">MATERIAL</dt>
+                  <dd className="text-xs leading-relaxed text-haze">{product.materials}</dd>
+                </div>
+                <div className="flex gap-4">
+                  <dt className="eyebrow w-20 shrink-0">SHIPPING</dt>
+                  <dd className="text-xs leading-relaxed text-haze">
+                    2–4 working days from İstanbul. 14-day returns.
+                  </dd>
+                </div>
               </dl>
 
               {/* Woven-label detail — the mark as it appears inside the garment */}
-              <div className="mt-10 flex items-center gap-4 border border-line bg-shade px-5 py-4">
-                <Logo className="h-7 w-auto text-mark opacity-70" weight="medium" />
+              <div className="mt-8 flex items-center gap-3 border border-line px-4 py-3">
+                <Logo className="h-6 w-auto text-mark opacity-70" weight="medium" />
                 <span className="font-mono text-[10px] uppercase tracking-wide2 text-ash">
-                  {drop.code} — MADE IN TÜRKİYE
+                  MADE IN TÜRKİYE
                 </span>
               </div>
             </div>

@@ -39,6 +39,8 @@ export interface Product {
   /** Two or three short paragraphs for the product detail page. */
   description: string[];
   materials: string;
+  /** Spec bullets shown beside the shots — cut, hardware, fabric, origin. */
+  specs?: string[];
   sizes: string[];
   colorway: string;
   /** Slug of the drop this product belongs to. Set automatically by `getDrops()`. */

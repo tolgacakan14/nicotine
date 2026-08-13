@@ -1,29 +1,32 @@
 import type { Product } from "@/data/types";
 import ProductVisual from "./ProductVisual";
+import ZoomImage from "./ZoomImage";
 
 /**
- * PDP gallery. A product with real photography (`images[]`) shows those shots
- * in order. Anything still on placeholders derives three views from the same
- * product by varying tone and texture — a look, a detail and a flat.
+ * PDP gallery — one column of shots you scroll down through, centred between
+ * the sticky info and buy rails.
+ *
+ * Deliberately not a grid or a thumbnail carousel: the photography is supplied
+ * as cut-outs on transparent grounds, so stacking them full width lets each
+ * piece be looked at properly, and the page's own scroll is the only control
+ * anyone has to learn. Each shot magnifies on hover.
  */
 export default function ProductGallery({ product }: { product: Product }) {
   if (product.images?.length) {
     const labels = product.imageLabels ?? [];
     return (
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="flex flex-col gap-2">
         {product.images.map((src, i) => (
-          <figure key={src}>
-            <div className="studio aspect-[4/5] overflow-hidden border border-line">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={src}
-                alt={`${product.name} — ${labels[i] ?? `view ${i + 1}`}`}
-                loading={i === 0 ? "eager" : "lazy"}
-                className="h-full w-full object-contain p-[5%]"
-              />
-            </div>
-            <figcaption className="eyebrow mt-2">
-              {String(i + 1).padStart(2, "0")} — {labels[i] ?? "VIEW"}
+          <figure key={src} className="relative">
+            <ZoomImage
+              src={src}
+              alt={`${product.name} — ${labels[i] ?? `view ${i + 1}`}`}
+              priority={i === 0}
+              className="aspect-[4/5] w-full"
+            />
+            <figcaption className="eyebrow absolute left-0 top-0">
+              {String(i + 1).padStart(2, "0")}
+              {labels[i] ? ` — ${labels[i]}` : ""}
             </figcaption>
           </figure>
         ))}
@@ -31,40 +34,10 @@ export default function ProductGallery({ product }: { product: Product }) {
     );
   }
 
-  const shots: Array<{ label: string; product: Product; ratio: string }> = [
-    { label: "LOOK", product, ratio: "aspect-[4/5]" },
-    {
-      label: "DETAIL",
-      product: { ...product, tone: Math.min(0.95, product.tone + 0.16), texture: "halftone" },
-      ratio: "aspect-square",
-    },
-    {
-      label: "FLAT",
-      product: { ...product, tone: Math.max(0.06, product.tone - 0.14), texture: "scan" },
-      ratio: "aspect-square",
-    },
-  ];
-
+  // Products still on generated placeholders have no alternate views to derive.
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
-      {shots.map((shot, i) => (
-        <figure
-          key={shot.label}
-          className={`group relative ${i === 0 ? "sm:col-span-2 xl:col-span-2" : ""}`}
-        >
-          <div className={shot.ratio}>
-            <ProductVisual
-              product={shot.product}
-              className="h-full w-full"
-              priority={i === 0}
-              compact={i > 0}
-            />
-          </div>
-          <figcaption className="eyebrow mt-2">
-            {String(i + 1).padStart(2, "0")} — {shot.label}
-          </figcaption>
-        </figure>
-      ))}
+    <div className="aspect-[4/5] w-full">
+      <ProductVisual product={product} className="h-full w-full" priority />
     </div>
   );
 }

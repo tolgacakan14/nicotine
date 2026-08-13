@@ -14,11 +14,14 @@ export default function ProductCard({
   index,
   /** `tall` gives the hero pieces a longer crop in the drop grid. */
   tall = false,
+  /** `square` is the collection grid, where every piece gets the same box. */
+  square = false,
   priority = false,
 }: {
   product: Product;
   index?: number;
   tall?: boolean;
+  square?: boolean;
   priority?: boolean;
 }) {
   return (
@@ -29,8 +32,8 @@ export default function ProductCard({
       {/* The hairline matters on a light ground: pale garments photographed on
           pale backgrounds have no edge of their own and dissolve into the page. */}
       <div
-        className={`studio relative overflow-hidden border border-line ${
-          tall ? "aspect-[3/4.4]" : "aspect-[3/4]"
+        className={`relative overflow-hidden ${
+          square ? "aspect-square" : tall ? "aspect-[3/4.4]" : "aspect-[3/4]"
         }`}
       >
         {/* Photographed pieces get a scrubbable gallery on hover; anything still
