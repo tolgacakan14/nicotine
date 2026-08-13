@@ -27,41 +27,41 @@ export default function DropPage() {
   return (
     <>
       {/* ---------- Masthead ---------- */}
-      <header className="relative flex min-h-[78dvh] flex-col justify-end overflow-hidden pb-14 pt-[calc(var(--nav-h)+5rem)]">
+      <header className="relative flex min-h-[82dvh] flex-col justify-end overflow-hidden bg-[#25272a] pb-14 pt-[calc(var(--nav-h)+5rem)]">
         <Image
           src="/editorial/drop-001-banner.jpg"
           alt=""
           fill
           priority
           aria-hidden
-          className="object-cover object-center opacity-[0.28] saturate-[0.72] contrast-[0.9] transition-transform duration-[1800ms] ease-editorial motion-safe:scale-[1.025]"
+          className="object-cover object-center opacity-[0.88] saturate-[1.08] contrast-[1.06] transition-transform duration-[1800ms] ease-editorial motion-safe:scale-[1.018]"
           sizes="100vw"
         />
-        {/* The artwork remains present but recedes behind the typography like a
-            printed layer beneath tracing paper. */}
+        {/* A dark glass layer keeps the campaign artwork vivid while giving the
+            mercury headline enough separation to read as polished metal. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(247,246,243,0.9)_0%,rgba(247,246,243,0.46)_36%,rgba(247,246,243,0.78)_100%)]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(18,20,22,0.28)_0%,rgba(27,27,30,0.12)_38%,rgba(18,18,20,0.48)_100%)]"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_70%_at_78%_8%,rgba(255,255,255,0.62)_0%,transparent_68%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(75%_70%_at_70%_15%,rgba(255,117,175,0.12)_0%,transparent_68%)]"
         />
         <div className="shell relative">
           <div className="flex flex-wrap items-baseline justify-between gap-4">
-            <p className="eyebrow">{CURRENT_DROP.code} — NOW LIVE</p>
-            <p className="eyebrow">
+            <p className="eyebrow text-white/80">{CURRENT_DROP.code} — NOW LIVE</p>
+            <p className="eyebrow text-white/80">
               {CURRENT_DROP.season} — {String(products.length).padStart(2, "0")} PIECES
             </p>
           </div>
           <div className="mt-8 flex flex-wrap items-end justify-between gap-8">
-            <h1 className="max-w-[12ch] font-display text-mega font-black uppercase leading-[0.78] text-mark drop-shadow-[0_1px_0_rgba(255,255,255,0.55)]">
+            <h1 className="type-mercury max-w-[12ch] font-display text-mega font-black uppercase leading-[0.78] drop-shadow-[0_4px_18px_rgba(0,0,0,0.48)]">
               {CURRENT_DROP.title}
             </h1>
-            <Logo className="hidden h-16 w-auto text-mark opacity-30 lg:block" weight="thin" />
+            <Logo className="hidden h-16 w-auto text-chrome-hi opacity-90 drop-shadow-[0_3px_12px_rgba(0,0,0,0.5)] lg:block" weight="thin" />
           </div>
-          <div className="rule mt-8" />
-          <p className="mt-8 font-display text-xl font-black uppercase leading-tight tracking-tight2 type-chrome lg:text-2xl">
+          <div className="mt-8 h-px bg-white/35" />
+          <p className="type-mercury mt-8 font-display text-xl font-black uppercase leading-tight tracking-tight2 drop-shadow-[0_2px_8px_rgba(0,0,0,0.65)] lg:text-2xl">
             {CURRENT_DROP.strapline}
           </p>
         </div>
