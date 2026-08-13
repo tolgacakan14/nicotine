@@ -13,13 +13,13 @@ export default function ProductGallery({ product }: { product: Product }) {
       <div className="grid gap-4 sm:grid-cols-2">
         {product.images.map((src, i) => (
           <figure key={src}>
-            <div className="aspect-[4/5] overflow-hidden border border-line bg-shade">
+            <div className="studio aspect-[4/5] overflow-hidden border border-line">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={src}
                 alt={`${product.name} — ${labels[i] ?? `view ${i + 1}`}`}
                 loading={i === 0 ? "eager" : "lazy"}
-                className="h-full w-full object-contain"
+                className="h-full w-full object-contain p-[5%]"
               />
             </div>
             <figcaption className="eyebrow mt-2">

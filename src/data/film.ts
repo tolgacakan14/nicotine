@@ -96,9 +96,9 @@ export const FILM_ACTS: FilmAct[] = [
   },
   {
     id: "jacket",
-    slug: "ash-work-jacket",
-    headline: "ASH WORK JACKET",
-    caption: "The last layer. The stack reads as one.",
+    slug: "armor-jacket",
+    headline: "ARMOR JACKET",
+    caption: "The last layer. The only green in the drop.",
     note: "ACT 08 — FULL LOOK",
     add: ["jacket"],
     remove: [],

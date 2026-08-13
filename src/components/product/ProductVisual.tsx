@@ -43,7 +43,7 @@ export default function ProductVisual({
         src={product.image}
         alt={product.name}
         loading={priority ? "eager" : "lazy"}
-        className={`h-full w-full bg-shade object-contain ${className}`}
+        className={`h-full w-full object-contain p-[6%] ${className}`}
       />
     );
   }

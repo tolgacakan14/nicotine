@@ -67,7 +67,7 @@ export default function HoverGallery({
           alt={i === 0 ? alt : `${alt} — ${labels?.[i] ?? `view ${i + 1}`}`}
           loading={i === 0 && priority ? "eager" : "lazy"}
           aria-hidden={i !== index}
-          className={`absolute inset-0 h-full w-full bg-shade object-contain transition-opacity duration-300 ease-editorial ${
+          className={`absolute inset-0 h-full w-full object-contain p-[6%] transition-opacity duration-300 ease-editorial ${
             i === index ? "opacity-100" : "opacity-0"
           }`}
         />

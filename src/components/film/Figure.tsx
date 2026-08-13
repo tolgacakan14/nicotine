@@ -113,10 +113,14 @@ const HOODIE: Flat = {
   bodyUnderarm: 88, bodyHem: 84, underarmY: 332, hemY: 514,
   topY: 202, neckHalf: 33, neckDrop: 24,
 };
+/**
+ * ARMOR JACKET — cropped zip bomber. Cut wider than the hoodie beneath it and
+ * stopped at the waist, so the trousers read below it rather than being buried.
+ */
 const JACKET: Flat = {
-  shoulder: 110, cuffOuter: 88, cuffInner: 60, cuffY: 566,
-  bodyUnderarm: 102, bodyHem: 98, underarmY: 342, hemY: 544,
-  topY: 198, neckHalf: 35, neckDrop: 20,
+  shoulder: 112, cuffOuter: 100, cuffInner: 72, cuffY: 552,
+  bodyUnderarm: 88, bodyHem: 90, underarmY: 310, hemY: 500,
+  topY: 200, neckHalf: 26, neckDrop: 8,
 };
 
 /**
@@ -201,6 +205,10 @@ const SOOT = "#26241F";      // second skin base knit
 const TAR_CLOTH = "#332F29"; // washed hoodie
 const ASH_CLOTH = "#8E8A80"; // ash work jacket
 const BLACK_CLOTH = "#1B1913"; // static cargo pant
+const ARMOR = "#1E1C1A";       // armor jacket — corded black
+const ARMOR_CORD = "#3D3A36";  // the cording that runs through it
+const ARMOR_RIB = "#2A2724";   // ribbed hem and cuffs
+const NEON = "#5BE83C";        // the jacket's oval — the drop's only colour
 const CAT_TEE = "#121110";     // eyes on cat tee — black
 const CAT_TEE_EDGE = "#3A3733"; // its edge, so it reads against a dark figure
 const VIOLET = "#7B5CE0";       // the tee's chest embroidery
@@ -267,6 +275,10 @@ export default function Figure({ className = "" }: { className?: string }) {
         </clipPath>
         <clipPath id="clip-hoodie">
           <rect data-clip="hoodie" x="0" y="150" width="420" height="0" />
+        </clipPath>
+        {/* The jacket's own outline, used to clip its vertical cording. */}
+        <clipPath id="armor-shape">
+          <path d={JACKET_PATH} />
         </clipPath>
         <clipPath id="clip-jacket">
           <rect data-clip="jacket" x="0" y="178" width="420" height="0" />
@@ -423,22 +435,53 @@ export default function Figure({ className = "" }: { className?: string }) {
         </g>
       </g>
 
-      {/* ASH WORK JACKET — worn open so the layers beneath stay readable */}
+      {/* ARMOR JACKET — cropped zip bomber, worn closed. Vertical cording runs
+          the full body and both sleeves, which is the garment's whole character;
+          the neon oval is the only colour anywhere in the drop. */}
       <g data-layer="jacket" opacity="0">
         <g clipPath="url(#clip-jacket)">
-          <path d={JACKET_PATH} fill={ASH_CLOTH} fillOpacity="0.55" stroke={OUTLINE} strokeWidth="1.8" />
-          {/* Open front */}
-          <path d="M186 206 L182 544 M234 206 L238 544" stroke="url(#chrome)" strokeWidth="1.8" />
-          <path d="M172 200 L210 240 L248 200" fill="none" stroke="url(#chrome)" strokeWidth="2.2" />
-          {/* Pockets */}
-          <rect x="132" y="292" width="40" height="46" fill="none" stroke="url(#chrome)" strokeWidth="1.4" opacity="0.9" />
-          <rect x="248" y="292" width="40" height="46" fill="none" stroke="url(#chrome)" strokeWidth="1.4" opacity="0.9" />
-          <rect x="126" y="424" width="48" height="54" fill="none" stroke="url(#chrome)" strokeWidth="1.4" opacity="0.9" />
-          <rect x="246" y="424" width="48" height="54" fill="none" stroke="url(#chrome)" strokeWidth="1.4" opacity="0.9" />
-          {/* Chrome buttons */}
-          <circle cx="234" cy="300" r="3.4" fill="url(#chrome)" />
-          <circle cx="234" cy="372" r="3.4" fill="url(#chrome)" />
-          <circle cx="234" cy="444" r="3.4" fill="url(#chrome)" />
+          <path d={JACKET_PATH} fill={ARMOR} stroke={OUTLINE} strokeWidth="1.6" />
+
+          {/* Vertical cording. Generated rather than hand-listed so the spacing
+              stays even across body and sleeves at any width. */}
+          <g stroke={ARMOR_CORD} strokeWidth="1.5" opacity="0.85" clipPath="url(#armor-shape)">
+            {Array.from({ length: 21 }, (_, i) => {
+              const x = 112 + i * 9.7;
+              return <path key={i} d={`M${x},190 L${x},570`} />;
+            })}
+          </g>
+
+          {/* Armhole seams — where the sleeve is set into the body */}
+          <path d="M104 212 Q114 262 122 312" fill="none" stroke={OUTLINE} strokeWidth="1.7" opacity="0.9" />
+          <path d="M316 212 Q306 262 298 312" fill="none" stroke={OUTLINE} strokeWidth="1.7" opacity="0.9" />
+
+          {/* Stand collar — the funnel neck, ribbed */}
+          <path
+            d="M176 202 Q210 190 244 202 L246 168 Q210 156 174 168 Z"
+            fill={ARMOR}
+            stroke={OUTLINE}
+            strokeWidth="1.5"
+          />
+          <path d="M176 178 Q210 168 244 178 M177 190 Q210 180 243 190" stroke={ARMOR_CORD} strokeWidth="1.2" fill="none" opacity="0.8" />
+
+          {/* Centre zip, running from the collar to the hem */}
+          <path d={`M${CX},166 L${CX},496`} stroke={OUTLINE} strokeWidth="3.4" />
+          <path d={`M${CX},166 L${CX},496`} stroke="url(#chrome-v)" strokeWidth="1.6" opacity="0.7" />
+          <rect x={CX - 3.5} y="196" width="7" height="13" rx="1.5" fill="url(#chrome)" stroke={OUTLINE} strokeWidth="0.6" />
+
+          {/* Slanted hand pockets set into the seam */}
+          <path d="M132 356 L166 400" stroke={OUTLINE} strokeWidth="1.6" opacity="0.85" />
+          <path d="M288 356 L254 400" stroke={OUTLINE} strokeWidth="1.6" opacity="0.85" />
+
+          {/* Ribbed hem and cuffs */}
+          <rect x="120" y="474" width="180" height="26" fill={ARMOR_RIB} stroke={OUTLINE} strokeWidth="1.3" />
+          <path d="M126 481 h168 M126 490 h168" stroke={ARMOR_CORD} strokeWidth="1" opacity="0.7" />
+          <rect x="108" y="526" width="32" height="26" fill={ARMOR_RIB} stroke={OUTLINE} strokeWidth="1.3" />
+          <rect x="280" y="526" width="32" height="26" fill={ARMOR_RIB} stroke={OUTLINE} strokeWidth="1.3" />
+
+          {/* The neon oval, stitched on the left chest */}
+          <ellipse cx="246" cy="288" rx="26" ry="9" fill={OUTLINE} stroke={NEON} strokeWidth="1.6" />
+          <SvgWordmark x={246} y={291} size={6.5} tracking={1.1} fill={NEON} />
         </g>
       </g>
 

@@ -29,7 +29,7 @@ export default function ProductCard({
       {/* The hairline matters on a light ground: pale garments photographed on
           pale backgrounds have no edge of their own and dissolve into the page. */}
       <div
-        className={`relative overflow-hidden border border-line bg-shade ${
+        className={`studio relative overflow-hidden border border-line ${
           tall ? "aspect-[3/4.4]" : "aspect-[3/4]"
         }`}
       >
