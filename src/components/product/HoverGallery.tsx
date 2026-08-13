@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { catalogImage } from "@/lib/catalog-image";
 
 /* ============================================================================
    HOVER GALLERY
@@ -63,11 +64,11 @@ export default function HoverGallery({
         // eslint-disable-next-line @next/next/no-img-element
         <img
           key={src}
-          src={src}
+          src={catalogImage(src)}
           alt={i === 0 ? alt : `${alt} — ${labels?.[i] ?? `view ${i + 1}`}`}
           loading={i === 0 && priority ? "eager" : "lazy"}
           aria-hidden={i !== index}
-          className={`absolute inset-0 h-full w-full object-contain p-[6%] transition-opacity duration-300 ease-editorial ${
+          className={`absolute inset-0 h-full w-full object-contain transition-opacity duration-300 ease-editorial ${
             i === index ? "opacity-100" : "opacity-0"
           }`}
         />

@@ -7,6 +7,7 @@ import Marquee from "@/components/ui/Marquee";
 import Logo from "@/components/brand/Logo";
 import { CURRENT_DROP } from "@/data/drops";
 import Price from "@/components/ui/Price";
+import SpotlightMode from "@/components/drop/SpotlightMode";
 
 export const metadata: Metadata = {
   title: `${CURRENT_DROP.code} — ${CURRENT_DROP.title}`,
@@ -26,6 +27,7 @@ export default function DropPage() {
 
   return (
     <>
+      <SpotlightMode />
       {/* ---------- Masthead ---------- */}
       <header className="relative flex min-h-[82dvh] flex-col justify-end overflow-hidden bg-[#25272a] pb-14 pt-[calc(var(--nav-h)+5rem)]">
         <Image
@@ -75,10 +77,10 @@ export default function DropPage() {
           A uniform square grid, not an editorial rhythm of feature tiles. On a
           collection page a hierarchy fights the shopper — the job here is
           comparing pieces, and equal squares are what make that possible. */}
-      <section className="shell py-16 sm:py-20">
-        <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 lg:grid-cols-4">
+      <section className="drop-products-section shell py-16 sm:py-20">
+        <div className="drop-products-grid grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-x-6 lg:grid-cols-4">
           {products.map((product, i) => (
-            <Reveal key={product.slug} delay={0.04 * (i % 4)}>
+            <Reveal key={product.slug} delay={0.04 * (i % 4)} className="drop-grid-card">
               <ProductCard product={product} index={i} square priority={i < 4} campaign />
             </Reveal>
           ))}

@@ -1,6 +1,7 @@
 import type { Product } from "@/data/types";
 import ProductVisual from "./ProductVisual";
 import ZoomImage from "./ZoomImage";
+import { catalogImage } from "@/lib/catalog-image";
 
 /**
  * PDP gallery — one column of shots you scroll down through, centred between
@@ -19,7 +20,7 @@ export default function ProductGallery({ product }: { product: Product }) {
         {product.images.map((src, i) => (
           <figure key={src} className="relative">
             <ZoomImage
-              src={src}
+              src={catalogImage(src)}
               alt={`${product.name} — ${labels[i] ?? `view ${i + 1}`}`}
               priority={i === 0}
               className="aspect-[4/5] w-full"

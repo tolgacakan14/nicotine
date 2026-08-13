@@ -1,5 +1,6 @@
 import type { Product } from "@/data/types";
 import GarmentGlyph from "./GarmentGlyph";
+import { catalogImage } from "@/lib/catalog-image";
 
 /* ============================================================================
    PRODUCT VISUAL
@@ -40,10 +41,10 @@ export default function ProductVisual({
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={product.image}
+        src={catalogImage(product.image)}
         alt={product.name}
         loading={priority ? "eager" : "lazy"}
-        className={`h-full w-full object-contain p-[6%] ${className}`}
+        className={`h-full w-full object-contain ${className}`}
       />
     );
   }
