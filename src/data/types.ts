@@ -9,6 +9,7 @@
 /** Which layer of the scroll-film character a product maps to. */
 export type GarmentLayer =
   | "tank"
+  | "blacktank"
   | "tee"
   | "longsleeve"
   | "hoodie"

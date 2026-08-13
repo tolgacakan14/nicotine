@@ -183,6 +183,27 @@ const TANK_PATH = [
   "Z",
 ].join(" ");
 
+/** Black women's tank — slightly narrower through the shoulder and waist than
+ * the espresso base, with the squared scoop visible in the product photography. */
+const BLACK_TANK_PATH = [
+  `M${CX - 30},214`,
+  `L${CX - 43},212`,
+  `Q${CX - 53},216 ${CX - 55},232`,
+  `L${CX - 59},304`,
+  `L${CX - 56},466`,
+  `Q${CX - 56},476 ${CX - 48},476`,
+  `L${CX + 48},476`,
+  `Q${CX + 56},476 ${CX + 56},466`,
+  `L${CX + 59},304`,
+  `L${CX + 55},232`,
+  `Q${CX + 53},216 ${CX + 43},212`,
+  `L${CX + 30},214`,
+  `Q${CX + 31},257 ${CX + 27},278`,
+  `Q${CX},294 ${CX - 27},278`,
+  `Q${CX - 31},257 ${CX - 30},214`,
+  "Z",
+].join(" ");
+
 const NEED_LS_PATH = flat(NEED_LS);
 const LS_PATH = flat(LONGSLEEVE);
 const TEE_PATH = flat(TEE);
@@ -225,6 +246,8 @@ const PANT_LEG_R = pantLeg(1);
    silver edge instead. */
 const TANK = "#3B322C";      // rib tank — washed espresso
 const TANK_RIB = "#584C43";  // its ribbing and tonal oval
+const BLACK_TANK = "#0B0B0B";
+const BLACK_TANK_RIB = "#303030";
 const OFFWHITE = "#FBFAF8";  // I NEED NICOTINE longsleeve
 const BONE = "#E2DED5";      // null scarf
 const SOOT = "#26241F";      // second skin base knit
@@ -292,6 +315,9 @@ export default function Figure({ className = "" }: { className?: string }) {
              garments themselves, so fit is identical at every frame. ---- */}
         <clipPath id="clip-tank">
           <rect data-clip="tank" x="0" y="206" width="420" height="0" />
+        </clipPath>
+        <clipPath id="clip-blacktank">
+          <rect data-clip="blacktank" x="0" y="206" width="420" height="0" />
         </clipPath>
         <clipPath id="clip-needls">
           <rect data-clip="needls" x="0" y="196" width="420" height="0" />
@@ -397,6 +423,23 @@ export default function Figure({ className = "" }: { className?: string }) {
           {/* The tonal oval */}
           <ellipse cx={CX} cy="352" rx="38" ry="12" fill="none" stroke={TANK_RIB} strokeWidth="1.6" />
           <SvgWordmark x={CX} y={356} size={9} tracking={1.8} fill={TANK_RIB} />
+        </g>
+      </g>
+
+      {/* BLACK RIB TANK — the second base layer, fitted over espresso. */}
+      <g data-layer="blacktank" opacity="0">
+        <g clipPath="url(#clip-blacktank)">
+          <path d={BLACK_TANK_PATH} fill={BLACK_TANK} stroke="url(#chrome)" strokeWidth="1.15" />
+          <g stroke={BLACK_TANK_RIB} strokeWidth="0.85" opacity="0.72">
+            {Array.from({ length: 13 }, (_, i) => {
+              const x = 162 + i * 8;
+              return <path key={i} d={`M${x},246 L${x},472`} />;
+            })}
+          </g>
+          <path d={`M${CX - 30},216 Q${CX - 30},278 ${CX},292 Q${CX + 30},278 ${CX + 30},216`} fill="none" stroke="#777" strokeWidth="2" opacity="0.72" />
+          <path d="M155 228 L151 304 M265 228 L269 304" stroke="#777" strokeWidth="1.8" opacity="0.55" />
+          <ellipse cx={CX} cy="350" rx="39" ry="12" fill="none" stroke="#F2F2F2" strokeWidth="1.5" />
+          <SvgWordmark x={CX} y={354} size={9} tracking={1.8} fill="#F2F2F2" />
         </g>
       </g>
 
