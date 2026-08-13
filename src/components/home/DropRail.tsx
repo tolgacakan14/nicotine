@@ -22,7 +22,8 @@ export default function DropRail() {
   const [atStart, setAtStart] = useState(true);
   const [atEnd, setAtEnd] = useState(false);
 
-  const products = CURRENT_DROP.products.slice(0, TOTAL);
+  const publishedProducts = CURRENT_DROP.products.filter((product) => Boolean(product.image));
+  const products = publishedProducts.slice(0, TOTAL);
 
   const sync = useCallback(() => {
     const el = railRef.current;
@@ -62,7 +63,7 @@ export default function DropRail() {
           </div>
           <div className="lg:col-span-10">
             <h2 className="font-display text-huge font-black uppercase leading-[0.86] text-mark">
-              EIGHT THINGS.
+              NEW FORMS.
               <br />
               <span className="type-chrome">EVERY TWO MONTHS.</span>
             </h2>
@@ -80,7 +81,7 @@ export default function DropRail() {
               href="/drop"
               className="link-wipe font-mono text-[11px] uppercase tracking-wide2 text-ash hover:text-mark"
             >
-              ALL {String(CURRENT_DROP.products.length).padStart(2, "0")} →
+              ALL {String(publishedProducts.length).padStart(2, "0")} →
             </Link>
             <div className="flex items-center gap-2">
               <button

@@ -340,6 +340,9 @@ export default function Figure({ className = "" }: { className?: string }) {
       preserveAspectRatio="xMidYMid meet"
     >
       <defs>
+        <filter id="garment-depth" x="-20%" y="-15%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="3" stdDeviation="2.2" floodColor="#050505" floodOpacity="0.16" />
+        </filter>
         {/* Chrome — the drop's metal. Used on every garment edge. */}
         <linearGradient id="chrome" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stopColor="#FDFDFE" />
@@ -494,7 +497,7 @@ export default function Figure({ className = "" }: { className?: string }) {
 
       {/* PALE SIGNAL SHORTS — stepped into after the first tank. Painted above
           the briefs so the red disappears as the wipe reaches the waist. */}
-      <g data-layer="shorts" opacity="0">
+      <g data-layer="shorts" opacity="0" filter="url(#garment-depth)">
         <g clipPath="url(#clip-shorts)">
           <g data-swing="l">
             <path d={SHORT_LEG_L} fill={PALE_SHORT} stroke={OUTLINE} strokeWidth="1.25" />
@@ -516,7 +519,7 @@ export default function Figure({ className = "" }: { className?: string }) {
       {/* ====================== GARMENTS — base to outerwear ==================== */}
 
       {/* PURE RIB TANK — optic white, deep scoop and black oval mark. */}
-      <g data-layer="whitetank" opacity="0">
+      <g data-layer="whitetank" opacity="0" filter="url(#garment-depth)">
         <g clipPath="url(#clip-whitetank)">
           <path d={PURE_TANK_PATH} fill={PURE_TANK} stroke={OUTLINE} strokeWidth="1.25" />
           <g stroke={PURE_RIB} strokeWidth="0.65" opacity="0.75">
@@ -533,7 +536,7 @@ export default function Figure({ className = "" }: { className?: string }) {
       </g>
 
       {/* RIB TANK — the base layer. Washed espresso rib with a tonal oval. */}
-      <g data-layer="tank" opacity="0">
+      <g data-layer="tank" opacity="0" filter="url(#garment-depth)">
         <g clipPath="url(#clip-tank)">
           <path d={TANK_PATH} fill={TANK} stroke={OUTLINE} strokeWidth="1.2" />
           {/* Rib texture */}
@@ -554,7 +557,7 @@ export default function Figure({ className = "" }: { className?: string }) {
       </g>
 
       {/* BLACK RIB TANK — the second base layer, fitted over espresso. */}
-      <g data-layer="blacktank" opacity="0">
+      <g data-layer="blacktank" opacity="0" filter="url(#garment-depth)">
         <g clipPath="url(#clip-blacktank)">
           <path d={BLACK_TANK_PATH} fill={BLACK_TANK} stroke="url(#chrome)" strokeWidth="1.15" />
           <g stroke={BLACK_TANK_RIB} strokeWidth="0.85" opacity="0.72">
@@ -573,7 +576,7 @@ export default function Figure({ className = "" }: { className?: string }) {
       {/* I NEED NICOTINE LONGSLEEVE — off-white, oval mark on the chest.
           The back print (the sketch) is not visible from the front, so the
           garment carries only what a front view would actually show. */}
-      <g data-layer="needls" opacity="0">
+      <g data-layer="needls" opacity="0" filter="url(#garment-depth)">
         <g clipPath="url(#clip-needls)">
           <g data-garment-arm="l"><path d={garmentSleeve(NEED_LS, -1)} fill={OFFWHITE} stroke={OUTLINE} strokeWidth="1.4" /></g>
           <g data-garment-arm="r"><path d={garmentSleeve(NEED_LS, 1)} fill={OFFWHITE} stroke={OUTLINE} strokeWidth="1.4" /></g>
@@ -589,7 +592,7 @@ export default function Figure({ className = "" }: { className?: string }) {
       </g>
 
       {/* SUGAR STATIC LONGSLEEVE — bubblegum and custard yarn-dyed stripe. */}
-      <g data-layer="pinkls" opacity="0">
+      <g data-layer="pinkls" opacity="0" filter="url(#garment-depth)">
         <g clipPath="url(#clip-pinkls)">
           <g data-garment-arm="l">
             <path d={garmentSleeve(NEED_LS, -1)} fill={SUGAR_PINK} stroke={SUGAR_RIB} strokeWidth="1.4" />
@@ -630,7 +633,7 @@ export default function Figure({ className = "" }: { className?: string }) {
       </g>
 
       {/* STATIC CARGO PANT */}
-      <g data-layer="pant" opacity="0">
+      <g data-layer="pant" opacity="0" filter="url(#garment-depth)">
         <g clipPath="url(#clip-pant)">
           {/* Legs first, seat over the top: the seat hides both leg tops, so the
               inseam never opens up as they swing. */}
@@ -654,7 +657,7 @@ export default function Figure({ className = "" }: { className?: string }) {
       {/* EYES ON CAT TEE — black boxed tee, violet oval on the chest.
           The photographic back print is not visible from the front, so the
           garment carries only what a front view would actually show. */}
-      <g data-layer="tee" opacity="0">
+      <g data-layer="tee" opacity="0" filter="url(#garment-depth)">
         <g clipPath="url(#clip-tee)">
           <g data-garment-arm="l"><path d={garmentSleeve(TEE, -1)} fill={CAT_TEE} stroke={CAT_TEE_EDGE} strokeWidth="1.2" /></g>
           <g data-garment-arm="r"><path d={garmentSleeve(TEE, 1)} fill={CAT_TEE} stroke={CAT_TEE_EDGE} strokeWidth="1.2" /></g>
@@ -670,7 +673,7 @@ export default function Figure({ className = "" }: { className?: string }) {
       </g>
 
       {/* WASHED HOODIE — hood bunched behind the neck, never over the face */}
-      <g data-layer="hoodie" opacity="0">
+      <g data-layer="hoodie" opacity="0" filter="url(#garment-depth)">
         <g clipPath="url(#clip-hoodie)">
           <path
             d="M156 216 Q160 178 176 172 L244 172 Q260 178 264 216 Z"
@@ -696,7 +699,7 @@ export default function Figure({ className = "" }: { className?: string }) {
       {/* ARMOR JACKET — cropped zip bomber, worn closed. Vertical cording runs
           the full body and both sleeves, which is the garment's whole character;
           the neon oval is the only colour anywhere in the drop. */}
-      <g data-layer="jacket" opacity="0">
+      <g data-layer="jacket" opacity="0" filter="url(#garment-depth)">
         <g clipPath="url(#clip-jacket)">
           <g data-garment-arm="l"><path d={garmentSleeve(JACKET, -1)} fill={ARMOR} stroke={OUTLINE} strokeWidth="1.6" /></g>
           <g data-garment-arm="r"><path d={garmentSleeve(JACKET, 1)} fill={ARMOR} stroke={OUTLINE} strokeWidth="1.6" /></g>

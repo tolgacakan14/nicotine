@@ -43,8 +43,7 @@ export default function Footer() {
 
       <div className="shell grid gap-12 py-14 sm:grid-cols-2 lg:grid-cols-12 lg:py-20">
         <div className="lg:col-span-4">
-          <Logo className="h-9 w-auto text-mark" weight="medium" />
-          <p className="eyebrow mt-6">{CURRENT_DROP.code} — {CURRENT_DROP.season}</p>
+          <p className="eyebrow">{CURRENT_DROP.code} — {CURRENT_DROP.season}</p>
         </div>
 
         {COLUMNS.map((col) => (

@@ -32,7 +32,7 @@ import Price from "@/components/ui/Price";
    scrub reads as continuous motion rather than wheel notches.
    ========================================================================== */
 
-const ACT_VH = 92; // scroll distance (vh) per act
+const ACT_VH = 105; // unhurried scroll distance per act
 
 /** Where each garment's wipe starts and ends, in SVG user units. */
 const WIPE: Record<string, { from: number; to: number; up?: boolean }> = {
@@ -55,6 +55,7 @@ export default function ScrollFilm() {
   const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const figureRef = useRef<HTMLDivElement>(null);
+  const motionRef = useRef<HTMLDivElement>(null);
   const ghostRef = useRef<HTMLDivElement>(null);
   const barRef = useRef<HTMLSpanElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
@@ -116,7 +117,7 @@ export default function ScrollFilm() {
           end: "bottom bottom",
           // Lenis already interpolates the scroll, so the scrub only needs a
           // light lag. Heavier values fight the smoothing and feel rubbery.
-          scrub: 0.45,
+          scrub: 0.65,
           pin: stage,
           pinSpacing: false,
           anticipatePin: 1,
@@ -138,8 +139,8 @@ export default function ScrollFilm() {
 
         /* Panel cross-fade */
         if (i > 0) {
-          tl.to(panels[i - 1], { autoAlpha: 0, yPercent: -6, duration: 0.3, ease: "power2.in" }, t);
-          tl.to(panels[i], { autoAlpha: 1, yPercent: 0, duration: 0.36 }, t + 0.16);
+          tl.to(panels[i - 1], { autoAlpha: 0, yPercent: -4, duration: 0.38, ease: "power2.inOut" }, t);
+          tl.to(panels[i], { autoAlpha: 1, yPercent: 0, duration: 0.46, ease: "power2.out" }, t + 0.14);
         }
 
         /* --- Garments being put on --- */
@@ -178,22 +179,21 @@ export default function ScrollFilm() {
             tl.fromTo(
               rect,
               { attr: { y: spec.from, height: 0 } },
-              { attr: { y: spec.to, height: distance }, duration: 0.52, ease: "power2.inOut" },
+              { attr: { y: spec.to, height: distance }, duration: 0.68, ease: "power2.inOut" },
               at
             );
           } else {
             tl.fromTo(
               rect,
               { attr: { height: 0 } },
-              { attr: { height: distance }, duration: 0.52, ease: "power3.inOut" },
+              { attr: { height: distance }, duration: 0.68, ease: "power2.inOut" },
               at
             );
           }
 
-          /* Settle — a whisper of weight as the fabric lands. Applied to the
-             group, so the garment stays registered to the body throughout. */
-          tl.to(el, { scaleY: 0.994, transformOrigin: "50% 20%", duration: 0.12, ease: "sine.inOut" }, at + 0.5)
-            .to(el, { scaleY: 1, duration: 0.26, ease: "elastic.out(1, 0.55)" }, at + 0.62);
+          /* A restrained fabric settle; elastic motion read too cartoon-like. */
+          tl.to(el, { scaleY: 0.997, transformOrigin: "50% 20%", duration: 0.16, ease: "sine.inOut" }, at + 0.62)
+            .to(el, { scaleY: 1, duration: 0.28, ease: "sine.out" }, at + 0.78);
         });
 
         /* --- Garments coming off: the wipe runs in reverse, then they lift --- */
@@ -224,7 +224,7 @@ export default function ScrollFilm() {
          whenever the reader stops, which reads as a mannequin; a catwalk has to
          keep moving. Legs and arms counter-swing, and the body lifts twice per
          stride so the contact points land with the steps. */
-      const STRIDE = 0.62; // seconds per step
+      const STRIDE = 0.68; // seconds per step
 
       /* Rotation origins in SVG user units. GSAP ignores CSS transform-origin
          on SVG nodes and pivots about the element's own bounding box unless
@@ -255,14 +255,12 @@ export default function ScrollFilm() {
         .to('[data-arm="l"], [data-garment-arm="l"]', { rotate: -5, svgOrigin: JOINT.armL, duration: STRIDE }, STRIDE)
         .to('[data-arm="r"], [data-garment-arm="r"]', { rotate: 5, svgOrigin: JOINT.armR, duration: STRIDE }, STRIDE);
 
-      // Body rise and fall — one lift per step.
-      gsap.to(figureRef.current, {
-        y: -7,
-        duration: STRIDE / 2,
-        ease: "sine.inOut",
-        yoyo: true,
-        repeat: -1,
-      });
+      // The inner rig carries body and every garment together. This adds the
+      // small lateral weight transfer of a real walk without breaking fit.
+      gsap.timeline({ repeat: -1, defaults: { ease: "sine.inOut" } })
+        .fromTo(motionRef.current, { x: -2.5, y: 0, rotation: -0.35 },
+          { x: 2.5, y: -5, rotation: 0.35, duration: STRIDE }, 0)
+        .to(motionRef.current, { x: -2.5, y: 0, rotation: -0.35, duration: STRIDE }, STRIDE);
 
       // The runway travels toward the viewer at the pace of the stride, which
       // is what turns "walking on the spot" into "walking forward".
@@ -399,7 +397,9 @@ export default function ScrollFilm() {
             {/* Centre — the figure */}
             <div className="order-1 flex h-[48vh] items-center justify-center lg:order-2 lg:col-span-6 lg:h-full">
               <div ref={figureRef} className="h-full w-full max-w-[380px]">
-                <Figure className="h-full w-full" />
+                <div ref={motionRef} className="h-full w-full" style={{ transformOrigin: "50% 62%" }}>
+                  <Figure className="h-full w-full" />
+                </div>
               </div>
             </div>
 
