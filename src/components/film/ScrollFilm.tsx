@@ -36,6 +36,7 @@ const ACT_VH = 92; // scroll distance (vh) per act
 
 /** Where each garment's wipe starts and ends, in SVG user units. */
 const WIPE: Record<string, { from: number; to: number; up?: boolean }> = {
+  whitetank: { from: 206, to: 480 },
   tank: { from: 206, to: 486 },
   blacktank: { from: 206, to: 480 },
   needls: { from: 196, to: 580 },

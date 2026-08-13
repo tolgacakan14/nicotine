@@ -20,6 +20,42 @@ const SIZES_ONE = ["OS"];
 
 const SECOND_SKIN_PRODUCTS: Product[] = [
   {
+    slug: "pure-rib-tank",
+    name: "PURE RIB TANK",
+    price: 75,
+    category: "KNIT",
+    tagline: "Clean white rib. The first skin of the sequence.",
+    description: [
+      "A fitted women's tank in optic white cotton rib with a deep scoop neck and clean bound edges.",
+      "The mirrored oval mark is printed in black at the chest. Built as the lightest base layer in SECOND SKIN.",
+    ],
+    materials: "95% cotton / 5% elastane rib. Made in Türkiye.",
+    specs: [
+      "Women's fitted cut",
+      "Deep scoop neck",
+      "Optic white cotton rib",
+      "Mirrored oval chest print",
+      "Bound neck and armholes",
+      "Made in Türkiye",
+    ],
+    sizes: SIZES_APPAREL,
+    colorway: "OPTIC WHITE / BLACK",
+    image: "/products/pure-rib-tank-1.png",
+    images: [
+      "/products/pure-rib-tank-1.png",
+      "/products/pure-rib-tank-2.png",
+      "/products/pure-rib-tank-3.png",
+      "/products/pure-rib-tank-4.png",
+      "/products/pure-rib-tank-5.png",
+      "/products/pure-rib-tank-6.png",
+    ],
+    imageLabels: ["FRONT", "BACK", "ON BODY", "NECK LABEL", "BINDING", "CHEST MARK"],
+    tone: 0.97,
+    texture: "flat",
+    layer: "whitetank",
+    featured: true,
+  },
+  {
     // The base layer of the whole drop — the first thing the figure puts on,
     // and the piece everything else stacks over.
     slug: "rib-tank",

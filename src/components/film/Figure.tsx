@@ -197,6 +197,25 @@ const TANK_PATH = [
   "Z",
 ].join(" ");
 
+/** PURE RIB TANK — the optic-white first layer, fitted closest to the body. */
+const PURE_TANK_PATH = [
+  `M${CX - 29},212`,
+  `L${CX - 42},209`,
+  `Q${CX - 51},212 ${CX - 54},229`,
+  `Q${CX - 55},270 ${CX - 64},301`,
+  `L${CX - 53},468`,
+  `Q${CX - 53},476 ${CX - 46},476`,
+  `L${CX + 46},476`,
+  `Q${CX + 53},476 ${CX + 53},468`,
+  `L${CX + 64},301`,
+  `Q${CX + 55},270 ${CX + 54},229`,
+  `Q${CX + 51},212 ${CX + 42},209`,
+  `L${CX + 29},212`,
+  `C${CX + 29},258 ${CX + 25},286 ${CX},292`,
+  `C${CX - 25},286 ${CX - 29},258 ${CX - 29},212`,
+  "Z",
+].join(" ");
+
 /** Black women's tank — slightly narrower through the shoulder and waist than
  * the espresso base, with the squared scoop visible in the product photography. */
 const BLACK_TANK_PATH = [
@@ -260,6 +279,8 @@ const PANT_LEG_R = pantLeg(1);
    silver edge instead. */
 const TANK = "#3B322C";      // rib tank — washed espresso
 const TANK_RIB = "#584C43";  // its ribbing and tonal oval
+const PURE_TANK = "#FAFAF8";
+const PURE_RIB = "#D8D8D4";
 const BLACK_TANK = "#0B0B0B";
 const BLACK_TANK_RIB = "#303030";
 const OFFWHITE = "#FBFAF8";  // I NEED NICOTINE longsleeve
@@ -331,6 +352,9 @@ export default function Figure({ className = "" }: { className?: string }) {
              garments themselves, so fit is identical at every frame. ---- */}
         <clipPath id="clip-tank">
           <rect data-clip="tank" x="0" y="206" width="420" height="0" />
+        </clipPath>
+        <clipPath id="clip-whitetank">
+          <rect data-clip="whitetank" x="0" y="206" width="420" height="0" />
         </clipPath>
         <clipPath id="clip-blacktank">
           <rect data-clip="blacktank" x="0" y="206" width="420" height="0" />
@@ -434,6 +458,23 @@ export default function Figure({ className = "" }: { className?: string }) {
       </g>
 
       {/* ====================== GARMENTS — base to outerwear ==================== */}
+
+      {/* PURE RIB TANK — optic white, deep scoop and black oval mark. */}
+      <g data-layer="whitetank" opacity="0">
+        <g clipPath="url(#clip-whitetank)">
+          <path d={PURE_TANK_PATH} fill={PURE_TANK} stroke={OUTLINE} strokeWidth="1.25" />
+          <g stroke={PURE_RIB} strokeWidth="0.65" opacity="0.75">
+            {Array.from({ length: 11 }, (_, i) => {
+              const x = 160 + i * 10;
+              return <path key={i} d={`M${x},296 L${x},472`} />;
+            })}
+          </g>
+          <path d={`M${CX - 29},214 C${CX - 29},258 ${CX - 25},286 ${CX},292 C${CX + 25},286 ${CX + 29},258 ${CX + 29},214`} fill="none" stroke={PURE_RIB} strokeWidth="2.8" />
+          <path d="M157 226 Q156 270 146 301 M263 226 Q264 270 274 301" fill="none" stroke={PURE_RIB} strokeWidth="2.5" />
+          <ellipse cx={CX} cy="348" rx="36" ry="11" fill="none" stroke={OUTLINE} strokeWidth="1.5" />
+          <SvgWordmark x={CX} y={352} size={8.5} tracking={1.7} fill={OUTLINE} />
+        </g>
+      </g>
 
       {/* RIB TANK — the base layer. Washed espresso rib with a tonal oval. */}
       <g data-layer="tank" opacity="0">
