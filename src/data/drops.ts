@@ -22,7 +22,7 @@ const SECOND_SKIN_PRODUCTS: Product[] = [
   {
     slug: "pure-rib-tank",
     name: "PURE RIB TANK",
-    price: 75,
+    price: 30,
     category: "KNIT",
     tagline: "Clean white rib. The first skin of the sequence.",
     description: [
@@ -58,7 +58,7 @@ const SECOND_SKIN_PRODUCTS: Product[] = [
   {
     slug: "pale-signal-shorts",
     name: "PALE SIGNAL SHORTS",
-    price: 145,
+    price: 45,
     category: "BOTTOMS",
     tagline: "Soft tailoring cut wide and left just above the knee.",
     description: [
@@ -98,7 +98,7 @@ const SECOND_SKIN_PRODUCTS: Product[] = [
     // and the piece everything else stacks over.
     slug: "rib-tank",
     name: "RIB TANK",
-    price: 75,
+    price: 30,
     category: "KNIT",
     tagline: "Washed rib, cut close. Everything else goes over this.",
     description: [
@@ -132,7 +132,7 @@ const SECOND_SKIN_PRODUCTS: Product[] = [
   {
     slug: "black-rib-tank",
     name: "BLACK RIB TANK",
-    price: 75,
+    price: 30,
     category: "KNIT",
     tagline: "Close rib, square scoop. The black layer after espresso.",
     description: [
@@ -169,7 +169,7 @@ const SECOND_SKIN_PRODUCTS: Product[] = [
     // The label's first real design — front oval mark, back sketch.
     slug: "i-need-nicotine-longsleeve",
     name: "I NEED NICOTINE LONGSLEEVE",
-    price: 110,
+    price: 45,
     category: "T-SHIRT",
     tagline: "The first one. Oval on the chest, the whole story on the back.",
     description: [
@@ -206,7 +206,7 @@ const SECOND_SKIN_PRODUCTS: Product[] = [
   {
     slug: "sugar-static-longsleeve",
     name: "SUGAR STATIC LONGSLEEVE",
-    price: 130,
+    price: 45,
     category: "T-SHIRT",
     tagline: "Bubblegum pink crossed with washed custard stripes.",
     description: [
@@ -248,7 +248,7 @@ const SECOND_SKIN_PRODUCTS: Product[] = [
     // this slot — one boxy tee per drop, and the figure can only wear one.
     slug: "eyes-on-cat-tee",
     name: "EYES ON CAT TEE",
-    price: 105,
+    price: 40,
     category: "T-SHIRT",
     tagline: "A cat watching the street from a window that is watching back.",
     description: [
@@ -360,12 +360,12 @@ const SECOND_SKIN_PRODUCTS: Product[] = [
   {
     slug: "story-stripe-boxers",
     name: "STORY STRIPE BOXERS",
-    price: 65,
+    price: 12,
     category: "BOTTOMS",
-    tagline: "Blue pinstripe cotton. The first layer of the story.",
+    tagline: "Blue and pink pinstripe cotton. Two-piece set.",
     description: [
-      "Relaxed woven boxers in blue and white pinstripe cotton with an elasticated waist and functional front fly.",
-      "The mirrored oval label sits at the waistband and returns near the right hem. Pink/custard colourway included in the same release.",
+      "A two-piece set of relaxed woven boxers: blue/white pinstripe and pink/custard pinstripe, both with an elasticated waist and functional front fly.",
+      "The mirrored oval label sits at the waistband and returns near the right hem.",
     ],
     materials: "100% cotton poplin. Made in Türkiye.",
     specs: ["Relaxed unisex fit", "Elasticated waist", "Functional fly", "Blue and pink colourways", "Oval woven labels", "Made in Türkiye"],
@@ -445,7 +445,7 @@ const SECOND_SKIN_PRODUCTS: Product[] = [
     // one outer layer per drop, and the figure can only wear one.
     slug: "armor-jacket",
     name: "ARMOR JACKET",
-    price: 265,
+    price: 75,
     category: "OUTERWEAR",
     tagline: "Corded and quilted, cut short. The only green in the drop.",
     description: [
