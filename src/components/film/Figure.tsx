@@ -319,8 +319,9 @@ const ARMOR = "#1E1C1A";       // armor jacket — corded black
 const ARMOR_CORD = "#3D3A36";  // the cording that runs through it
 const ARMOR_RIB = "#2A2724";   // ribbed hem and cuffs
 const NEON = "#5BE83C";        // the jacket's oval — the drop's only colour
-const BRIEF_RED = "#C71F32";   // the figure's opening base layer
-const BRIEF_DARK = "#8E1423";
+const BOXER_BLUE = "#9AC4F3";  // opening layer: STORY STRIPE BOXERS
+const BOXER_STRIPE = "#F5F7F7";
+const BOXER_EDGE = "#527DAF";
 const CAT_TEE = "#121110";     // eyes on cat tee — black
 const CAT_TEE_EDGE = "#3A3733"; // its edge, so it reads against a dark figure
 const VIOLET = "#7B5CE0";       // the tee's chest embroidery
@@ -426,6 +427,9 @@ export default function Figure({ className = "" }: { className?: string }) {
         <clipPath id="clip-shorts">
           <rect data-clip="shorts" x="0" y="624" width="420" height="0" />
         </clipPath>
+        <clipPath id="boxer-shape">
+          <path d="M160 460 Q210 452 260 460 L257 548 Q236 555 211 535 Q185 555 163 548 Z" />
+        </clipPath>
       </defs>
 
       {/* Studio light + floor */}
@@ -481,18 +485,22 @@ export default function Figure({ className = "" }: { className?: string }) {
         <path d="M164 112 C164 62 186 50 210 50 C198 68 181 86 178 168 Z" fill="url(#face-shade)" />
       </g>
 
-      {/* RED BRIEFS — the figure's opening base layer. They sit directly over
-          the hips and disappear naturally when the trouser wipe reaches the
-          waist because the pant layer is painted later in the SVG stack. */}
+      {/* STORY STRIPE BOXERS — the opening look. They disappear naturally when
+          the shorts/trousers are painted over this base layer. */}
       <g data-layer="briefs">
         <path
-          d="M164 463 Q210 456 256 463 L251 502 Q232 496 210 524 Q188 496 169 502 Z"
-          fill={BRIEF_RED}
-          stroke={BRIEF_DARK}
+          d="M160 460 Q210 452 260 460 L257 548 Q236 555 211 535 Q185 555 163 548 Z"
+          fill={BOXER_BLUE}
+          stroke={BOXER_EDGE}
           strokeWidth="1.4"
         />
-        <path d="M165 469 Q210 463 255 469" fill="none" stroke="#F06876" strokeWidth="2" opacity="0.75" />
-        <path d="M210 473 L210 520" stroke={BRIEF_DARK} strokeWidth="1" opacity="0.6" />
+        <g clipPath="url(#boxer-shape)" opacity="0.9">
+          {Array.from({ length: 12 }, (_, i) => <path key={i} d={`M${166 + i * 8} 465 V541`} stroke={BOXER_STRIPE} strokeWidth="3" />)}
+        </g>
+        <path d="M161 469 Q210 461 259 469" fill="none" stroke={BOXER_STRIPE} strokeWidth="5" opacity="0.9" />
+        <path d="M210 474 L210 534" stroke={BOXER_EDGE} strokeWidth="1.2" opacity="0.75" />
+        <ellipse cx="238" cy="520" rx="13" ry="5" fill={BOXER_BLUE} stroke={BOXER_EDGE} strokeWidth="1" />
+        <SvgWordmark x={238} y={522} size={3.2} tracking={0.55} fill={BOXER_EDGE} />
       </g>
 
       {/* PALE SIGNAL SHORTS — stepped into after the first tank. Painted above
