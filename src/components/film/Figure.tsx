@@ -58,29 +58,43 @@ interface Flat {
  * mirrored back up the other side and closed across the neckline. Corners are
  * softened with quadratics so the shape reads as fabric, not cardboard.
  */
-function flat(g: Flat): string {
-  const { shoulder: s, cuffOuter: co, cuffInner: ci, cuffY, bodyUnderarm: bu, bodyHem: bh } = g;
+function garmentBody(g: Flat): string {
+  const { shoulder: s, bodyUnderarm: bu, bodyHem: bh } = g;
   const { underarmY: uy, hemY: hy, topY: ty, neckHalf: nh, neckDrop: nd } = g;
   return [
     `M${CX - nh},${ty}`,
     `L${CX - s + 6},${ty - 4}`,
     `Q${CX - s},${ty - 3} ${CX - s},${ty + 6}`, // shoulder point, rounded
-    `L${CX - co},${cuffY - 6}`,
-    `Q${CX - co},${cuffY} ${CX - co + 6},${cuffY}`, // cuff outer corner
-    `L${CX - ci},${cuffY}`,
     `L${CX - bu},${uy}`, // back up into the underarm
     `L${CX - bh},${hy - 6}`,
     `Q${CX - bh},${hy} ${CX - bh + 8},${hy}`, // hem corner
     `L${CX + bh - 8},${hy}`,
     `Q${CX + bh},${hy} ${CX + bh},${hy - 6}`,
     `L${CX + bu},${uy}`,
-    `L${CX + ci},${cuffY}`,
-    `L${CX + co - 6},${cuffY}`,
-    `Q${CX + co},${cuffY} ${CX + co},${cuffY - 6}`,
     `L${CX + s},${ty + 6}`,
     `Q${CX + s},${ty - 3} ${CX + s - 6},${ty - 4}`,
     `L${CX + nh},${ty}`,
     `Q${CX},${ty + nd} ${CX - nh},${ty}`, // neckline scoop
+    "Z",
+  ].join(" ");
+}
+
+/** Sleeve separated from the body panel so it rotates around the exact same
+ * shoulder joint as the character's arm during the catwalk. */
+function garmentSleeve(g: Flat, side: -1 | 1): string {
+  const outerShoulder = CX + side * g.shoulder;
+  const innerShoulder = CX + side * (g.shoulder - 20);
+  const outerCuff = CX + side * g.cuffOuter;
+  const innerCuff = CX + side * g.cuffInner;
+  const underarm = CX + side * g.bodyUnderarm;
+  return [
+    `M${innerShoulder},${g.topY + 5}`,
+    `Q${outerShoulder},${g.topY - 2} ${outerShoulder},${g.topY + 8}`,
+    `L${outerCuff},${g.cuffY - 6}`,
+    `Q${outerCuff},${g.cuffY} ${CX + side * (g.cuffOuter - 6)},${g.cuffY}`,
+    `L${innerCuff},${g.cuffY}`,
+    `L${underarm},${g.underarmY}`,
+    `L${innerShoulder},${g.topY + 5}`,
     "Z",
   ].join(" ");
 }
@@ -164,22 +178,22 @@ function SvgWordmark({
  * which always generates sleeves: here the armholes are the whole point.
  */
 const TANK_PATH = [
-  `M${CX - 34},214`,                 // inner edge of the left strap, at the neck
-  `L${CX - 46},212`,                 // strap crosses the shoulder
-  `Q${CX - 56},214 ${CX - 58},228`,  // over the shoulder point
-  `L${CX - 62},300`,                 // down the armhole's outer edge
-  `L${CX - 60},470`,                 // body side
-  `Q${CX - 60},480 ${CX - 52},480`,  // hem corner
-  `L${CX + 52},480`,
-  `Q${CX + 60},480 ${CX + 60},470`,
-  `L${CX + 62},300`,
-  `L${CX + 58},228`,
-  `Q${CX + 56},214 ${CX + 46},212`,
-  `L${CX + 34},214`,
-  // The armhole scoops back in toward the chest, then the neck scoops down.
-  `Q${CX + 40},268 ${CX + 30},288`,
-  `Q${CX},310 ${CX - 30},288`,
-  `Q${CX - 40},268 ${CX - 34},214`,
+  `M${CX - 31},211`,
+  `L${CX - 46},207`,
+  `Q${CX - 56},210 ${CX - 58},226`,
+  `Q${CX - 60},268 ${CX - 72},302`,
+  `Q${CX - 66},310 ${CX - 61},313`,
+  `L${CX - 58},472`,
+  `Q${CX - 58},480 ${CX - 50},480`,
+  `L${CX + 50},480`,
+  `Q${CX + 58},480 ${CX + 58},472`,
+  `L${CX + 61},313`,
+  `Q${CX + 66},310 ${CX + 72},302`,
+  `Q${CX + 60},268 ${CX + 58},226`,
+  `Q${CX + 56},210 ${CX + 46},207`,
+  `L${CX + 31},211`,
+  `C${CX + 31},260 ${CX + 27},296 ${CX},300`,
+  `C${CX - 27},296 ${CX - 31},260 ${CX - 31},211`,
   "Z",
 ].join(" ");
 
@@ -204,11 +218,11 @@ const BLACK_TANK_PATH = [
   "Z",
 ].join(" ");
 
-const NEED_LS_PATH = flat(NEED_LS);
-const LS_PATH = flat(LONGSLEEVE);
-const TEE_PATH = flat(TEE);
-const HOODIE_PATH = flat(HOODIE);
-const JACKET_PATH = flat(JACKET);
+const NEED_LS_PATH = garmentBody(NEED_LS);
+const LS_PATH = garmentBody(LONGSLEEVE);
+const TEE_PATH = garmentBody(TEE);
+const HOODIE_PATH = garmentBody(HOODIE);
+const JACKET_PATH = garmentBody(JACKET);
 
 /**
  * Wide-leg trouser drawn as ONE silhouette with a single crotch point — the
@@ -410,19 +424,19 @@ export default function Figure({ className = "" }: { className?: string }) {
         <g clipPath="url(#clip-tank)">
           <path d={TANK_PATH} fill={TANK} stroke={OUTLINE} strokeWidth="1.2" />
           {/* Rib texture */}
-          <g stroke={TANK_RIB} strokeWidth="1" opacity="0.55">
-            {Array.from({ length: 15 }, (_, i) => {
-              const x = 152 + i * 8;
-              return <path key={i} d={`M${x},250 L${x},476`} />;
+          <g stroke={TANK_RIB} strokeWidth="0.65" opacity="0.2">
+            {Array.from({ length: 7 }, (_, i) => {
+              const x = 174 + i * 12;
+              return <path key={i} d={`M${x},306 L${x},475`} />;
             })}
           </g>
           {/* Bound neck and armholes */}
-          <path d={`M${CX - 34},216 Q${CX},312 ${CX + 34},216`} fill="none" stroke={TANK_RIB} strokeWidth="2.2" />
-          <path d="M152 224 L148 300" stroke={TANK_RIB} strokeWidth="2" opacity="0.8" />
-          <path d="M268 224 L272 300" stroke={TANK_RIB} strokeWidth="2" opacity="0.8" />
+          <path d={`M${CX - 31},213 C${CX - 31},260 ${CX - 27},296 ${CX},300 C${CX + 27},296 ${CX + 31},260 ${CX + 31},213`} fill="none" stroke="#75675D" strokeWidth="3" opacity="0.8" />
+          <path d="M153 222 Q151 270 139 303" fill="none" stroke="#75675D" strokeWidth="3" opacity="0.75" />
+          <path d="M267 222 Q269 270 281 303" fill="none" stroke="#75675D" strokeWidth="3" opacity="0.75" />
           {/* The tonal oval */}
-          <ellipse cx={CX} cy="352" rx="38" ry="12" fill="none" stroke={TANK_RIB} strokeWidth="1.6" />
-          <SvgWordmark x={CX} y={356} size={9} tracking={1.8} fill={TANK_RIB} />
+          <ellipse cx={CX} cy="348" rx="36" ry="11" fill="none" stroke="#79685E" strokeWidth="1.5" />
+          <SvgWordmark x={CX} y={352} size={8.5} tracking={1.7} fill="#79685E" />
         </g>
       </g>
 
@@ -448,6 +462,8 @@ export default function Figure({ className = "" }: { className?: string }) {
           garment carries only what a front view would actually show. */}
       <g data-layer="needls" opacity="0">
         <g clipPath="url(#clip-needls)">
+          <g data-garment-arm="l"><path d={garmentSleeve(NEED_LS, -1)} fill={OFFWHITE} stroke={OUTLINE} strokeWidth="1.4" /></g>
+          <g data-garment-arm="r"><path d={garmentSleeve(NEED_LS, 1)} fill={OFFWHITE} stroke={OUTLINE} strokeWidth="1.4" /></g>
           <path d={NEED_LS_PATH} fill={OFFWHITE} stroke={OUTLINE} strokeWidth="1.4" />
           {/* Ribbed crew collar */}
           <path d={`M${CX - 32},204 Q${CX},228 ${CX + 32},204`} fill="none" stroke={FIG} strokeWidth="2.4" opacity="0.35" />
@@ -462,6 +478,8 @@ export default function Figure({ className = "" }: { className?: string }) {
       {/* SECOND SKIN LONGSLEEVE */}
       <g data-layer="longsleeve" opacity="0">
         <g clipPath="url(#clip-longsleeve)">
+          <g data-garment-arm="l"><path d={garmentSleeve(LONGSLEEVE, -1)} fill={SOOT} stroke="url(#chrome)" strokeWidth="1.5" /></g>
+          <g data-garment-arm="r"><path d={garmentSleeve(LONGSLEEVE, 1)} fill={SOOT} stroke="url(#chrome)" strokeWidth="1.5" /></g>
           <path d={LS_PATH} fill={SOOT} stroke="url(#chrome)" strokeWidth="1.5" />
           <path d="M162 306 H258 M162 340 H258 M162 374 H258" stroke="url(#chrome)" strokeWidth="0.7" opacity="0.3" />
           <path d={`M${CX - 26},210 Q${CX},232 ${CX + 26},210`} fill="none" stroke="url(#chrome)" strokeWidth="1.8" opacity="0.75" />
@@ -495,6 +513,8 @@ export default function Figure({ className = "" }: { className?: string }) {
           garment carries only what a front view would actually show. */}
       <g data-layer="tee" opacity="0">
         <g clipPath="url(#clip-tee)">
+          <g data-garment-arm="l"><path d={garmentSleeve(TEE, -1)} fill={CAT_TEE} stroke={CAT_TEE_EDGE} strokeWidth="1.2" /></g>
+          <g data-garment-arm="r"><path d={garmentSleeve(TEE, 1)} fill={CAT_TEE} stroke={CAT_TEE_EDGE} strokeWidth="1.2" /></g>
           <path d={TEE_PATH} fill={CAT_TEE} stroke={CAT_TEE_EDGE} strokeWidth="1.2" />
           {/* Ribbed crew */}
           <path d={`M${CX - 31},206 Q${CX},228 ${CX + 31},206`} fill="none" stroke={CAT_TEE_EDGE} strokeWidth="2" opacity="0.7" />
@@ -515,6 +535,8 @@ export default function Figure({ className = "" }: { className?: string }) {
             stroke="url(#chrome)"
             strokeWidth="1.4"
           />
+          <g data-garment-arm="l"><path d={garmentSleeve(HOODIE, -1)} fill={TAR_CLOTH} stroke="url(#chrome)" strokeWidth="1.5" /></g>
+          <g data-garment-arm="r"><path d={garmentSleeve(HOODIE, 1)} fill={TAR_CLOTH} stroke="url(#chrome)" strokeWidth="1.5" /></g>
           <path d={HOODIE_PATH} fill={TAR_CLOTH} stroke="url(#chrome)" strokeWidth="1.5" />
           {/* Broken overdye across the shoulders */}
           <path d="M126 230 L294 230 L288 288 C244 276 178 284 132 294 Z" fill="url(#dot)" opacity="0.35" />
@@ -533,6 +555,8 @@ export default function Figure({ className = "" }: { className?: string }) {
           the neon oval is the only colour anywhere in the drop. */}
       <g data-layer="jacket" opacity="0">
         <g clipPath="url(#clip-jacket)">
+          <g data-garment-arm="l"><path d={garmentSleeve(JACKET, -1)} fill={ARMOR} stroke={OUTLINE} strokeWidth="1.6" /></g>
+          <g data-garment-arm="r"><path d={garmentSleeve(JACKET, 1)} fill={ARMOR} stroke={OUTLINE} strokeWidth="1.6" /></g>
           <path d={JACKET_PATH} fill={ARMOR} stroke={OUTLINE} strokeWidth="1.6" />
 
           {/* Vertical cording. Generated rather than hand-listed so the spacing

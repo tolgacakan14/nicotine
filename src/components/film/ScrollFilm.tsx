@@ -89,7 +89,7 @@ export default function ScrollFilm() {
         });
         gsap.set(panels, { autoAlpha: 1, position: "relative", yPercent: 0 });
         // Stand still rather than walk.
-        gsap.set('[data-swing="l"], [data-swing="r"], [data-arm="l"], [data-arm="r"]', { rotate: 0 });
+        gsap.set('[data-swing="l"], [data-swing="r"], [data-arm="l"], [data-arm="r"], [data-garment-arm="l"], [data-garment-arm="r"]', { rotate: 0 });
         return;
       }
 
@@ -243,14 +243,14 @@ export default function ScrollFilm() {
           { rotate: -SWING, svgOrigin: JOINT.legL, duration: STRIDE }, 0)
         .fromTo('[data-swing="r"]', { rotate: -SWING, svgOrigin: JOINT.legR },
           { rotate: SWING, svgOrigin: JOINT.legR, duration: STRIDE }, 0)
-        .fromTo('[data-arm="l"]', { rotate: -5, svgOrigin: JOINT.armL },
+        .fromTo('[data-arm="l"], [data-garment-arm="l"]', { rotate: -5, svgOrigin: JOINT.armL },
           { rotate: 5, svgOrigin: JOINT.armL, duration: STRIDE }, 0)
-        .fromTo('[data-arm="r"]', { rotate: 5, svgOrigin: JOINT.armR },
+        .fromTo('[data-arm="r"], [data-garment-arm="r"]', { rotate: 5, svgOrigin: JOINT.armR },
           { rotate: -5, svgOrigin: JOINT.armR, duration: STRIDE }, 0)
         .to('[data-swing="l"]', { rotate: SWING, svgOrigin: JOINT.legL, duration: STRIDE }, STRIDE)
         .to('[data-swing="r"]', { rotate: -SWING, svgOrigin: JOINT.legR, duration: STRIDE }, STRIDE)
-        .to('[data-arm="l"]', { rotate: -5, svgOrigin: JOINT.armL, duration: STRIDE }, STRIDE)
-        .to('[data-arm="r"]', { rotate: 5, svgOrigin: JOINT.armR, duration: STRIDE }, STRIDE);
+        .to('[data-arm="l"], [data-garment-arm="l"]', { rotate: -5, svgOrigin: JOINT.armL, duration: STRIDE }, STRIDE)
+        .to('[data-arm="r"], [data-garment-arm="r"]', { rotate: 5, svgOrigin: JOINT.armR, duration: STRIDE }, STRIDE);
 
       // Body rise and fall — one lift per step.
       gsap.to(figureRef.current, {
