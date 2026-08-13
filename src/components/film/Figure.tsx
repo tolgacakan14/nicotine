@@ -159,6 +159,30 @@ function SvgWordmark({
   );
 }
 
+/**
+ * RIB TANK — the drop's base layer. Drawn bespoke rather than through `flat()`,
+ * which always generates sleeves: here the armholes are the whole point.
+ */
+const TANK_PATH = [
+  `M${CX - 34},214`,                 // inner edge of the left strap, at the neck
+  `L${CX - 46},212`,                 // strap crosses the shoulder
+  `Q${CX - 56},214 ${CX - 58},228`,  // over the shoulder point
+  `L${CX - 62},300`,                 // down the armhole's outer edge
+  `L${CX - 60},470`,                 // body side
+  `Q${CX - 60},480 ${CX - 52},480`,  // hem corner
+  `L${CX + 52},480`,
+  `Q${CX + 60},480 ${CX + 60},470`,
+  `L${CX + 62},300`,
+  `L${CX + 58},228`,
+  `Q${CX + 56},214 ${CX + 46},212`,
+  `L${CX + 34},214`,
+  // The armhole scoops back in toward the chest, then the neck scoops down.
+  `Q${CX + 40},268 ${CX + 30},288`,
+  `Q${CX},310 ${CX - 30},288`,
+  `Q${CX - 40},268 ${CX - 34},214`,
+  "Z",
+].join(" ");
+
 const NEED_LS_PATH = flat(NEED_LS);
 const LS_PATH = flat(LONGSLEEVE);
 const TEE_PATH = flat(TEE);
@@ -199,6 +223,8 @@ const PANT_LEG_R = pantLeg(1);
 /* Garment colourways, as they read against the light ground. Pale garments get
    a dark outline so they don't dissolve into the paper; dark ones carry a
    silver edge instead. */
+const TANK = "#3B322C";      // rib tank — washed espresso
+const TANK_RIB = "#584C43";  // its ribbing and tonal oval
 const OFFWHITE = "#FBFAF8";  // I NEED NICOTINE longsleeve
 const BONE = "#E2DED5";      // null scarf
 const SOOT = "#26241F";      // second skin base knit
@@ -264,6 +290,9 @@ export default function Figure({ className = "" }: { className?: string }) {
 
         {/* ---- Reveal clips. The timeline animates these rects, never the
              garments themselves, so fit is identical at every frame. ---- */}
+        <clipPath id="clip-tank">
+          <rect data-clip="tank" x="0" y="206" width="420" height="0" />
+        </clipPath>
         <clipPath id="clip-needls">
           <rect data-clip="needls" x="0" y="196" width="420" height="0" />
         </clipPath>
@@ -349,6 +378,27 @@ export default function Figure({ className = "" }: { className?: string }) {
       </g>
 
       {/* ====================== GARMENTS — base to outerwear ==================== */}
+
+      {/* RIB TANK — the base layer. Washed espresso rib with a tonal oval. */}
+      <g data-layer="tank" opacity="0">
+        <g clipPath="url(#clip-tank)">
+          <path d={TANK_PATH} fill={TANK} stroke={OUTLINE} strokeWidth="1.2" />
+          {/* Rib texture */}
+          <g stroke={TANK_RIB} strokeWidth="1" opacity="0.55">
+            {Array.from({ length: 15 }, (_, i) => {
+              const x = 152 + i * 8;
+              return <path key={i} d={`M${x},250 L${x},476`} />;
+            })}
+          </g>
+          {/* Bound neck and armholes */}
+          <path d={`M${CX - 34},216 Q${CX},312 ${CX + 34},216`} fill="none" stroke={TANK_RIB} strokeWidth="2.2" />
+          <path d="M152 224 L148 300" stroke={TANK_RIB} strokeWidth="2" opacity="0.8" />
+          <path d="M268 224 L272 300" stroke={TANK_RIB} strokeWidth="2" opacity="0.8" />
+          {/* The tonal oval */}
+          <ellipse cx={CX} cy="352" rx="38" ry="12" fill="none" stroke={TANK_RIB} strokeWidth="1.6" />
+          <SvgWordmark x={CX} y={356} size={9} tracking={1.8} fill={TANK_RIB} />
+        </g>
+      </g>
 
       {/* I NEED NICOTINE LONGSLEEVE — off-white, oval mark on the chest.
           The back print (the sketch) is not visible from the front, so the

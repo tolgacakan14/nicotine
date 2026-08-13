@@ -20,6 +20,41 @@ const SIZES_ONE = ["OS"];
 
 const SECOND_SKIN_PRODUCTS: Product[] = [
   {
+    // The base layer of the whole drop — the first thing the figure puts on,
+    // and the piece everything else stacks over.
+    slug: "rib-tank",
+    name: "RIB TANK",
+    price: 75,
+    category: "KNIT",
+    tagline: "Washed rib, cut close. Everything else goes over this.",
+    description: [
+      "A fitted rib tank in washed cotton, dyed until the black has gone brown and stayed there.",
+      "The oval sits tonal on the chest — you have to be close, and in the right light, to read it at all.",
+    ],
+    materials: "95% cotton / 5% elastane rib. Garment dyed. Made in Türkiye.",
+    specs: [
+      "Fitted rib",
+      "Scoop neck",
+      "Washed garment dye",
+      "Tonal oval on chest",
+      "Woven neck label",
+      "Made in Türkiye",
+    ],
+    sizes: SIZES_APPAREL,
+    colorway: "WASHED ESPRESSO",
+    image: "/products/tank-1-pair.png",
+    images: [
+      "/products/tank-1-pair.png",
+      "/products/tank-2-body.png",
+      "/products/tank-3-back.png",
+    ],
+    imageLabels: ["FRONT / BACK", "ON BODY", "BACK"],
+    tone: 0.3,
+    texture: "flat",
+    layer: "tank",
+    featured: true,
+  },
+  {
     // The label's first real design — front oval mark, back sketch.
     slug: "i-need-nicotine-longsleeve",
     name: "I NEED NICOTINE LONGSLEEVE",
@@ -237,8 +272,9 @@ const SECOND_SKIN_PRODUCTS: Product[] = [
       "/products/armor-3-body.png",
       "/products/armor-4-collar.png",
       "/products/armor-5-body.png",
+      "/products/armor-6-patch.png",
     ],
-    imageLabels: ["FRONT", "BACK", "ON BODY", "COLLAR", "ON BODY"],
+    imageLabels: ["FRONT", "BACK", "ON BODY", "COLLAR", "ON BODY", "THE PATCH"],
     tone: 0.14,
     texture: "flat",
     layer: "jacket",
