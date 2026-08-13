@@ -297,10 +297,13 @@
     @apply bg-white shadow-[0_0_12px_3px_rgba(255,255,255,0.72)];
   }
   .spotlight-blackout {
-    @apply pointer-events-none fixed inset-0 z-[55] bg-black opacity-0;
+    @apply pointer-events-none fixed inset-0 z-[55] opacity-0;
+    background:
+      radial-gradient(ellipse 80% 52% at 50% 14%, rgb(96 101 109 / 0.2), transparent 72%),
+      linear-gradient(180deg, rgb(27 29 33 / 0.94), rgb(16 18 21 / 0.96) 52%, rgb(24 26 30 / 0.95));
   }
   .spotlight-active .spotlight-blackout {
-    @apply opacity-[0.965];
+    @apply opacity-100;
   }
   .spotlight-active .drop-grid-card {
     @apply relative z-[60];
@@ -322,9 +325,9 @@
     isolation: isolate;
     overflow: visible;
     background:
-      radial-gradient(ellipse 48% 58% at 50% 44%, rgb(255 255 255 / 0.98) 0%, rgb(235 237 240 / 0.82) 43%, rgb(160 164 170 / 0.22) 67%, transparent 78%),
-      conic-gradient(from 176deg at 50% -16%, transparent 0 43%, rgb(255 255 255 / 0.1) 47% 53%, transparent 57% 100%);
-    filter: drop-shadow(0 25px 38px rgb(255 255 255 / 0.08));
+      radial-gradient(ellipse 62% 56% at 50% 47%, rgb(223 225 228 / 0.28), rgb(120 125 132 / 0.12) 48%, transparent 76%),
+      linear-gradient(180deg, rgb(255 255 255 / 0.025), transparent 46%);
+    filter: drop-shadow(0 30px 48px rgb(0 0 0 / 0.24));
     animation: spotlight-breathe 5.8s ease-in-out infinite alternate;
   }
   .spotlight-active .drop-grid-card:nth-child(3n + 2) > a > div:first-child { animation-delay: -1.6s; }
@@ -340,44 +343,61 @@
     @apply pointer-events-none absolute inset-x-0 top-[var(--nav-h)] z-[70] flex justify-center;
   }
   .spotlight-flag {
-    @apply w-[min(54vw,740px)] opacity-0;
+    @apply relative w-[min(54vw,740px)] opacity-0;
     transform-origin: 12% 4%;
+    perspective: 1400px;
+    transform-style: preserve-3d;
+  }
+  .spotlight-flag__pole {
+    @apply relative z-20 block h-auto w-full;
+    filter: drop-shadow(0 18px 22px rgb(0 0 0 / 0.36));
+  }
+  .spotlight-flag__cloth-stage {
+    @apply absolute inset-0 z-10;
+    transform-origin: 53% 11%;
+    transform-style: preserve-3d;
+    animation: flag-body 4.4s cubic-bezier(.45,.05,.55,.95) infinite alternate;
   }
   .spotlight-flag__cloth {
-    @apply relative;
-    transform-origin: 14% 12%;
-    animation: flag-body 3.6s cubic-bezier(.45,.05,.55,.95) infinite alternate;
-    filter: drop-shadow(0 22px 24px rgb(0 0 0 / 0.48));
+    @apply absolute inset-0;
+    transform-origin: 53% 11%;
+    transform-style: preserve-3d;
+    animation: flag-ripple 2.8s ease-in-out infinite alternate;
+    filter: drop-shadow(12px 24px 22px rgb(0 0 0 / 0.3));
   }
   .spotlight-flag__cloth img {
     @apply block h-auto w-full;
-    transform-origin: 17% 13%;
-    animation: flag-ripple 2.4s ease-in-out infinite alternate;
+  }
+  .spotlight-flag__folds {
+    @apply absolute inset-[7%_1%_2%_18%] mix-blend-soft-light;
+    clip-path: polygon(42% 0, 100% 52%, 61% 100%, 0 57%);
+    background: repeating-linear-gradient(112deg, transparent 0 9%, rgb(255 255 255 / .13) 12%, rgb(0 0 0 / .18) 18%, transparent 24% 32%);
+    background-size: 160% 100%;
+    animation: flag-folds 2.8s ease-in-out infinite alternate;
   }
   .spotlight-flag__shine {
-    @apply absolute inset-[9%_5%_7%_21%] opacity-40 mix-blend-screen;
+    @apply absolute inset-[9%_5%_7%_21%] opacity-25 mix-blend-screen;
     clip-path: polygon(0 0, 100% 20%, 80% 100%, 4% 67%);
     background: linear-gradient(105deg, transparent 10%, rgb(255 255 255 / 0.18) 35%, transparent 52%, rgb(255 255 255 / 0.08) 70%, transparent 86%);
     background-size: 230% 100%;
     animation: flag-light 3.1s linear infinite;
   }
-  .spotlight-flag__shadow {
-    @apply absolute left-[12%] top-[3%] h-[94%] w-[5%] blur-xl;
-    background: rgb(0 0 0 / 0.55);
-  }
-
   @keyframes spotlight-breathe {
-    0% { background-position: 48% 42%, 50% 0; filter: drop-shadow(0 20px 30px rgb(255 255 255 / 0.06)); }
-    100% { background-position: 52% 47%, 50% 0; filter: drop-shadow(0 28px 44px rgb(255 255 255 / 0.13)); }
+    0% { background-position: 48% 44%, 50% 0; filter: drop-shadow(0 26px 42px rgb(0 0 0 / 0.2)); }
+    100% { background-position: 52% 49%, 50% 0; filter: drop-shadow(0 34px 54px rgb(0 0 0 / 0.3)); }
   }
   @keyframes flag-body {
-    0% { transform: perspective(1200px) rotateZ(-0.45deg) rotateY(-2deg) skewY(-0.3deg); }
-    100% { transform: perspective(1200px) rotateZ(0.65deg) rotateY(3deg) skewY(0.55deg); }
+    0% { transform: rotateZ(-0.35deg) rotateY(-3deg) translateZ(0); }
+    100% { transform: rotateZ(0.45deg) rotateY(4deg) translateZ(10px); }
   }
   @keyframes flag-ripple {
-    0% { transform: perspective(1300px) rotateY(-1.8deg) skewY(-0.45deg) scaleX(0.995); }
-    52% { transform: perspective(1300px) rotateY(2.2deg) skewY(0.5deg) scaleX(1.006); }
-    100% { transform: perspective(1300px) rotateY(-0.7deg) skewY(-0.15deg) scaleX(1); }
+    0% { transform: rotateY(-5deg) rotateX(1.4deg) skewY(-0.35deg) scaleX(.992); }
+    48% { transform: rotateY(5deg) rotateX(-1deg) skewY(.55deg) scaleX(1.008); }
+    100% { transform: rotateY(-2deg) rotateX(.5deg) skewY(-.15deg) scaleX(.998); }
+  }
+  @keyframes flag-folds {
+    from { background-position: 0% 0; opacity: .5; transform: translateZ(4px); }
+    to { background-position: 100% 0; opacity: .85; transform: translateZ(13px); }
   }
   @keyframes flag-light {
     from { background-position: 150% 0; }

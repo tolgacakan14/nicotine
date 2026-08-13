@@ -20,7 +20,7 @@ export default function SpotlightMode() {
         .fromTo(
           blackoutRef.current,
           { opacity: 0 },
-          { opacity: 0.965, duration: 0.75, ease: "power2.inOut" }
+          { opacity: 1, duration: 0.75, ease: "power2.inOut" }
         )
         .fromTo(
           flagRef.current,
@@ -73,12 +73,16 @@ export default function SpotlightMode() {
       <div ref={blackoutRef} className="spotlight-blackout" aria-hidden />
       <div className="spotlight-flag-anchor" aria-hidden>
         <div ref={flagRef} className="spotlight-flag">
-          <div className="spotlight-flag__shadow" />
-          <div className="spotlight-flag__cloth">
-            {/* Kept as an img rather than a CSS background so the original alpha
-                edge and high-resolution campaign print stay intact. */}
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/editorial/drop-001-spotlight-flag.webp" alt="" />
+          {/* The rigid pole and fabric are separate physical layers. The pole
+              stays still while the cloth bends in perspective around its seam. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img className="spotlight-flag__pole" src="/editorial/drop-001-flag-pole.webp" alt="" />
+          <div className="spotlight-flag__cloth-stage">
+            <div className="spotlight-flag__cloth">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/editorial/drop-001-flag-cloth.webp" alt="" />
+              <span className="spotlight-flag__folds" />
+            </div>
             <span className="spotlight-flag__shine" />
           </div>
         </div>
