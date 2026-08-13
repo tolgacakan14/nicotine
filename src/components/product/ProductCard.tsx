@@ -17,13 +17,24 @@ export default function ProductCard({
   /** `square` is the collection grid, where every piece gets the same box. */
   square = false,
   priority = false,
+  campaign = false,
 }: {
   product: Product;
   index?: number;
   tall?: boolean;
   square?: boolean;
   priority?: boolean;
+  /** Metallic campaign typography used by the live drop grid only. */
+  campaign?: boolean;
 }) {
+  const titleColour = campaign
+    ? product.slug === "armor-jacket"
+      ? "text-[#73ff3b] drop-shadow-[0_0_8px_rgba(115,255,59,0.28)]"
+      : product.slug === "sugar-static-longsleeve"
+        ? "text-[#f05c9b] drop-shadow-[0_0_8px_rgba(240,92,155,0.2)]"
+        : "type-mercury"
+    : "text-mark";
+
   return (
     <Link
       href={`/product/${product.slug}`}
@@ -66,11 +77,11 @@ export default function ProductCard({
 
       <div className="mt-4 flex items-start justify-between gap-4">
         <div className="min-w-0">
-          <h3 className="font-display text-base font-black uppercase tracking-tight2 text-mark sm:text-lg">
+          <h3 className={`font-display text-base font-black uppercase tracking-tight2 sm:text-lg ${titleColour}`}>
             {product.name}
           </h3>
         </div>
-        <span className="shrink-0 font-mono text-[11px] tracking-wide2 text-chrome">
+        <span className={`shrink-0 font-mono text-[11px] tracking-wide2 ${campaign ? "type-chrome" : "text-chrome"}`}>
           <Price value={product.price} />
         </span>
       </div>

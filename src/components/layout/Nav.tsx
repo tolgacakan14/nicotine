@@ -26,6 +26,7 @@ export default function Nav() {
   const { count, openCart } = useCart();
   const { member, tier } = useClub();
   const pathname = usePathname();
+  const dropCampaign = pathname === "/drop";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -39,15 +40,17 @@ export default function Nav() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-editorial ${
-        scrolled || menuOpen ? "bg-ground/85 backdrop-blur-md" : "bg-transparent"
+      className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-editorial ${dropCampaign ? "drop-campaign-nav" : ""} ${
+        scrolled || menuOpen
+          ? dropCampaign ? "bg-[#202226]/88 backdrop-blur-md" : "bg-ground/85 backdrop-blur-md"
+          : "bg-transparent"
       }`}
     >
       <nav
         aria-label="Primary"
         className="shell flex h-[var(--nav-h)] items-center justify-between gap-6"
       >
-        <Link href="/" aria-label="NICOTINE — home" className="shrink-0 text-mark">
+        <Link href="/" aria-label="NICOTINE — home" className={`shrink-0 ${dropCampaign ? "text-chrome-hi drop-shadow-[0_0_7px_rgba(236,239,242,0.38)]" : "text-mark"}`}>
           <Logo className="h-7 w-auto sm:h-8" weight="medium" />
         </Link>
 
@@ -85,7 +88,7 @@ export default function Nav() {
           <button
             type="button"
             onClick={openCart}
-            className="link-wipe font-mono text-[11px] uppercase tracking-wide2 text-mark"
+              className={`link-wipe font-mono text-[11px] uppercase tracking-wide2 ${dropCampaign ? "text-chrome-hi" : "text-mark"}`}
             aria-label={`Open cart, ${count} item${count === 1 ? "" : "s"}`}
           >
             CART ({String(count).padStart(2, "0")})
@@ -93,7 +96,7 @@ export default function Nav() {
           <button
             type="button"
             onClick={() => setMenuOpen((v) => !v)}
-            className="font-mono text-[11px] uppercase tracking-wide2 text-mark md:hidden"
+            className={`font-mono text-[11px] uppercase tracking-wide2 md:hidden ${dropCampaign ? "text-chrome-hi" : "text-mark"}`}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
           >

@@ -243,6 +243,16 @@
     animation: mercury-sheen 9s ease-in-out infinite alternate;
   }
 
+  /* The live campaign header sits over dense artwork. Keep every navigation
+     choice in the same polished-silver family without changing other routes. */
+  .drop-campaign-nav nav > ul a,
+  .drop-campaign-nav nav > div button,
+  .drop-campaign-nav nav > div span,
+  .drop-campaign-nav nav > div a {
+    color: rgb(var(--c-chrome-hi));
+    text-shadow: 0 1px 8px rgb(0 0 0 / 0.48);
+  }
+
   @keyframes mercury-sheen {
     from {
       background-position: 50% 18%;
