@@ -282,11 +282,13 @@
   }
 
   .spotlight-toggle {
-    @apply fixed bottom-6 right-6 z-[80] flex items-center gap-3 border border-chrome/50 bg-ground/90 px-5 py-3 font-mono text-[10px] uppercase tracking-wide2 text-mark backdrop-blur-md transition-colors duration-300;
+    @apply fixed bottom-6 right-6 z-[90] flex items-center gap-3 overflow-hidden border border-chrome/50 bg-ground/90 px-5 py-3 font-mono text-[10px] uppercase tracking-wide2 text-mark backdrop-blur-md transition-all duration-500;
+    box-shadow: 0 12px 40px rgb(0 0 0 / 0.08);
   }
   .spotlight-toggle:hover,
   .spotlight-active .spotlight-toggle {
     @apply border-white/30 bg-black text-white;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.07), 0 0 36px rgb(255 255 255 / 0.1);
   }
   .spotlight-toggle__lamp {
     @apply h-2 w-2 rounded-full bg-chrome transition-all duration-300;
@@ -295,19 +297,83 @@
     @apply bg-white shadow-[0_0_12px_3px_rgba(255,255,255,0.72)];
   }
   .spotlight-blackout {
-    @apply pointer-events-none fixed inset-0 z-[55] bg-black opacity-0 transition-opacity duration-700;
+    @apply pointer-events-none fixed inset-0 z-[55] bg-black opacity-0;
   }
   .spotlight-active .spotlight-blackout {
-    @apply opacity-[0.94];
+    @apply opacity-[0.965];
   }
   .spotlight-active .drop-grid-card {
     @apply relative z-[60];
   }
   .spotlight-active .drop-grid-card > a > div:first-child {
-    background: radial-gradient(circle at 50% 38%, rgba(255,255,255,0.98) 0%, rgba(238,239,240,0.94) 38%, rgba(126,130,136,0.42) 68%, rgba(0,0,0,0) 74%);
-    filter: drop-shadow(0 18px 28px rgba(255,255,255,0.12));
+    isolation: isolate;
+    overflow: visible;
+    background:
+      radial-gradient(ellipse 48% 58% at 50% 44%, rgb(255 255 255 / 0.98) 0%, rgb(235 237 240 / 0.82) 43%, rgb(160 164 170 / 0.22) 67%, transparent 78%),
+      conic-gradient(from 176deg at 50% -16%, transparent 0 43%, rgb(255 255 255 / 0.1) 47% 53%, transparent 57% 100%);
+    filter: drop-shadow(0 25px 38px rgb(255 255 255 / 0.08));
+    animation: spotlight-breathe 5.8s ease-in-out infinite alternate;
   }
+  .spotlight-active .drop-grid-card:nth-child(3n + 2) > a > div:first-child { animation-delay: -1.6s; }
+  .spotlight-active .drop-grid-card:nth-child(3n) > a > div:first-child { animation-delay: -3.1s; }
   .spotlight-active .drop-grid-card > a > div:last-child {
     @apply opacity-0;
+  }
+  .spotlight-active .drop-grid-card .chrome-plate {
+    @apply hidden;
+  }
+
+  .spotlight-flag-anchor {
+    @apply pointer-events-none absolute inset-x-0 top-[var(--nav-h)] z-[70] flex justify-center;
+  }
+  .spotlight-flag {
+    @apply w-[min(54vw,740px)] opacity-0;
+    transform-origin: 12% 4%;
+  }
+  .spotlight-flag__cloth {
+    @apply relative;
+    transform-origin: 14% 12%;
+    animation: flag-body 3.6s cubic-bezier(.45,.05,.55,.95) infinite alternate;
+    filter: drop-shadow(0 22px 24px rgb(0 0 0 / 0.48));
+  }
+  .spotlight-flag__cloth img {
+    @apply block h-auto w-full;
+    transform-origin: 17% 13%;
+    animation: flag-ripple 2.4s ease-in-out infinite alternate;
+  }
+  .spotlight-flag__shine {
+    @apply absolute inset-[9%_5%_7%_21%] opacity-40 mix-blend-screen;
+    clip-path: polygon(0 0, 100% 20%, 80% 100%, 4% 67%);
+    background: linear-gradient(105deg, transparent 10%, rgb(255 255 255 / 0.18) 35%, transparent 52%, rgb(255 255 255 / 0.08) 70%, transparent 86%);
+    background-size: 230% 100%;
+    animation: flag-light 3.1s linear infinite;
+  }
+  .spotlight-flag__shadow {
+    @apply absolute left-[12%] top-[3%] h-[94%] w-[5%] blur-xl;
+    background: rgb(0 0 0 / 0.55);
+  }
+
+  @keyframes spotlight-breathe {
+    0% { background-position: 48% 42%, 50% 0; filter: drop-shadow(0 20px 30px rgb(255 255 255 / 0.06)); }
+    100% { background-position: 52% 47%, 50% 0; filter: drop-shadow(0 28px 44px rgb(255 255 255 / 0.13)); }
+  }
+  @keyframes flag-body {
+    0% { transform: perspective(1200px) rotateZ(-0.45deg) rotateY(-2deg) skewY(-0.3deg); }
+    100% { transform: perspective(1200px) rotateZ(0.65deg) rotateY(3deg) skewY(0.55deg); }
+  }
+  @keyframes flag-ripple {
+    0% { transform: perspective(1300px) rotateY(-1.8deg) skewY(-0.45deg) scaleX(0.995); }
+    52% { transform: perspective(1300px) rotateY(2.2deg) skewY(0.5deg) scaleX(1.006); }
+    100% { transform: perspective(1300px) rotateY(-0.7deg) skewY(-0.15deg) scaleX(1); }
+  }
+  @keyframes flag-light {
+    from { background-position: 150% 0; }
+    to { background-position: -90% 0; }
+  }
+
+  @media (max-width: 640px) {
+    .spotlight-toggle { @apply bottom-4 right-4 px-4 py-3; }
+    .spotlight-flag-anchor { @apply top-[calc(var(--nav-h)+0.75rem)]; }
+    .spotlight-flag { @apply w-[94vw]; }
   }
 }

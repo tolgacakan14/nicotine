@@ -29,7 +29,7 @@ export default function DropPage() {
     <>
       <SpotlightMode />
       {/* ---------- Masthead ---------- */}
-      <header className="relative flex min-h-[82dvh] flex-col justify-end overflow-hidden bg-[#25272a] pb-14 pt-[calc(var(--nav-h)+5rem)]">
+      <header className="drop-masthead relative flex min-h-[82dvh] flex-col justify-end overflow-hidden bg-[#25272a] pb-14 pt-[calc(var(--nav-h)+5rem)]">
         <Image
           src="/editorial/drop-001-banner.jpg"
           alt=""
