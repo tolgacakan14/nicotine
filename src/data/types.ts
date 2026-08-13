@@ -12,6 +12,7 @@ export type GarmentLayer =
   | "tank"
   | "blacktank"
   | "tee"
+  | "flagtee"
   | "longsleeve"
   | "hoodie"
   | "jacket"

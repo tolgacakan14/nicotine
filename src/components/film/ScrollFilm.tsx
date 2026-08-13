@@ -43,6 +43,7 @@ const WIPE: Record<string, { from: number; to: number; up?: boolean }> = {
   pinkls: { from: 196, to: 580 },
   longsleeve: { from: 190, to: 580 },
   tee: { from: 186, to: 480 },
+  flagtee: { from: 186, to: 480 },
   hoodie: { from: 150, to: 580 },
   jacket: { from: 178, to: 590 },
   cap: { from: 28, to: 108 },

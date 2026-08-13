@@ -404,6 +404,9 @@ export default function Figure({ className = "" }: { className?: string }) {
         <clipPath id="clip-tee">
           <rect data-clip="tee" x="0" y="186" width="420" height="0" />
         </clipPath>
+        <clipPath id="clip-flagtee">
+          <rect data-clip="flagtee" x="0" y="186" width="420" height="0" />
+        </clipPath>
         <clipPath id="clip-hoodie">
           <rect data-clip="hoodie" x="0" y="150" width="420" height="0" />
         </clipPath>
@@ -675,6 +678,24 @@ export default function Figure({ className = "" }: { className?: string }) {
           <ellipse cx={CX} cy="306" rx="40" ry="13" fill="none" stroke={VIOLET} strokeWidth="1.8" />
           <SvgWordmark x={CX} y={310} size={9} tracking={2} fill={VIOLET} />
           {/* Hem */}
+          <path d="M140 458 H280" stroke={CAT_TEE_EDGE} strokeWidth="1" opacity="0.5" />
+        </g>
+      </g>
+
+      {/* STORY FLAG TEE — boxed black fit with the campaign flag at chest. */}
+      <g data-layer="flagtee" opacity="0" filter="url(#garment-depth)">
+        <g clipPath="url(#clip-flagtee)">
+          <g data-garment-arm="l"><path d={garmentSleeve(TEE, -1)} fill={CAT_TEE} stroke={CAT_TEE_EDGE} strokeWidth="1.2" /></g>
+          <g data-garment-arm="r"><path d={garmentSleeve(TEE, 1)} fill={CAT_TEE} stroke={CAT_TEE_EDGE} strokeWidth="1.2" /></g>
+          <path d={TEE_PATH} fill={CAT_TEE} stroke={CAT_TEE_EDGE} strokeWidth="1.2" />
+          <path d={`M${CX - 31},206 Q${CX},228 ${CX + 31},206`} fill="none" stroke={CAT_TEE_EDGE} strokeWidth="2" opacity="0.7" />
+          <g transform="translate(188 278) scale(.58)">
+            <path d="M4 0 V64" stroke="#B7BCC2" strokeWidth="3" />
+            <path d="M7 6 L65 17 L52 55 L7 40 Z" fill="#183D34" stroke="#87939A" strokeWidth="1.5" />
+            <path d="M13 12 L58 20 L48 31 L17 28 Z" fill="#A94F78" opacity="0.9" />
+            <ellipse cx="38" cy="38" rx="15" ry="6" fill="#ED6D91" />
+            <path d="M12 31 L49 49" stroke="#27B36C" strokeWidth="3" opacity="0.8" />
+          </g>
           <path d="M140 458 H280" stroke={CAT_TEE_EDGE} strokeWidth="1" opacity="0.5" />
         </g>
       </g>
