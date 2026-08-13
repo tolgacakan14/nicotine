@@ -1,0 +1,602 @@
+import type { Drop, Product } from "./types";
+
+/* ============================================================================
+   NICOTINE — CONTENT SOURCE OF TRUTH
+   ----------------------------------------------------------------------------
+   Every page reads from this file. To publish a new drop:
+     1. Copy the `SECOND_SKIN` block below, rename it, bump the code + season.
+     2. Give it a `releasedAt` date — the drop with the newest past date that is
+        <= today automatically becomes the "current" drop everywhere on the site.
+     3. Add it to the `DROPS` array at the bottom.
+   Nothing else needs to change. Older drops fall into the archive on their own.
+   ========================================================================== */
+
+const SIZES_APPAREL = ["XS", "S", "M", "L", "XL", "XXL"];
+const SIZES_ONE = ["OS"];
+
+/* -------------------------------------------------------------------------- */
+/* DROP 004 — SECOND SKIN (current)                                            */
+/* -------------------------------------------------------------------------- */
+
+const SECOND_SKIN_PRODUCTS: Product[] = [
+  {
+    // The label's first real design — front oval mark, back sketch.
+    slug: "i-need-nicotine-longsleeve",
+    name: "I NEED NICOTINE LONGSLEEVE",
+    price: 110,
+    category: "T-SHIRT",
+    tagline: "The first one. Oval on the chest, the whole story on the back.",
+    description: [
+      "A boxed long-sleeve in heavy off-white cotton. The oval mark sits small on the chest; the back carries the drawing the label started from.",
+      "Cut wide and short in the body with a dropped shoulder, so it stacks under everything else in the drop.",
+    ],
+    materials: "100% cotton, 260gsm. Screen printed. Made in Türkiye.",
+    sizes: SIZES_APPAREL,
+    colorway: "OFF WHITE",
+    image: "/products/i-need-nicotine-front.png",
+    images: [
+      "/products/i-need-nicotine-front.png",
+      "/products/i-need-nicotine-back.png",
+    ],
+    imageLabels: ["FRONT", "BACK"],
+    tone: 0.94,
+    texture: "flat",
+    layer: "needls",
+    featured: true,
+  },
+  {
+    // The label's third design. Replaces the HEAVY BOX TEE placeholder that held
+    // this slot — one boxy tee per drop, and the figure can only wear one.
+    slug: "eyes-on-cat-tee",
+    name: "EYES ON CAT TEE",
+    price: 105,
+    category: "T-SHIRT",
+    tagline: "A cat watching the street from a window that is watching back.",
+    description: [
+      "An oversized boxed tee in heavy black cotton. The oval sits small and violet on the chest; the back carries the photograph the piece is named after.",
+      "Shot in İstanbul: a cat on a ledge, and behind it a window stacked with the mark repeating into the dark.",
+    ],
+    materials: "100% cotton, 240gsm. Screen printed back, embroidered chest. Made in Türkiye.",
+    sizes: SIZES_APPAREL,
+    colorway: "BLACK / VIOLET",
+    image: "/products/cat-tee-front.png",
+    images: [
+      "/products/cat-tee-front.png",
+      "/products/cat-tee-back.png",
+      "/products/cat-tee-print.png",
+      "/products/cat-tee-logo.png",
+      "/products/cat-tee-label.png",
+    ],
+    imageLabels: ["FRONT", "BACK", "THE PRINT", "CHEST", "NECK LABEL"],
+    tone: 0.12,
+    texture: "flat",
+    layer: "tee",
+    featured: true,
+  },
+  {
+    slug: "second-skin-longsleeve",
+    name: "SECOND SKIN LONGSLEEVE",
+    price: 120,
+    category: "KNIT",
+    tagline: "The base layer the collection is named after.",
+    description: [
+      "A second-skin rib knit built to sit under everything else in the drop. Long body, thumb-hole cuff, seamless side.",
+      "Worn alone it reads as underwear. Worn under the jacket it disappears. That was the point.",
+    ],
+    materials: "92% cotton / 8% elastane rib. Seamless construction.",
+    sizes: SIZES_APPAREL,
+    colorway: "SOOT",
+    tone: 0.22,
+    texture: "scan",
+    layer: "longsleeve",
+    featured: true,
+  },
+  {
+    slug: "washed-hoodie",
+    name: "WASHED HOODIE",
+    price: 185,
+    category: "KNIT",
+    tagline: "Overdyed until the black gives up.",
+    description: [
+      "Heavyweight loopback fleece, run through an extended wash so the pigment breaks unevenly across the shoulders.",
+      "Double-layer hood, raw-edge kangaroo pocket, ribbing that has already relaxed before you get it.",
+    ],
+    materials: "480gsm loopback cotton fleece. Overdyed and stone washed.",
+    sizes: SIZES_APPAREL,
+    colorway: "FADED TAR",
+    tone: 0.35,
+    texture: "smear",
+    layer: "hoodie",
+    featured: true,
+  },
+  {
+    // The label's second real design. Replaces the MONO CAP placeholder that
+    // stood in this slot — an eight-piece drop has no room for two caps, and
+    // the figure can only wear one.
+    slug: "we-have-a-story-cap",
+    name: "WE HAVE A STORY CAP",
+    price: 85,
+    category: "HEADWEAR",
+    tagline: "Washed six-panel. The line sits where you can't read it.",
+    description: [
+      "An unstructured six-panel in washed cotton twill with a long pre-curved brim, broken in before it reaches you.",
+      "\u201cwe have a story\u201d is embroidered tonal on the front, the oval sits on the left panel, and the rear strap closes on a brushed metal plate.",
+    ],
+    materials: "Washed cotton twill. Brushed metal strap closure. One size.",
+    sizes: SIZES_ONE,
+    colorway: "WASHED GREY",
+    image: "/products/cap-story-front.png",
+    images: [
+      "/products/cap-story-front.png",
+      "/products/cap-story-side.png",
+      "/products/cap-story-back.png",
+    ],
+    imageLabels: ["FRONT", "SIDE", "BACK"],
+    tone: 0.44,
+    texture: "flat",
+    layer: "cap",
+    featured: true,
+  },
+  {
+    slug: "soft-armor-bag",
+    name: "SOFT ARMOR BAG",
+    price: 240,
+    category: "BAGS",
+    tagline: "Padded shell. Carried across the chest.",
+    description: [
+      "A padded crossbody built from coated ripstop with a quilted internal cage that holds its shape when empty.",
+      "Webbing strap runs long by default — cut it or let it hang. Both are correct.",
+    ],
+    materials: "Coated ripstop nylon, foam-backed. YKK hardware.",
+    sizes: SIZES_ONE,
+    colorway: "BLACK / BONE",
+    tone: 0.18,
+    texture: "halftone",
+    layer: "bag",
+    featured: true,
+  },
+  {
+    slug: "static-cargo-pant",
+    name: "STATIC CARGO PANT",
+    price: 165,
+    category: "BOTTOMS",
+    tagline: "Wide leg. Weight in the hem.",
+    description: [
+      "A wide, weighted cargo cut with a stacked hem and side pockets set low on the thigh.",
+      "Cotton canvas washed twice so it drapes instead of standing away from the leg.",
+    ],
+    materials: "12oz cotton canvas. Double washed.",
+    sizes: SIZES_APPAREL,
+    colorway: "FADED BEIGE",
+    tone: 0.72,
+    texture: "scan",
+    layer: "pant",
+    featured: true,
+  },
+  {
+    slug: "ash-work-jacket",
+    name: "ASH WORK JACKET",
+    price: 320,
+    category: "OUTERWEAR",
+    tagline: "The last layer. Cut like a uniform.",
+    description: [
+      "A boxed work jacket in dry canvas with a squared chest, hidden placket and articulated elbow.",
+      "The single piece in SECOND SKIN designed to be worn over everything else in the drop at once.",
+    ],
+    materials: "Dry cotton canvas, unlined. Corozo buttons.",
+    sizes: SIZES_APPAREL,
+    colorway: "ASH",
+    tone: 0.5,
+    texture: "smear",
+    layer: "jacket",
+    featured: true,
+  },
+  {
+    slug: "null-scarf",
+    name: "NULL SCARF",
+    price: 85,
+    category: "ACCESSORIES",
+    tagline: "Two metres of nothing in particular.",
+    description: [
+      "An oversized gauze scarf, long enough to wrap twice and still fall past the hip.",
+      "Loose weave, unfinished edge, softens permanently after the first wash.",
+    ],
+    materials: "Cotton gauze, raw edge. 200 × 45cm.",
+    sizes: SIZES_ONE,
+    colorway: "OFF WHITE",
+    tone: 0.86,
+    texture: "halftone",
+    layer: "scarf",
+  },
+];
+
+/* -------------------------------------------------------------------------- */
+/* ARCHIVE DROPS                                                               */
+/* -------------------------------------------------------------------------- */
+
+const COLD_STATIC_PRODUCTS: Product[] = [
+  {
+    slug: "cold-static-tee",
+    name: "COLD STATIC TEE",
+    price: 90,
+    category: "T-SHIRT",
+    tagline: "Screen burn across the chest.",
+    description: ["Boxed tee with a discharge-printed static field pulled across the chest."],
+    materials: "220gsm cotton. Discharge print.",
+    sizes: SIZES_APPAREL,
+    colorway: "BLACK",
+    tone: 0.16,
+    texture: "halftone",
+  },
+  {
+    slug: "signal-half-zip",
+    name: "SIGNAL HALF ZIP",
+    price: 210,
+    category: "KNIT",
+    tagline: "Dry knit, long placket.",
+    description: ["A dry-handle half zip with an extended placket and high funnel collar."],
+    materials: "Cotton / nylon dry knit.",
+    sizes: SIZES_APPAREL,
+    colorway: "SOFT GREY",
+    tone: 0.62,
+    texture: "scan",
+  },
+  {
+    slug: "interference-pant",
+    name: "INTERFERENCE PANT",
+    price: 155,
+    category: "BOTTOMS",
+    tagline: "Straight leg, taped seam.",
+    description: ["Straight-cut trouser with reflective seam tape running the outer leg."],
+    materials: "Cotton twill, reflective tape.",
+    sizes: SIZES_APPAREL,
+    colorway: "TAR",
+    tone: 0.2,
+    texture: "flat",
+  },
+  {
+    slug: "static-beanie",
+    name: "STATIC BEANIE",
+    price: 65,
+    category: "HEADWEAR",
+    tagline: "Fine gauge, long roll.",
+    description: ["Fine-gauge merino beanie with a deep roll cuff."],
+    materials: "Merino wool.",
+    sizes: SIZES_ONE,
+    colorway: "BONE",
+    tone: 0.8,
+    texture: "flat",
+  },
+  {
+    slug: "grey-noise-shirt",
+    name: "GREY NOISE SHIRT",
+    price: 175,
+    category: "OUTERWEAR",
+    tagline: "Overshirt weight.",
+    description: ["An overshirt cut heavy enough to work as light outerwear."],
+    materials: "Brushed cotton flannel.",
+    sizes: SIZES_APPAREL,
+    colorway: "WASHED GREY",
+    tone: 0.55,
+    texture: "smear",
+  },
+  {
+    slug: "carrier-tote",
+    name: "CARRIER TOTE",
+    price: 130,
+    category: "BAGS",
+    tagline: "Flat pack, heavy canvas.",
+    description: ["A flat-bottomed canvas tote with reinforced webbing handles."],
+    materials: "16oz canvas.",
+    sizes: SIZES_ONE,
+    colorway: "NATURAL",
+    tone: 0.75,
+    texture: "scan",
+  },
+  {
+    slug: "channel-socks",
+    name: "CHANNEL SOCKS",
+    price: 35,
+    category: "ACCESSORIES",
+    tagline: "Ribbed, two pack.",
+    description: ["Ribbed mid-calf socks, sold as a two pack."],
+    materials: "Combed cotton rib.",
+    sizes: SIZES_ONE,
+    colorway: "BONE / BLACK",
+    tone: 0.68,
+    texture: "flat",
+  },
+];
+
+const WITHDRAWAL_PRODUCTS: Product[] = [
+  {
+    slug: "withdrawal-box-tee",
+    name: "WITHDRAWAL BOX TEE",
+    price: 90,
+    category: "T-SHIRT",
+    tagline: "First run of the box cut.",
+    description: ["The original boxed tee pattern that became the house silhouette."],
+    materials: "230gsm cotton.",
+    sizes: SIZES_APPAREL,
+    colorway: "BONE",
+    tone: 0.84,
+    texture: "flat",
+  },
+  {
+    slug: "tremor-hoodie",
+    name: "TREMOR HOODIE",
+    price: 180,
+    category: "KNIT",
+    tagline: "Distressed rib, raw hem.",
+    description: ["Heavy fleece hoodie with intentionally distressed ribbing."],
+    materials: "450gsm fleece.",
+    sizes: SIZES_APPAREL,
+    colorway: "SMOKE",
+    tone: 0.4,
+    texture: "smear",
+  },
+  {
+    slug: "cold-turkey-coat",
+    name: "COLD TURKEY COAT",
+    price: 420,
+    category: "OUTERWEAR",
+    tagline: "Long, unlined, severe.",
+    description: ["A floor-skimming unlined coat cut from dry wool."],
+    materials: "Dry wool blend.",
+    sizes: SIZES_APPAREL,
+    colorway: "BLACK",
+    tone: 0.14,
+    texture: "smear",
+  },
+  {
+    slug: "shake-cargo",
+    name: "SHAKE CARGO",
+    price: 160,
+    category: "BOTTOMS",
+    tagline: "Utility pocket, low set.",
+    description: ["Utility trouser with low-set bellow pockets."],
+    materials: "Cotton ripstop.",
+    sizes: SIZES_APPAREL,
+    colorway: "FADED OLIVE",
+    tone: 0.58,
+    texture: "scan",
+  },
+  {
+    slug: "patch-cap",
+    name: "PATCH CAP",
+    price: 70,
+    category: "HEADWEAR",
+    tagline: "Five panel, woven patch.",
+    description: ["Five-panel cap with a woven label patch at the front."],
+    materials: "Cotton twill.",
+    sizes: SIZES_ONE,
+    colorway: "OFF WHITE",
+    tone: 0.88,
+    texture: "flat",
+  },
+  {
+    slug: "relapse-sling",
+    name: "RELAPSE SLING",
+    price: 145,
+    category: "BAGS",
+    tagline: "Compact, body worn.",
+    description: ["Compact sling bag with a single webbing strap."],
+    materials: "Coated nylon.",
+    sizes: SIZES_ONE,
+    colorway: "BLACK",
+    tone: 0.17,
+    texture: "halftone",
+  },
+  {
+    slug: "quit-scarf",
+    name: "QUIT SCARF",
+    price: 80,
+    category: "ACCESSORIES",
+    tagline: "Fringed, oversized.",
+    description: ["Oversized woven scarf with a hand-cut fringe."],
+    materials: "Wool / cotton weave.",
+    sizes: SIZES_ONE,
+    colorway: "GREY MARL",
+    tone: 0.65,
+    texture: "halftone",
+  },
+];
+
+const AFTER_HOURS_PRODUCTS: Product[] = [
+  {
+    slug: "after-hours-tee",
+    name: "AFTER HOURS TEE",
+    price: 85,
+    category: "T-SHIRT",
+    tagline: "The first thing we ever made.",
+    description: ["The founding tee. 200 pieces, none restocked."],
+    materials: "210gsm cotton.",
+    sizes: SIZES_APPAREL,
+    colorway: "BLACK",
+    tone: 0.15,
+    texture: "flat",
+  },
+  {
+    slug: "4am-crewneck",
+    name: "4AM CREWNECK",
+    price: 150,
+    category: "KNIT",
+    tagline: "Boxed crew, dropped shoulder.",
+    description: ["A boxed crewneck with a heavily dropped shoulder line."],
+    materials: "400gsm fleece.",
+    sizes: SIZES_APPAREL,
+    colorway: "ASH",
+    tone: 0.52,
+    texture: "scan",
+  },
+  {
+    slug: "taxi-jacket",
+    name: "TAXI JACKET",
+    price: 290,
+    category: "OUTERWEAR",
+    tagline: "Cropped, snap front.",
+    description: ["Cropped snap-front jacket built for standing outside at 4am."],
+    materials: "Waxed cotton.",
+    sizes: SIZES_APPAREL,
+    colorway: "TAR",
+    tone: 0.19,
+    texture: "smear",
+  },
+  {
+    slug: "curfew-pant",
+    name: "CURFEW PANT",
+    price: 140,
+    category: "BOTTOMS",
+    tagline: "Relaxed, elastic waist.",
+    description: ["Relaxed elastic-waist trouser in a dry cotton."],
+    materials: "Dry cotton twill.",
+    sizes: SIZES_APPAREL,
+    colorway: "SOFT GREY",
+    tone: 0.6,
+    texture: "flat",
+  },
+  {
+    slug: "last-call-cap",
+    name: "LAST CALL CAP",
+    price: 65,
+    category: "HEADWEAR",
+    tagline: "Washed six panel.",
+    description: ["Washed six-panel cap with a pre-curved brim."],
+    materials: "Washed cotton.",
+    sizes: SIZES_ONE,
+    colorway: "BONE",
+    tone: 0.79,
+    texture: "flat",
+  },
+  {
+    slug: "night-bus-bag",
+    name: "NIGHT BUS BAG",
+    price: 195,
+    category: "BAGS",
+    tagline: "Shoulder carry, wide gusset.",
+    description: ["A wide-gusset shoulder bag with a padded base."],
+    materials: "Coated canvas.",
+    sizes: SIZES_ONE,
+    colorway: "BLACK",
+    tone: 0.21,
+    texture: "halftone",
+  },
+  {
+    slug: "smoke-break-gloves",
+    name: "SMOKE BREAK GLOVES",
+    price: 60,
+    category: "ACCESSORIES",
+    tagline: "Fingerless, ribbed cuff.",
+    description: ["Fingerless knit gloves with a long ribbed cuff."],
+    materials: "Merino rib.",
+    sizes: SIZES_ONE,
+    colorway: "BLACK",
+    tone: 0.24,
+    texture: "flat",
+  },
+];
+
+/* -------------------------------------------------------------------------- */
+/* DROP INDEX                                                                  */
+/* -------------------------------------------------------------------------- */
+
+const RAW_DROPS: Drop[] = [
+  {
+    slug: "second-skin",
+    code: "DROP 001",
+    title: "SECOND SKIN",
+    season: "AUG 2026",
+    releasedAt: "2026-08-01",
+    strapline: "WEAR IT UNTIL IT FORGETS IT WASN'T YOURS",
+    city: "İSTANBUL",
+    concept:
+      "Eight pieces built to be worn on top of each other until the stack reads as one garment. Shot over two nights in one unlit room in İstanbul.",
+    tone: 0.3,
+    texture: "smear",
+    products: SECOND_SKIN_PRODUCTS,
+  },
+  {
+    slug: "cold-static",
+    code: "CAPSULE 03",
+    title: "COLD STATIC",
+    season: "JUN 2026",
+    releasedAt: "2026-06-01",
+    strapline: "NO SIGNAL, STILL BROADCASTING",
+    city: "İSTANBUL / BERLIN",
+    concept:
+      "Interference. Discharge prints, reflective tape, dry knits that hold light badly on purpose.",
+    tone: 0.45,
+    texture: "halftone",
+    products: COLD_STATIC_PRODUCTS,
+  },
+  {
+    slug: "withdrawal",
+    code: "CAPSULE 02",
+    title: "WITHDRAWAL",
+    season: "APR 2026",
+    releasedAt: "2026-04-01",
+    strapline: "THE SHAKE BEFORE THE CALM",
+    city: "İSTANBUL",
+    concept:
+      "The drop that fixed the house silhouette. Boxed shoulders, long bodies, unresolved ribbing.",
+    tone: 0.24,
+    texture: "smear",
+    products: WITHDRAWAL_PRODUCTS,
+  },
+  {
+    slug: "after-hours",
+    code: "CAPSULE 01",
+    title: "AFTER HOURS",
+    season: "FEB 2026",
+    releasedAt: "2026-02-01",
+    strapline: "EVERYTHING GOOD HAPPENS LATE",
+    city: "İSTANBUL",
+    concept:
+      "The founding drop. Made in a rented workshop, sold out of a car boot in one weekend.",
+    tone: 0.6,
+    texture: "scan",
+    products: AFTER_HOURS_PRODUCTS,
+  },
+];
+
+/* -------------------------------------------------------------------------- */
+/* ACCESSORS — the only API the components use                                 */
+/* -------------------------------------------------------------------------- */
+
+/** All drops, newest first, with `dropSlug` back-linked onto every product. */
+export const DROPS: Drop[] = RAW_DROPS.map((drop) => ({
+  ...drop,
+  products: drop.products.map((p) => ({ ...p, dropSlug: drop.slug })),
+})).sort((a, b) => b.releasedAt.localeCompare(a.releasedAt));
+
+/** The newest released drop — drives the home page and `/drop`. */
+export const CURRENT_DROP: Drop = DROPS[0];
+
+/** Everything except the current drop, newest first. */
+export const ARCHIVE_DROPS: Drop[] = DROPS.slice(1);
+
+export function getDrop(slug: string): Drop | undefined {
+  return DROPS.find((d) => d.slug === slug);
+}
+
+export function getProduct(slug: string): Product | undefined {
+  for (const drop of DROPS) {
+    const found = drop.products.find((p) => p.slug === slug);
+    if (found) return found;
+  }
+  return undefined;
+}
+
+export function getDropForProduct(slug: string): Drop | undefined {
+  return DROPS.find((d) => d.products.some((p) => p.slug === slug));
+}
+
+/** Sibling products from the same drop, excluding the given one. */
+export function getRelatedProducts(slug: string, limit = 4) {
+  const drop = getDropForProduct(slug);
+  if (!drop) return [];
+  return drop.products.filter((p) => p.slug !== slug).slice(0, limit);
+}
+
+/** Flat list of every product across every drop — used by search/sitemaps. */
+export const ALL_PRODUCTS = DROPS.flatMap((d) => d.products);

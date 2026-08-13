@@ -1,0 +1,273 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   Base layer — warm off-white ground, near-black type, silver as the
+   only finish. Tokens are role-named in tailwind.config.ts.
+   ------------------------------------------------------------------ */
+@layer base {
+  /* ---- Themes -------------------------------------------------------------
+     LIGHT is the house theme. DARK is opted into per route (/club) by putting
+     `.theme-dark` on <html> — see components/layout/ThemeByRoute.tsx. Because
+     every colour token reads these variables, a theme swap needs no component
+     changes at all. */
+  :root {
+    --nav-h: 68px;
+
+    --c-ground: 243 243 242;
+    --c-shade: 234 234 233;
+    --c-bone: 228 224 216;
+    --c-line: 217 217 215;
+    --c-ash: 140 136 128;
+    --c-haze: 87 84 78;
+    --c-mark: 14 14 13;
+    --c-tar: 5 5 5;
+    --c-chrome: 142 148 156;
+    --c-chrome-hi: 232 234 236;
+    --c-chrome-lo: 90 96 104;
+    --c-blush: 216 169 180;
+    --c-blush-deep: 184 130 143;
+    --grain-blend: multiply;
+  }
+
+  .theme-dark {
+    --c-ground: 10 10 10;
+    --c-shade: 20 20 20;
+    --c-bone: 42 40 35;
+    --c-line: 42 42 42;
+    --c-ash: 107 107 107;
+    --c-haze: 168 165 160;
+    --c-mark: 244 242 238;
+    --c-tar: 5 5 5;
+    --c-chrome: 185 190 197;
+    --c-chrome-hi: 237 239 241;
+    --c-chrome-lo: 108 114 120;
+    --c-blush: 233 196 203;
+    --c-blush-deep: 214 163 173;
+    --grain-blend: screen;
+  }
+
+  :root {
+    /* The silver ramp, defined once. Every metal surface derives from it.
+       The blush stop is what stops it reading as flat grey in motion. */
+    --silver: linear-gradient(
+      168deg,
+      #ffffff 0%,
+      #d7dade 12%,
+      #8e949c 28%,
+      #f3f4f6 42%,
+      #d8a9b4 52%,
+      /* the undertone */ #6f757d 64%,
+      #e9ebed 78%,
+      #9aa0a8 92%,
+      #cfd3d8 100%
+    );
+
+    /* MERCURY — the wordmark's finish. Polished chrome, no tint: hard bright
+       bands against near-black ones, which is what makes metal read as liquid
+       rather than as grey. The bands are tight and unevenly spaced on purpose;
+       an even ramp looks like a gradient, not a reflection. */
+    --mercury: linear-gradient(
+      176deg,
+      #ffffff 0%,
+      #eef1f4 8%,
+      #9fa7b0 20%,
+      #4a525b 30%,
+      #2b3138 38%,
+      #6c757f 45%,
+      #ffffff 52%,
+      #f2f5f7 58%,
+      #b6bec7 66%,
+      #545c66 76%,
+      #333a42 84%,
+      #8d959e 92%,
+      #e6eaee 100%
+    );
+  }
+
+  html {
+    /* No CSS smooth-scroll: Lenis owns scrolling (components/layout/SmoothScroll).
+       Leaving `scroll-behavior: smooth` here would fight it on anchor jumps. */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-ground text-mark font-body antialiased;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    @apply bg-mark text-ground;
+  }
+
+  /* Thin, brand-consistent scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgb(var(--c-shade));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #b6bbc2, #6f757d);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  :focus-visible {
+    outline: 1px solid rgb(var(--c-mark));
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Standard page gutter used by every section */
+  .shell {
+    @apply mx-auto w-full max-w-[1600px] px-5 sm:px-8 lg:px-12;
+  }
+
+  /* Small caps label — the site's connective tissue */
+  .eyebrow {
+    @apply font-mono text-[10px] uppercase tracking-wide2 text-ash sm:text-[11px];
+  }
+
+  /* Hairlines carry the metal: a silver sheen that fades at both ends */
+  .rule {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgb(var(--c-chrome-hi)) 12%,
+      rgb(var(--c-chrome-lo)) 50%,
+      rgb(var(--c-chrome-hi)) 88%,
+      transparent 100%
+    );
+    opacity: 0.7;
+  }
+
+  /* Underline that wipes in from the left on hover */
+  .link-wipe {
+    @apply relative inline-block;
+  }
+  .link-wipe::after {
+    content: "";
+    @apply absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-current transition-transform duration-500 ease-editorial;
+  }
+  .link-wipe:hover::after {
+    @apply origin-left scale-x-100;
+  }
+
+  /* Ghost button — silver hairline, fills with the metal on hover */
+  .btn-ghost {
+    @apply relative overflow-hidden px-8 py-4 font-mono text-[11px] uppercase tracking-wide2 text-mark transition-colors duration-500 ease-editorial hover:text-ground;
+    border: 1px solid rgb(var(--c-chrome) / 0.5);
+  }
+  .btn-ghost:hover {
+    border-color: rgb(var(--c-mark) / 0.9);
+  }
+  .btn-ghost::before {
+    content: "";
+    @apply absolute inset-0 -z-0 origin-bottom scale-y-0 bg-mark transition-transform duration-500 ease-editorial;
+  }
+  .btn-ghost:hover::before {
+    @apply origin-top scale-y-100;
+  }
+  .btn-ghost > * {
+    @apply relative z-10;
+  }
+
+  /* Club button — the one place the blush goes solid */
+  .btn-club {
+    @apply bg-blush px-8 py-4 font-mono text-[11px] uppercase tracking-wide2 text-mark transition-colors duration-300 hover:bg-blush-deep hover:text-ground disabled:cursor-not-allowed disabled:bg-line disabled:text-ash;
+  }
+
+  /* Membership card surface */
+  .club-card {
+    @apply relative overflow-hidden border border-line bg-shade p-6 sm:p-8;
+  }
+
+  /* Primary CTA: add to cart, checkout */
+  .btn-solid {
+    @apply bg-mark px-8 py-4 font-mono text-[11px] uppercase tracking-wide2 text-ground transition-colors duration-300 hover:bg-tar disabled:cursor-not-allowed disabled:bg-line disabled:text-ash;
+  }
+}
+
+@layer utilities {
+  /* Paper grain. Subtle on a light ground — multiply, not screen. */
+  .grain-layer {
+    mix-blend-mode: var(--grain-blend, multiply);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  .text-outline {
+    -webkit-text-stroke: 1px rgb(var(--c-chrome) / 0.8);
+    color: transparent;
+  }
+
+  /* Polished silver TYPE. The ramp lives in --silver so type, plates and the
+     hero's rings all pick up the same metal, including its blush undertone.
+     Deliberately NOT named `text-chrome`: that is Tailwind's flat colour
+     utility, and having both meant `color: transparent` silently won — which
+     made anything using `currentColor` (SVG strokes) disappear. */
+  .type-chrome {
+    background-image: var(--mercury);
+    background-size: 100% 260%;
+    background-position: 50% 30%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* The wordmark's version: the same metal, but the reflection drifts, so the
+     highlight travels across the letters the way it would on a real surface. */
+  .type-mercury {
+    background-image: var(--mercury);
+    background-size: 100% 320%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: mercury-sheen 9s ease-in-out infinite alternate;
+  }
+
+  @keyframes mercury-sheen {
+    from {
+      background-position: 50% 18%;
+    }
+    to {
+      background-position: 50% 82%;
+    }
+  }
+
+  /* Brushed metal plate for small surfaces (badges, chips, hardware) */
+  .chrome-plate {
+    background-image: var(--silver);
+    color: #0e0e0d;
+  }
+
+  /* A 1px silver edge — used where a panel needs to catch light */
+  .chrome-edge {
+    border: 1px solid transparent;
+    background-image: linear-gradient(rgb(var(--c-ground)), rgb(var(--c-ground))), var(--silver);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 55%, transparent 100%);
+  }
+}
