@@ -305,6 +305,19 @@
   .spotlight-active .drop-grid-card {
     @apply relative z-[60];
   }
+  .spotlight-active .drop-products-section {
+    @apply max-w-none px-0 pb-32 pt-24;
+  }
+  .spotlight-active .drop-products-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    width: min(100% - 2rem, 680px);
+    margin-inline: auto;
+    row-gap: clamp(5rem, 11vw, 10rem);
+  }
+  .spotlight-active .drop-grid-card {
+    width: 100%;
+  }
   .spotlight-active .drop-grid-card > a > div:first-child {
     isolation: isolate;
     overflow: visible;
@@ -375,5 +388,9 @@
     .spotlight-toggle { @apply bottom-4 right-4 px-4 py-3; }
     .spotlight-flag-anchor { @apply top-[calc(var(--nav-h)+0.75rem)]; }
     .spotlight-flag { @apply w-[94vw]; }
+    .spotlight-active .drop-products-grid {
+      width: min(100% - 1.5rem, 520px);
+      row-gap: 4.5rem;
+    }
   }
 }
