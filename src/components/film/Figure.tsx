@@ -272,6 +272,27 @@ const pantLeg = (side: 1 | -1) =>
 const PANT_LEG_L = pantLeg(-1);
 const PANT_LEG_R = pantLeg(1);
 
+const SHORT_SEAT = [
+  `M${CX - 60},462`,
+  `L${CX + 60},462`,
+  `L${CX + 62},520`,
+  `L${CX},540`,
+  `L${CX - 62},520`,
+  "Z",
+].join(" ");
+
+const shortLeg = (side: 1 | -1) => [
+  `M${CX + 59 * side},488`,
+  `L${CX + 72 * side},612`,
+  `Q${CX + 72 * side},620 ${CX + 64 * side},620`,
+  `L${CX + 8 * side},612`,
+  `L${CX + 5 * side},515`,
+  "Z",
+].join(" ");
+
+const SHORT_LEG_L = shortLeg(-1);
+const SHORT_LEG_R = shortLeg(1);
+
 /* The figure is printed dark on the light ground. FIG is the body/garment
    ink; CUT is the ground colour, used to knock shapes back out of it. */
 /* Garment colourways, as they read against the light ground. Pale garments get
@@ -292,6 +313,8 @@ const SOOT = "#26241F";      // second skin base knit
 const TAR_CLOTH = "#332F29"; // washed hoodie
 const ASH_CLOTH = "#8E8A80"; // ash work jacket
 const BLACK_CLOTH = "#1B1913"; // static cargo pant
+const PALE_SHORT = "#EDE8DB";
+const PALE_SHORT_LINE = "#C9C1B1";
 const ARMOR = "#1E1C1A";       // armor jacket — corded black
 const ARMOR_CORD = "#3D3A36";  // the cording that runs through it
 const ARMOR_RIB = "#2A2724";   // ribbed hem and cuffs
@@ -397,6 +420,9 @@ export default function Figure({ className = "" }: { className?: string }) {
         <clipPath id="clip-pant">
           <rect data-clip="pant" x="0" y="888" width="420" height="0" />
         </clipPath>
+        <clipPath id="clip-shorts">
+          <rect data-clip="shorts" x="0" y="624" width="420" height="0" />
+        </clipPath>
       </defs>
 
       {/* Studio light + floor */}
@@ -464,6 +490,27 @@ export default function Figure({ className = "" }: { className?: string }) {
         />
         <path d="M165 469 Q210 463 255 469" fill="none" stroke="#F06876" strokeWidth="2" opacity="0.75" />
         <path d="M210 473 L210 520" stroke={BRIEF_DARK} strokeWidth="1" opacity="0.6" />
+      </g>
+
+      {/* PALE SIGNAL SHORTS — stepped into after the first tank. Painted above
+          the briefs so the red disappears as the wipe reaches the waist. */}
+      <g data-layer="shorts" opacity="0">
+        <g clipPath="url(#clip-shorts)">
+          <g data-swing="l">
+            <path d={SHORT_LEG_L} fill={PALE_SHORT} stroke={OUTLINE} strokeWidth="1.25" />
+            <path d="M151 512 L144 612 M169 506 L166 614" stroke={PALE_SHORT_LINE} strokeWidth="1" opacity="0.75" />
+          </g>
+          <g data-swing="r">
+            <path d={SHORT_LEG_R} fill={PALE_SHORT} stroke={OUTLINE} strokeWidth="1.25" />
+            <path d="M269 512 L276 612 M251 506 L254 614" stroke={PALE_SHORT_LINE} strokeWidth="1" opacity="0.75" />
+          </g>
+          <path d={SHORT_SEAT} fill={PALE_SHORT} stroke={OUTLINE} strokeWidth="1.25" />
+          <rect x="150" y="460" width="120" height="24" fill={PALE_SHORT} stroke={OUTLINE} strokeWidth="1.25" />
+          <path d="M174 485 Q164 506 164 540 M246 485 Q256 506 256 540" fill="none" stroke={PALE_SHORT_LINE} strokeWidth="1.3" />
+          <path d="M191 486 L188 534 M229 486 L232 534" stroke={PALE_SHORT_LINE} strokeWidth="1" opacity="0.8" />
+          <ellipse cx="246" cy="553" rx="24" ry="8" fill="none" stroke={OUTLINE} strokeWidth="1.1" />
+          <SvgWordmark x={246} y={556} size={5.5} tracking={0.9} fill={OUTLINE} />
+        </g>
       </g>
 
       {/* ====================== GARMENTS — base to outerwear ==================== */}

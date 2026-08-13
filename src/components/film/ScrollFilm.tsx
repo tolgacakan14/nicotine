@@ -47,6 +47,7 @@ const WIPE: Record<string, { from: number; to: number; up?: boolean }> = {
   jacket: { from: 178, to: 590 },
   cap: { from: 28, to: 108 },
   scarf: { from: 168, to: 340 },
+  shorts: { from: 624, to: 455, up: true },
   pant: { from: 888, to: 455, up: true }, // stepped into, so it wipes upward
 };
 
