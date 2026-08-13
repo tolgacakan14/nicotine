@@ -6,16 +6,19 @@ import gsap from "gsap";
 export default function SpotlightMode() {
   const [active, setActive] = useState(false);
   const flagRef = useRef<HTMLDivElement>(null);
+  const blackoutRef = useRef<HTMLDivElement>(null);
+  const hasOpenedRef = useRef(false);
 
   useEffect(() => {
     document.body.classList.toggle("spotlight-active", active);
     const cards = gsap.utils.toArray<HTMLElement>(".drop-grid-card");
 
     if (active) {
+      hasOpenedRef.current = true;
       const timeline = gsap.timeline();
       timeline
         .fromTo(
-          ".spotlight-blackout",
+          blackoutRef.current,
           { opacity: 0 },
           { opacity: 0.965, duration: 0.75, ease: "power2.inOut" }
         )
@@ -37,9 +40,23 @@ export default function SpotlightMode() {
       };
     }
 
-    gsap.set(cards, { clearProps: "opacity,transform" });
-    gsap.set(flagRef.current, { clearProps: "all" });
-    return () => document.body.classList.remove("spotlight-active");
+    // The first effect run happens while spotlight is closed; no exit motion is
+    // needed then. After a real opening, fade the GSAP inline opacity out and
+    // remove every inline transform so the normal four-column shop is restored.
+    if (!hasOpenedRef.current) return;
+
+    const exitTimeline = gsap.timeline({
+      onComplete: () => {
+        gsap.set(blackoutRef.current, { clearProps: "all" });
+        gsap.set(flagRef.current, { clearProps: "all" });
+        gsap.set(cards, { clearProps: "opacity,transform" });
+      },
+    });
+    exitTimeline
+      .to(flagRef.current, { yPercent: -20, opacity: 0, duration: 0.45, ease: "power2.in" })
+      .to(blackoutRef.current, { opacity: 0, duration: 0.55, ease: "power2.out" }, 0.08);
+
+    return () => exitTimeline.kill();
   }, [active]);
 
   return (
@@ -53,7 +70,7 @@ export default function SpotlightMode() {
         <span className="spotlight-toggle__lamp" aria-hidden />
         {active ? "EXIT SPOTLIGHT" : "SPOTLIGHT"}
       </button>
-      <div className="spotlight-blackout" aria-hidden />
+      <div ref={blackoutRef} className="spotlight-blackout" aria-hidden />
       <div className="spotlight-flag-anchor" aria-hidden>
         <div ref={flagRef} className="spotlight-flag">
           <div className="spotlight-flag__shadow" />
