@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import ProductGallery from "@/components/product/ProductGallery";
-import FitView360 from "@/components/product/FitView360";
 import ProductCard from "@/components/product/ProductCard";
 import AddToCart from "@/components/product/AddToCart";
 import Reveal from "@/components/ui/Reveal";
@@ -96,7 +95,6 @@ export default async function ProductPage({ params }: Params) {
 
           {/* ---------- The shots ---------- */}
           <div className="lg:col-span-6">
-            {product.slug === "pure-rib-tank" && <FitView360 />}
             <ProductGallery product={product} />
           </div>
 
