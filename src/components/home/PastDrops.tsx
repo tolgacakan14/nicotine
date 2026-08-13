@@ -29,20 +29,14 @@ export default function PastDrops() {
         <div className="mt-10 grid gap-6 sm:grid-cols-2 sm:gap-8">
           <Reveal>
             <Link href="/drop" className="group block">
-              <div className="relative flex aspect-[4/3] overflow-hidden bg-[#434441]">
-                {[0, 1].map((copy) => (
-                  <div key={copy} className="relative h-full w-1/2 overflow-hidden">
-                    <Image
-                      src="/editorial/drop-001-cover.jpg"
-                      alt={copy === 0 ? "WE HAVE A STORY — DROP 001 artwork" : ""}
-                      fill
-                      sizes="(min-width: 640px) 25vw, 50vw"
-                      aria-hidden={copy === 1}
-                      className="object-cover object-center transition-transform duration-[1100ms] ease-editorial group-hover:scale-[1.035]"
-                    />
-                  </div>
-                ))}
-                <div aria-hidden className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.06)_50%,transparent_100%)]" />
+              <div className="relative aspect-[4/3] overflow-hidden">
+                <Image
+                  src="/editorial/drop-001-cover-2.jpg"
+                  alt="WE HAVE A STORY — DROP 001 artwork"
+                  fill
+                  sizes="(min-width: 640px) 50vw, 100vw"
+                  className="object-cover object-center transition-transform duration-[1100ms] ease-editorial group-hover:scale-[1.025]"
+                />
               </div>
               <div className="mt-4 flex items-baseline justify-between gap-4">
                 <h3 className="font-display text-big font-black uppercase leading-none text-mark">
