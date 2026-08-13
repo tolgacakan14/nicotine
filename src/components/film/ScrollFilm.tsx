@@ -418,7 +418,7 @@ export default function ScrollFilm() {
           <div className="flex items-center gap-4 sm:gap-6">
             <span className="font-mono text-[11px] tracking-wide2 text-chrome">
               <span ref={counterRef}>01</span>
-              <span className="text-ash">/{String(FILM_ACTS.length).padStart(2, "0")}</span>
+              <span className="text-ash">/{String(FILM_ACTS.length).padStart(2, "0")} ACTS</span>
             </span>
             <div className="relative h-px flex-1 bg-line">
               <span

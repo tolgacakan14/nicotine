@@ -18,6 +18,7 @@ import { CURRENT_DROP } from "@/data/drops";
  */
 export default function ClubView() {
   const { member, ready } = useClub();
+  const publishedCount = CURRENT_DROP.products.filter((product) => Boolean(product.image)).length;
 
   return (
     <>
@@ -42,13 +43,13 @@ export default function ClubView() {
           </p>
           <div className="rule mt-8" />
           <p className="mt-8 font-display text-xl font-black uppercase leading-tight tracking-tight2 type-chrome lg:text-2xl">
-            SHOP MORE, PAY LESS, GET IN FIRST
+            ACCESS IS EARNED.
           </p>
         </div>
       </header>
 
       <Marquee
-        items={["10 / 15 / 20% OFF", "MEMBERS GET IN FIRST", "FREE TO JOIN"]}
+        items={["EARLY ACCESS", "PRIVATE RELEASES", "EVENT INVITATIONS"]}
       />
 
       {/* ---------- Signed-in dashboard OR join flow ---------- */}
@@ -154,7 +155,7 @@ export default function ClubView() {
             </h2>
           </div>
           <Link href="/drop" className="btn-ghost">
-            <span>{CURRENT_DROP.title} — {String(CURRENT_DROP.products.length).padStart(2, "0")} PIECES</span>
+            <span>{CURRENT_DROP.title} — {String(publishedCount).padStart(2, "0")} PIECES</span>
           </Link>
         </div>
       </section>

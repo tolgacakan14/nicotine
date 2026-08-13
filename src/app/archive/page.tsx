@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ArchiveGrid from "@/components/archive/ArchiveGrid";
 import Logo from "@/components/brand/Logo";
-import { ALL_PRODUCTS, CURRENT_DROP, DROPS } from "@/data/drops";
+import { ARCHIVE_DROPS, CURRENT_DROP } from "@/data/drops";
 
 export const metadata: Metadata = {
   title: "Archive",
@@ -16,13 +16,14 @@ export const metadata: Metadata = {
  * page's job is letting someone see everything at once.
  */
 export default function ArchivePage() {
+  const archivedProducts = ARCHIVE_DROPS.flatMap((drop) => drop.products);
   return (
     <>
       {/* ---------- Masthead ---------- */}
       <header className="shell pb-10 pt-[calc(var(--nav-h)+5rem)]">
         <div className="flex flex-wrap items-baseline justify-between gap-4">
-          <p className="eyebrow">EVERYTHING RELEASED</p>
-          <p className="eyebrow">{ALL_PRODUCTS.length} PIECES — {DROPS.length} DROPS</p>
+          <p className="eyebrow">EVERYTHING RELEASED.</p>
+          <p className="eyebrow">{archivedProducts.length} PIECES — {ARCHIVE_DROPS.length} DROPS</p>
         </div>
 
         <div className="mt-8 flex flex-wrap items-end justify-between gap-8">
@@ -50,7 +51,7 @@ export default function ArchivePage() {
 
       {/* ---------- The grid ---------- */}
       <section className="shell py-10 pb-28">
-        <ArchiveGrid drops={DROPS} />
+        <ArchiveGrid drops={ARCHIVE_DROPS} />
       </section>
     </>
   );

@@ -7,6 +7,7 @@ import AddToCart from "@/components/product/AddToCart";
 import Reveal from "@/components/ui/Reveal";
 import Price from "@/components/ui/Price";
 import Logo from "@/components/brand/Logo";
+import MobilePurchaseBar from "@/components/product/MobilePurchaseBar";
 import {
   ALL_PRODUCTS,
   getDropForProduct,
@@ -28,6 +29,12 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return {
     title: product.name,
     description: product.tagline,
+    alternates: { canonical: `/product/${product.slug}` },
+    openGraph: {
+      title: `${product.name} — NICOTINE`,
+      description: product.tagline,
+      images: product.image ? [{ url: product.image, alt: product.name }] : undefined,
+    },
   };
 }
 
@@ -110,18 +117,11 @@ export default async function ProductPage({ params }: Params) {
                 <AddToCart product={product} dropCode={drop.code} />
               </div>
 
-              <dl className="mt-10 space-y-3 border-t border-line pt-5">
-                <div className="flex gap-4">
-                  <dt className="eyebrow w-20 shrink-0">MATERIAL</dt>
-                  <dd className="text-xs leading-relaxed text-haze">{product.materials}</dd>
-                </div>
-                <div className="flex gap-4">
-                  <dt className="eyebrow w-20 shrink-0">SHIPPING</dt>
-                  <dd className="text-xs leading-relaxed text-haze">
-                    2–4 working days from İstanbul. 14-day returns.
-                  </dd>
-                </div>
-              </dl>
+              <div className="mt-10 border-t border-line">
+                <details className="group border-b border-line py-4" open><summary className="flex cursor-pointer list-none justify-between eyebrow">MATERIAL <span className="group-open:rotate-45">+</span></summary><p className="mt-3 text-xs leading-relaxed text-haze">{product.materials}</p></details>
+                <details className="group border-b border-line py-4"><summary className="flex cursor-pointer list-none justify-between eyebrow">SHIPPING <span className="group-open:rotate-45">+</span></summary><p className="mt-3 text-xs leading-relaxed text-haze">2–4 working days from İstanbul.</p></details>
+                <details className="group border-b border-line py-4"><summary className="flex cursor-pointer list-none justify-between eyebrow">RETURNS <span className="group-open:rotate-45">+</span></summary><p className="mt-3 text-xs leading-relaxed text-haze">14-day returns.</p></details>
+              </div>
 
               {/* Woven-label detail — the mark as it appears inside the garment */}
               <div className="mt-8 flex items-center gap-3 border border-line px-4 py-3">
@@ -160,6 +160,7 @@ export default async function ProductPage({ params }: Params) {
           </div>
         </section>
       )}
+      <MobilePurchaseBar product={product} />
     </>
   );
 }

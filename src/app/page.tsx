@@ -2,6 +2,7 @@ import Hero from "@/components/home/Hero";
 import DropRail from "@/components/home/DropRail";
 import ScrollFilm from "@/components/film/ScrollFilm";
 import PastDrops from "@/components/home/PastDrops";
+import Manifesto from "@/components/home/Manifesto";
 
 /**
  * HOME — four beats and a signature, nothing else:
@@ -15,6 +16,7 @@ export default function HomePage() {
     <>
       <Hero />
       <DropRail />
+      <Manifesto />
       <ScrollFilm />
       <PastDrops />
     </>

@@ -4,6 +4,8 @@ import Link from "next/link";
 import { lineKey, useCart, SHIPPING_THRESHOLD } from "@/lib/cart";
 import QtyStepper from "./QtyStepper";
 import Price from "@/components/ui/Price";
+import Image from "next/image";
+import { getProduct } from "@/data/drops";
 
 /**
  * Slide-in cart. Rendered once in the root layout so it is available from every
@@ -60,6 +62,7 @@ export default function CartDrawer() {
             <ul className="flex-1 divide-y divide-line overflow-y-auto">
               {lines.map((line) => {
                 const key = lineKey(line);
+                const product = getProduct(line.slug);
                 return (
                   <li key={key} className="flex gap-4 px-6 py-5">
                     <Link
@@ -68,19 +71,11 @@ export default function CartDrawer() {
                       className="block h-24 w-20 shrink-0 bg-shade"
                       aria-label={line.name}
                     >
-                      {/* Cheap tone swatch keeps the drawer light — no image work */}
-                      <span
-                        className="block h-full w-full"
-                        style={{
-                          backgroundImage: `linear-gradient(155deg, rgb(${Math.round(
-                            38 + line.tone * 200
-                          )},${Math.round(38 + line.tone * 200)},${Math.round(
-                            38 + line.tone * 200
-                          )}) 0%, rgb(${Math.round(10 + line.tone * 140)},${Math.round(
-                            10 + line.tone * 140
-                          )},${Math.round(10 + line.tone * 140)}) 100%)`,
-                        }}
-                      />
+                      {product?.image ? (
+                        <span className="relative block h-full w-full">
+                          <Image src={product.image} alt="" fill sizes="80px" className="object-contain" />
+                        </span>
+                      ) : <span className="block h-full w-full bg-shade" />}
                     </Link>
 
                     <div className="flex min-w-0 flex-1 flex-col justify-between">
@@ -153,8 +148,12 @@ export default function CartDrawer() {
                 onClick={closeCart}
                 className="btn-solid mt-6 block w-full text-center"
               >
-                CHECKOUT
+                CHECKOUT →
               </Link>
+
+              <button type="button" onClick={closeCart} className="mt-4 w-full font-mono text-[10px] uppercase tracking-wide2 text-ash hover:text-mark">
+                CONTINUE SHOPPING
+              </button>
 
             </footer>
           </>

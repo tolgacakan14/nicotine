@@ -7,6 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { CURRENT_DROP } from "@/data/drops";
 import OrbitRings from "@/components/brand/OrbitRings";
 import Wordmark from "@/components/brand/Wordmark";
+import Image from "next/image";
 import { useIsomorphicLayoutEffect } from "@/lib/useIsomorphicLayoutEffect";
 
 /**
@@ -64,11 +65,20 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={root} className="relative h-dvh min-h-[600px] overflow-hidden">
+    <section ref={root} className="relative h-dvh min-h-[600px] overflow-hidden bg-[#25272a]">
+      <Image
+        src="/editorial/drop-001-banner.jpg"
+        alt="WE HAVE A STORY campaign collage"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover object-center opacity-[0.72] saturate-[0.9] contrast-[1.04]"
+      />
+      <div aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,rgba(17,18,20,0.18),rgba(17,18,20,0.08)_48%,rgba(17,18,20,0.54))]" />
       {/* A single soft light source, top-left, like a studio strobe */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_90%_at_20%_-10%,rgba(255,255,255,0.95)_0%,transparent_60%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(90%_70%_at_18%_-10%,rgba(255,255,255,0.18)_0%,transparent_64%)]"
       />
 
       <div data-hero-inner className="absolute inset-0">
@@ -84,7 +94,7 @@ export default function Hero() {
               spread
               metal
               ref={wordRef}
-              className="relative font-body text-mega font-black uppercase leading-none tracking-tight2"
+              className="relative font-body text-mega font-black uppercase leading-none tracking-tight2 drop-shadow-[0_5px_20px_rgba(0,0,0,0.5)]"
               style={{ transform: "translateZ(60px)" }}
             />
           </div>
@@ -94,8 +104,8 @@ export default function Hero() {
         <div className="shell absolute inset-x-0 bottom-0 pb-8">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
             <div data-hero-meta>
-              <p className="eyebrow mb-2">NOW LIVE — {CURRENT_DROP.code}</p>
-              <p className="font-display text-big font-black uppercase leading-none text-mark">
+              <p className="eyebrow mb-2 text-white/80">NOW LIVE — {CURRENT_DROP.code}</p>
+              <p className="type-mercury font-display text-big font-black uppercase leading-none">
                 {CURRENT_DROP.title}
               </p>
             </div>

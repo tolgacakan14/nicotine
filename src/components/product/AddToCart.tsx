@@ -5,6 +5,7 @@ import type { Product } from "@/data/types";
 import QtyStepper from "@/components/cart/QtyStepper";
 import { useCart } from "@/lib/cart";
 import Price from "@/components/ui/Price";
+import SizeGuide from "./SizeGuide";
 
 /**
  * Size + quantity + add. The only interactive block on the product page, so it
@@ -32,13 +33,14 @@ export default function AddToCart({
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8" data-purchase-panel>
       {/* ---- Size ---- */}
       <fieldset>
-        <legend className="eyebrow mb-4 flex w-full items-center justify-between">
+        <legend className="eyebrow mb-4 flex w-full items-center justify-between gap-4">
           <span>SIZE {oneSize && "— ONE SIZE"}</span>
-          {!oneSize && <span className="text-line">FITS BOXY</span>}
+          {!oneSize && <SizeGuide product={product} />}
         </legend>
+        {!oneSize && <p className="mb-4 font-mono text-[10px] uppercase tracking-wide2 text-ash">FIT — BOXY</p>}
         <div className="flex flex-wrap gap-2">
           {product.sizes.map((s) => {
             const active = s === size;

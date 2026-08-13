@@ -1,0 +1,3 @@
+import type { Metadata } from "next";
+export const metadata: Metadata = { title: "Returns", description: "NICOTINE returns information." };
+export default function ReturnsPage(){return <section className="shell min-h-[70dvh] pb-28 pt-[calc(var(--nav-h)+5rem)]"><p className="eyebrow">INFO — RETURNS</p><h1 className="mt-6 font-display text-mega font-black uppercase leading-[0.82] text-mark">14 DAY<br />RETURNS</h1><div className="mt-16 max-w-2xl border-t border-line py-6"><p className="text-sm leading-relaxed text-haze">Returns are accepted within 14 days. Contact press@nicotine.store before sending an item back.</p></div></section>}

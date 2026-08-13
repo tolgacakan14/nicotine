@@ -16,9 +16,9 @@ const COLUMNS = [
   {
     title: "INFO",
     links: [
-      { href: "/drop", label: "Sizing" },
-      { href: "/drop", label: "Shipping — EU / TR" },
-      { href: "/drop", label: "Returns" },
+      { href: "/sizing", label: "Sizing" },
+      { href: "/shipping", label: "Shipping — EU / TR" },
+      { href: "/returns", label: "Returns" },
     ],
   },
   {
@@ -65,7 +65,7 @@ export default function Footer() {
         ))}
 
         <div className="lg:col-span-2">
-          <p className="eyebrow mb-5">DROP LIST</p>
+          <p className="eyebrow mb-5">ENTER THE DROP LIST.</p>
           {/* Prototype only — point `action` at your ESP (Klaviyo, Resend, Beehiiv…) */}
           <form className="flex items-center border-b border-line pb-2" action="#">
             <label htmlFor="footer-email" className="sr-only">
@@ -85,13 +85,16 @@ export default function Footer() {
               →
             </button>
           </form>
+          <p className="mt-3 font-mono text-[9px] uppercase leading-4 tracking-wide2 text-ash">
+            DROP ACCESS. RELEASE NOTES. NOTHING ELSE.
+          </p>
         </div>
       </div>
 
       <div className="shell flex flex-col gap-3 border-t border-line py-6 font-mono text-[10px] uppercase tracking-wide2 text-ash sm:flex-row sm:items-center sm:justify-between">
         <span>© {new Date().getFullYear()} NICOTINE — İSTANBUL</span>
         <CurrencySwitch />
-        <span>PROTOTYPE BUILD</span>
+        <span className="flex gap-4"><Link href="/" className="hover:text-mark">PRIVACY</Link><Link href="/" className="hover:text-mark">TERMS</Link></span>
       </div>
     </footer>
   );
