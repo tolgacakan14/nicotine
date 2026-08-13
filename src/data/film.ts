@@ -150,7 +150,7 @@ export const FILM_ACTS: FilmAct[] = [
   },
   {
     id: "dissolve",
-    headline: "SECOND SKIN",
+    headline: "WE HAVE A STORY",
     caption: "It comes apart. The base stays.",
     note: "ACT 14 — AFTER",
     add: [],

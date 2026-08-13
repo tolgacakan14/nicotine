@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import Reveal from "@/components/ui/Reveal";
 import ProductCard from "@/components/product/ProductCard";
@@ -27,9 +28,24 @@ export default function DropPage() {
     <>
       {/* ---------- Masthead ---------- */}
       <header className="relative flex min-h-[78dvh] flex-col justify-end overflow-hidden pb-14 pt-[calc(var(--nav-h)+5rem)]">
+        <Image
+          src="/editorial/drop-001-banner.jpg"
+          alt=""
+          fill
+          priority
+          aria-hidden
+          className="object-cover object-center opacity-[0.28] saturate-[0.72] contrast-[0.9] transition-transform duration-[1800ms] ease-editorial motion-safe:scale-[1.025]"
+          sizes="100vw"
+        />
+        {/* The artwork remains present but recedes behind the typography like a
+            printed layer beneath tracing paper. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(110%_80%_at_78%_0%,rgba(244,242,238,0.12)_0%,transparent_60%)]"
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(247,246,243,0.9)_0%,rgba(247,246,243,0.46)_36%,rgba(247,246,243,0.78)_100%)]"
+        />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(80%_70%_at_78%_8%,rgba(255,255,255,0.62)_0%,transparent_68%)]"
         />
         <div className="shell relative">
           <div className="flex flex-wrap items-baseline justify-between gap-4">
@@ -39,7 +55,7 @@ export default function DropPage() {
             </p>
           </div>
           <div className="mt-8 flex flex-wrap items-end justify-between gap-8">
-            <h1 className="font-display text-mega font-black uppercase leading-[0.8] text-mark">
+            <h1 className="max-w-[12ch] font-display text-mega font-black uppercase leading-[0.78] text-mark drop-shadow-[0_1px_0_rgba(255,255,255,0.55)]">
               {CURRENT_DROP.title}
             </h1>
             <Logo className="hidden h-16 w-auto text-mark opacity-30 lg:block" weight="thin" />

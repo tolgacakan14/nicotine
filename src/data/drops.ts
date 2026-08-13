@@ -744,13 +744,13 @@ const RAW_DROPS: Drop[] = [
   {
     slug: "second-skin",
     code: "DROP 001",
-    title: "SECOND SKIN",
+    title: "WE HAVE A STORY",
     season: "AUG 2026",
     releasedAt: "2026-08-01",
     strapline: "WEAR IT UNTIL IT FORGETS IT WASN'T YOURS",
     city: "İSTANBUL",
     concept:
-      "Eight pieces built to be worn on top of each other until the stack reads as one garment. Shot over two nights in one unlit room in İstanbul.",
+      "A first chapter told through layered garments, distorted marks and the streets of İstanbul.",
     tone: 0.3,
     texture: "smear",
     products: SECOND_SKIN_PRODUCTS,
