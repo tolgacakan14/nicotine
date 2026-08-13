@@ -18,7 +18,10 @@ export const metadata: Metadata = {
  * like a lookbook rather than a search-results page.
  */
 export default function DropPage() {
-  const products = CURRENT_DROP.products;
+  // The live shop only publishes pieces with approved photography. Placeholder
+  // concepts stay in the drop data for the Dressroom storyboard, but never
+  // render as empty product boxes in the storefront grid.
+  const products = CURRENT_DROP.products.filter((product) => Boolean(product.image));
 
   return (
     <>
