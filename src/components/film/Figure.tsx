@@ -281,6 +281,9 @@ const TANK = "#3B322C";      // rib tank — washed espresso
 const TANK_RIB = "#584C43";  // its ribbing and tonal oval
 const PURE_TANK = "#FAFAF8";
 const PURE_RIB = "#D8D8D4";
+const SUGAR_PINK = "#F27AA5";
+const SUGAR_CUSTARD = "#F6D39A";
+const SUGAR_RIB = "#E85F93";
 const BLACK_TANK = "#0B0B0B";
 const BLACK_TANK_RIB = "#303030";
 const OFFWHITE = "#FBFAF8";  // I NEED NICOTINE longsleeve
@@ -362,6 +365,12 @@ export default function Figure({ className = "" }: { className?: string }) {
         <clipPath id="clip-needls">
           <rect data-clip="needls" x="0" y="196" width="420" height="0" />
         </clipPath>
+        <clipPath id="clip-pinkls">
+          <rect data-clip="pinkls" x="0" y="196" width="420" height="0" />
+        </clipPath>
+        <clipPath id="pink-body-shape"><path d={NEED_LS_PATH} /></clipPath>
+        <clipPath id="pink-sleeve-l"><path d={garmentSleeve(NEED_LS, -1)} /></clipPath>
+        <clipPath id="pink-sleeve-r"><path d={garmentSleeve(NEED_LS, 1)} /></clipPath>
         <clipPath id="clip-longsleeve">
           <rect data-clip="longsleeve" x="0" y="190" width="420" height="0" />
         </clipPath>
@@ -529,6 +538,36 @@ export default function Figure({ className = "" }: { className?: string }) {
           <SvgWordmark x={CX} y={313} size={10} tracking={2.2} fill={OUTLINE} opacity={0.95} />
           {/* Cuff and hem ribbing */}
           <path d={`M${CX - 78},472 H${CX + 78}`} stroke={FIG} strokeWidth="1" opacity="0.18" />
+        </g>
+      </g>
+
+      {/* SUGAR STATIC LONGSLEEVE — bubblegum and custard yarn-dyed stripe. */}
+      <g data-layer="pinkls" opacity="0">
+        <g clipPath="url(#clip-pinkls)">
+          <g data-garment-arm="l">
+            <path d={garmentSleeve(NEED_LS, -1)} fill={SUGAR_PINK} stroke={SUGAR_RIB} strokeWidth="1.4" />
+            <g clipPath="url(#pink-sleeve-l)">
+              {Array.from({ length: 10 }, (_, i) => <path key={i} d={`M80 ${230 + i * 34} H205`} stroke={SUGAR_CUSTARD} strokeWidth="11" />)}
+            </g>
+          </g>
+          <g data-garment-arm="r">
+            <path d={garmentSleeve(NEED_LS, 1)} fill={SUGAR_PINK} stroke={SUGAR_RIB} strokeWidth="1.4" />
+            <g clipPath="url(#pink-sleeve-r)">
+              {Array.from({ length: 10 }, (_, i) => <path key={i} d={`M215 ${230 + i * 34} H340`} stroke={SUGAR_CUSTARD} strokeWidth="11" />)}
+            </g>
+          </g>
+          <path d={NEED_LS_PATH} fill={SUGAR_PINK} stroke={SUGAR_RIB} strokeWidth="1.4" />
+          <g clipPath="url(#pink-body-shape)">
+            {Array.from({ length: 8 }, (_, i) => (
+              <g key={i}>
+                <path d={`M110 ${240 + i * 34} H310`} stroke={SUGAR_CUSTARD} strokeWidth="11" />
+                <path d={`M110 ${240 + i * 34} H310`} stroke="#F4A6BE" strokeWidth="1.2" />
+              </g>
+            ))}
+          </g>
+          <path d={`M${CX - 32},204 Q${CX},228 ${CX + 32},204`} fill="none" stroke={SUGAR_RIB} strokeWidth="5" />
+          <ellipse cx={CX} cy="318" rx="39" ry="13" fill="#F7A8C1" stroke={SUGAR_CUSTARD} strokeWidth="1" />
+          <SvgWordmark x={CX} y={322} size={8.8} tracking={1.9} fill="#FFF7EE" />
         </g>
       </g>
 

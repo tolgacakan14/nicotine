@@ -19,7 +19,8 @@ export type GarmentLayer =
   | "cap"
   | "bag"
   | "scarf"
-  | "needls";
+  | "needls"
+  | "pinkls";
 
 export type ProductCategory =
   | "T-SHIRT"

@@ -40,6 +40,7 @@ const WIPE: Record<string, { from: number; to: number; up?: boolean }> = {
   tank: { from: 206, to: 486 },
   blacktank: { from: 206, to: 480 },
   needls: { from: 196, to: 580 },
+  pinkls: { from: 196, to: 580 },
   longsleeve: { from: 190, to: 580 },
   tee: { from: 186, to: 480 },
   hoodie: { from: 150, to: 580 },
