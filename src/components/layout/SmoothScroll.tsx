@@ -4,7 +4,8 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { setLenis } from "@/lib/scroll";
+import { usePathname } from "next/navigation";
+import { getLenis, setLenis } from "@/lib/scroll";
 
 /* ============================================================================
    SMOOTH SCROLL
@@ -23,7 +24,15 @@ import { setLenis } from "@/lib/scroll";
    film can't be flung through.
    ========================================================================== */
 export default function SmoothScroll() {
+  const pathname = usePathname();
+
   useEffect(() => {
+    // Next/browser restoration must not reapply the previous page's vertical
+    // position after Lenis has already reset the new route.
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
+    }
+
     // Users who asked for less motion keep the native scroll.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -67,6 +76,27 @@ export default function SmoothScroll() {
       lenis.destroy();
     };
   }, []);
+
+  useEffect(() => {
+    // Wait until the new route DOM is committed. Cross-page hash links keep
+    // their intended target; every ordinary page navigation starts at zero.
+    const frame = window.requestAnimationFrame(() => {
+      const lenis = getLenis();
+      const hash = window.location.hash;
+      const target = hash ? document.querySelector(hash) : null;
+
+      if (target) {
+        lenis?.scrollTo(target as HTMLElement, { offset: -72, immediate: true });
+        if (!lenis) target.scrollIntoView({ block: "start" });
+      } else {
+        lenis?.scrollTo(0, { immediate: true, force: true });
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }
+      ScrollTrigger.refresh();
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [pathname]);
 
   return null;
 }
