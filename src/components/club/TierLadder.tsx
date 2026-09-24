@@ -57,15 +57,16 @@ export default function TierLadder() {
                     ? "FREE TO JOIN"
                     : `FROM ${t.threshold.toLocaleString("de-DE")} POINTS`}
                 </p>
-                {/* The discount is the headline benefit, so it leads. */}
+                {/* Access is what a tier pays in, so access leads. The points
+                    multiplier sits under it as the number that compounds. */}
                 <p
-                  className="mt-5 font-display text-5xl font-black leading-none tracking-tight2"
+                  className="mt-5 font-display text-4xl font-black leading-[0.95] tracking-tight2"
                   style={{ color: t.accent }}
                 >
-                  {t.discount}%
+                  {t.access}
                 </p>
                 <p className="mt-2 font-mono text-[10px] uppercase tracking-wide2 text-ash">
-                  OFF EVERY ORDER — {t.access}
+                  {t.headline} — {t.multiplier}× POINTS
                 </p>
 
                 {t.events && (
