@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { REWARDS, type Reward } from "@/data/club";
 import { useClub } from "@/lib/club";
-import ClubPlate, { type PlateMotif } from "./ClubPlate";
+import ClubScene, { type SceneMotif } from "./ClubScene";
 import Reveal from "@/components/ui/Reveal";
 
 /* ============================================================================
@@ -54,7 +54,7 @@ export default function RewardGrid({ onJoin }: { onJoin?: () => void }) {
                   thumb-scrolling before the first reward comes into view. */}
               <div className="relative aspect-[16/9] overflow-hidden bg-shade sm:aspect-[5/4]">
                 <div
-                  className={`absolute inset-0 flex items-center justify-center transition-[transform,color] duration-700 ease-editorial group-hover/card:scale-[1.07] ${
+                  className={`absolute inset-0 transition-[transform,color] duration-700 ease-editorial group-hover/card:scale-[1.05] ${
                     code
                       ? "text-blush"
                       : affordable
@@ -62,8 +62,13 @@ export default function RewardGrid({ onJoin }: { onJoin?: () => void }) {
                         : "text-line"
                   }`}
                 >
-                  <ClubPlate motif={reward.id as PlateMotif} className="h-[46%] w-auto" />
+                  <ClubScene motif={reward.id as SceneMotif} className="h-full w-full" />
                 </div>
+
+                <div
+                  aria-hidden
+                  className="grain-layer pointer-events-none absolute inset-0 opacity-[0.12]"
+                />
 
                 <p className="absolute left-4 top-4 font-mono text-[10px] uppercase tracking-wide2 text-ash">
                   {KIND_LABEL[reward.kind]}

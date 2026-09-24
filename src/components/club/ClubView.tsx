@@ -6,6 +6,7 @@ import { useClub } from "@/lib/club";
 import { CLUB_EVENTS, CLUB_FAQ, MISSIONS, REWARDS, TIERS } from "@/data/club";
 import JoinForm from "./JoinForm";
 import MemberDashboard from "./MemberDashboard";
+import ClubScene, { type SceneMotif } from "./ClubScene";
 import MissionGrid from "./MissionGrid";
 import RewardGrid from "./RewardGrid";
 import TierLadder from "./TierLadder";
@@ -38,6 +39,16 @@ const TABS = [
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
+
+/** Six plates for the landing panel — three ways in, three things to spend on. */
+const PREVIEW: Array<{ id: string; label: string; figure: string; tab: TabId }> = [
+  { id: "refer", label: "BRING SOMEONE IN", figure: "+500", tab: "earn" },
+  { id: "newsletter", label: "TAKE THE LETTER", figure: "+400", tab: "earn" },
+  { id: "lookbook", label: "SHOOT IT YOURSELF", figure: "+300", tab: "earn" },
+  { id: "ship", label: "FREE SHIPPING", figure: "300", tab: "rewards" },
+  { id: "off-20", label: "20% OFF", figure: "1.000", tab: "rewards" },
+  { id: "studio", label: "STUDIO DAY", figure: "4.000", tab: "rewards" },
+];
 
 export default function ClubView() {
   const { member, ready, tier } = useClub();
@@ -203,6 +214,55 @@ export default function ClubView() {
                 </div>
               </div>
             )}
+            {/* ---- What's on the board ----
+                A preview of the real thing, on the panel everyone lands on.
+                Tabs were hiding every drawing behind a click, so arriving at
+                the club meant meeting a form and a paragraph — the least
+                persuasive things this page owns. */}
+            <div className="mt-20 border-t border-line pt-10">
+              <div className="flex flex-wrap items-end justify-between gap-4">
+                <h3 className="font-display text-big font-black uppercase leading-none text-mark">
+                  ON THE BOARD
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => setTab("earn")}
+                  className="link-wipe font-mono text-[10px] uppercase tracking-wide2 text-mark"
+                >
+                  ALL {MISSIONS.length} MISSIONS →
+                </button>
+              </div>
+
+              <div className="mt-8 grid gap-px border border-line bg-line grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+                {PREVIEW.map((item, i) => (
+                  <Reveal key={item.id} delay={0.04 * i}>
+                    <button
+                      type="button"
+                      onClick={() => setTab(item.tab)}
+                      className="group/p flex h-full w-full flex-col bg-ground text-left"
+                    >
+                      <span className="relative block aspect-square w-full overflow-hidden bg-shade">
+                        <span className="absolute inset-0 text-mark transition-[transform,color] duration-700 ease-editorial group-hover/p:scale-[1.06] group-hover/p:text-blush">
+                          <ClubScene motif={item.id as SceneMotif} className="h-full w-full" />
+                        </span>
+                        <span
+                          aria-hidden
+                          className="grain-layer pointer-events-none absolute inset-0 opacity-[0.12]"
+                        />
+                      </span>
+                      <span className="flex flex-1 items-start justify-between gap-2 border-t border-line px-3 py-2.5">
+                        <span className="font-mono text-[10px] uppercase leading-tight tracking-wide2 text-haze">
+                          {item.label}
+                        </span>
+                        <span className="shrink-0 font-mono text-[10px] tracking-wide2 text-blush">
+                          {item.figure}
+                        </span>
+                      </span>
+                    </button>
+                  </Reveal>
+                ))}
+              </div>
+            </div>
           </section>
         )}
 
