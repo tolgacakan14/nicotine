@@ -3,7 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import QtyStepper from "./QtyStepper";
-import { lineKey, useCart, SHIPPING_THRESHOLD } from "@/lib/cart";
+import { lineKey, useCart, SHIPPING_THRESHOLD, type VoucherError } from "@/lib/cart";
+import { useClub } from "@/lib/club";
 import { getProduct } from "@/data/drops";
 import { scrollToTop } from "@/lib/scroll";
 import ProductVisual from "@/components/product/ProductVisual";
@@ -14,14 +15,32 @@ import Price from "@/components/ui/Price";
  * the flow has an ending. Wire `handleCheckout` to Stripe / your PSP later.
  */
 export default function CartView() {
-  const { lines, subtotal, shipping, remove, setQty, clear, count } = useCart();
+  const {
+    lines, subtotal, discount, shipping, total, remove, setQty, clear, count,
+    voucherCode, voucherName, applyVoucher, removeVoucher, checkout,
+  } = useCart();
+  const { member } = useClub();
   const [placed, setPlaced] = useState(false);
+  const [codeInput, setCodeInput] = useState("");
+  const [codeError, setCodeError] = useState<VoucherError | null>(null);
+
+  /** Unspent vouchers this member could put on the basket right now. */
+  const available = (member?.vouchers ?? []).filter((v) => !v.usedAt);
+
+  function handleApply(e: React.FormEvent) {
+    e.preventDefault();
+    const err = applyVoucher(codeInput);
+    setCodeError(err);
+    if (!err) setCodeInput("");
+  }
 
   function handleCheckout() {
     // PROTOTYPE: no payment provider is connected. Replace with a call that
-    // creates a checkout session and redirects to it.
+    // creates a checkout session and redirects to it. `checkout()` already
+    // does the part that must happen either way — spending the voucher so it
+    // cannot be used twice — and empties the basket.
     setPlaced(true);
-    clear();
+    checkout();
     scrollToTop();
   }
 
@@ -131,9 +150,17 @@ export default function CartView() {
                   <dt>SUBTOTAL</dt>
                   <dd className="text-mark"><Price value={subtotal} /></dd>
                 </div>
+                {discount > 0 && (
+                  <div className="flex justify-between text-ash">
+                    <dt className="text-blush">{voucherName}</dt>
+                    <dd className="text-blush">
+                      − <Price value={discount} />
+                    </dd>
+                  </div>
+                )}
                 <div className="flex justify-between text-ash">
                   <dt>SHIPPING — EU / TR</dt>
-                  <dd className="text-mark">
+                  <dd className={shipping === 0 && voucherCode ? "text-blush" : "text-mark"}>
                     {shipping === 0 ? "FREE" : <Price value={shipping} />}
                   </dd>
                 </div>
@@ -143,7 +170,7 @@ export default function CartView() {
                 </div>
                 <div className="flex justify-between border-t border-line pt-4 text-base text-mark">
                   <dt>TOTAL</dt>
-                  <dd><Price value={subtotal + shipping} /></dd>
+                  <dd><Price value={total} /></dd>
                 </div>
               </dl>
 
@@ -160,6 +187,89 @@ export default function CartView() {
                   <p className="mt-3 font-mono text-[10px] uppercase tracking-wide2 text-ash">
                     <Price value={SHIPPING_THRESHOLD - subtotal} /> MORE FOR FREE EU SHIPPING
                   </p>
+                </div>
+              )}
+
+              {/* ---- Club voucher ----
+                  Only shown to a member holding one. A code box on an empty
+                  account is a box that can only ever say no. */}
+              {(voucherCode || available.length > 0) && (
+                <div className="mt-8 border-t border-line pt-6">
+                  <p className="eyebrow">CLUB VOUCHER</p>
+
+                  {voucherCode ? (
+                    <div className="mt-4 flex items-center justify-between gap-4 border border-blush px-4 py-3">
+                      <div className="min-w-0">
+                        <p className="font-display text-sm font-black uppercase tracking-tight2 text-blush">
+                          {voucherName}
+                        </p>
+                        <p className="mt-0.5 font-mono text-[10px] tracking-wide2 text-ash">
+                          {voucherCode}
+                        </p>
+                      </div>
+                      {/* Not just "REMOVE": every line in the basket already has
+                          one of those, and two controls with the same word doing
+                          different jobs is how someone deletes a jacket while
+                          trying to take a voucher off. */}
+                      <button
+                        type="button"
+                        onClick={removeVoucher}
+                        className="link-wipe shrink-0 font-mono text-[10px] uppercase tracking-wide2 text-ash hover:text-mark"
+                      >
+                        REMOVE VOUCHER
+                      </button>
+                    </div>
+                  ) : (
+                    <>
+                      <form onSubmit={handleApply} className="mt-4 flex gap-2">
+                        <input
+                          value={codeInput}
+                          onChange={(e) => {
+                            setCodeInput(e.target.value);
+                            setCodeError(null);
+                          }}
+                          placeholder="CODE"
+                          aria-label="Club voucher code"
+                          className="min-w-0 flex-1 border-b border-line bg-transparent pb-2 font-mono text-[11px] uppercase tracking-wide2 text-mark placeholder:text-line focus:border-blush focus:outline-none"
+                        />
+                        <button
+                          type="submit"
+                          className="shrink-0 border border-line px-4 py-2 font-mono text-[10px] uppercase tracking-wide2 text-mark transition-colors hover:border-blush hover:text-blush"
+                        >
+                          APPLY
+                        </button>
+                      </form>
+
+                      {codeError && (
+                        <p role="alert" className="mt-3 font-mono text-[10px] uppercase tracking-wide2 text-blush">
+                          {codeError === "UNKNOWN" && "NO SUCH CODE ON YOUR ACCOUNT."}
+                          {codeError === "USED" && "THAT ONE IS ALREADY SPENT."}
+                          {codeError === "NOT_AT_TILL" &&
+                            "THAT REWARD IS ARRANGED BY HAND — WE WILL BE IN TOUCH."}
+                        </p>
+                      )}
+
+                      {/* Typing a code you are already holding is busywork. */}
+                      {available.length > 0 && (
+                        <ul className="mt-4 space-y-2">
+                          {available.map((v) => (
+                            <li key={v.code} className="flex items-center justify-between gap-3">
+                              <span className="font-mono text-[10px] tracking-wide2 text-ash">
+                                {v.code}
+                              </span>
+                              <button
+                                type="button"
+                                onClick={() => setCodeError(applyVoucher(v.code))}
+                                className="link-wipe shrink-0 font-mono text-[10px] uppercase tracking-wide2 text-mark"
+                              >
+                                USE
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </>
+                  )}
                 </div>
               )}
 

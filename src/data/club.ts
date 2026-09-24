@@ -223,11 +223,18 @@ export const MISSIONS: Mission[] = [
    on a small basket instead of taking a flat bite out of it.
    -------------------------------------------------------------------------*/
 
+/**
+ * `discount` and `shipping` are applied by the checkout. `access` is not a
+ * price at all — a held piece, the archive, a day in the studio — so those
+ * vouchers are arranged by hand and the cart refuses them by design.
+ */
 export type RewardKind = "discount" | "shipping" | "access";
 
 export interface Reward {
   id: string;
   name: string;
+  /** Percentage off the subtotal. Discount rewards only. */
+  percent?: number;
   /** What lands in the member's account, in one line. */
   detail: string;
   cost: number;
@@ -248,7 +255,8 @@ export const REWARDS: Reward[] = [
   {
     id: "off-10",
     name: "10% OFF",
-    detail: "One order. Stacks with nothing, needs no code.",
+    percent: 10,
+    detail: "One order, off the whole basket.",
     cost: 500,
     kind: "discount",
     repeatable: true,
@@ -256,7 +264,8 @@ export const REWARDS: Reward[] = [
   {
     id: "off-20",
     name: "20% OFF",
-    detail: "One order, on anything in the current drop.",
+    percent: 20,
+    detail: "One order, off the whole basket.",
     cost: 1000,
     kind: "discount",
     repeatable: true,

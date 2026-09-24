@@ -52,6 +52,9 @@ export interface Voucher {
   code: string;
   issuedAt: string;
   cost: number;
+  /** Set when an order consumed it. A spent voucher stays in the wallet so
+      the member can see what they used and when. */
+  usedAt?: string;
 }
 
 interface ClubApi {
@@ -66,6 +69,8 @@ interface ClubApi {
   claimMission: (missionId: string) => boolean;
   /** Turns points into a voucher. Returns the code, or null if unaffordable. */
   redeem: (rewardId: string) => string | null;
+  /** Marks a voucher spent once an order goes through. */
+  spendVoucher: (code: string) => void;
   /** Last action feedback, for toasts in the UI. */
   lastEvent: string | null;
 }
@@ -200,6 +205,19 @@ export function ClubProvider({ children }: { children: React.ReactNode }) {
     return code;
   }, []);
 
+  const spendVoucher = useCallback((code: string) => {
+    setMember((m) =>
+      m
+        ? {
+            ...m,
+            vouchers: m.vouchers.map((v) =>
+              v.code === code && !v.usedAt ? { ...v, usedAt: new Date().toISOString() } : v
+            ),
+          }
+        : m
+    );
+  }, []);
+
   const value = useMemo<ClubApi>(
     () => ({
       member,
@@ -211,9 +229,10 @@ export function ClubProvider({ children }: { children: React.ReactNode }) {
       addPoints,
       claimMission,
       redeem,
+      spendVoucher,
       lastEvent,
     }),
-    [member, ready, join, leave, addPoints, claimMission, redeem, lastEvent]
+    [member, ready, join, leave, addPoints, claimMission, redeem, spendVoucher, lastEvent]
   );
 
   return <ClubContext.Provider value={value}>{children}</ClubContext.Provider>;
