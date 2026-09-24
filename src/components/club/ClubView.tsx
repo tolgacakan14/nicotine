@@ -88,7 +88,10 @@ export default function ClubView() {
             COMMITTEE
           </p>
           <div className="rule mt-8" />
-          <p className="mt-8 font-display text-xl font-black uppercase leading-tight tracking-tight2 type-chrome lg:text-2xl">
+          {/* Plain ink, not the silver ramp: that gradient is built for the dark
+              routes and on paper it reads as washed-out grey — the one line on
+              the page that has to land. */}
+          <p className="mt-8 font-display text-xl font-black uppercase leading-tight tracking-tight2 text-mark lg:text-2xl">
             ACCESS IS EARNED.
           </p>
         </div>
@@ -247,7 +250,7 @@ export default function ClubView() {
                         </span>
                         <span
                           aria-hidden
-                          className="grain-layer pointer-events-none absolute inset-0 opacity-[0.12]"
+                          className="grain-layer pointer-events-none absolute inset-0 opacity-[0.05]"
                         />
                       </span>
                       <span className="flex flex-1 items-start justify-between gap-2 border-t border-line px-3 py-2.5">

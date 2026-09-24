@@ -32,6 +32,9 @@ export interface Tier {
   /** What this tier pays in, said in one line. */
   headline: string;
   perks: string[];
+  /** Tier colour. Picked to carry a headline on paper — the house ground is
+      243/243/242, so anything lighter than roughly 60% luminance disappears
+      into it. */
   accent: string;
   /** Multiplies every mission and purchase payout at this tier. */
   multiplier: number;
@@ -60,7 +63,7 @@ export const TIERS: Tier[] = [
     threshold: 500,
     access: "48H EARLY",
     headline: "AHEAD OF IT",
-    accent: "#B9BEC5",
+    accent: "#6E7681",
     multiplier: 1.25,
     perks: [
       "48h early access",
@@ -75,7 +78,7 @@ export const TIERS: Tier[] = [
     threshold: 1500,
     access: "72H EARLY",
     headline: "FIRST REFUSAL",
-    accent: "#D8A9B4",
+    accent: "#B8828F",
     multiplier: 1.5,
     perks: [
       "72h early access",
@@ -116,8 +119,8 @@ export const MISSIONS: Mission[] = [
   // --- The way in -----------------------------------------------------------
   {
     id: "join",
-    name: "JOIN THE COMMITTEE",
-    note: "Awarded the moment you sign up. You have had this one already.",
+    name: "BECOME A MEMBER",
+    note: "Awarded the moment you sign up.",
     points: 100,
     kind: "auto",
     group: "SOCIAL",
@@ -126,24 +129,24 @@ export const MISSIONS: Mission[] = [
   // --- Social + community ---------------------------------------------------
   {
     id: "newsletter",
-    name: "TAKE THE LETTER",
-    note: "One email per drop. Nothing between drops, which is the point.",
+    name: "SUBSCRIBE TO THE NEWSLETTER",
+    note: "One email per drop. Nothing in between.",
     points: 400,
     kind: "once",
     group: "SOCIAL",
   },
   {
     id: "refer",
-    name: "BRING SOMEONE IN",
-    note: "They join on your number, you both collect. No cap on how many.",
+    name: "REFER A FRIEND",
+    note: "They join with your number. You both collect.",
     points: 500,
     kind: "repeat",
     group: "SOCIAL",
   },
   {
     id: "instagram",
-    name: "FOLLOW ON INSTAGRAM",
-    note: "Where the drop is shot and the dates get leaked first.",
+    name: "FOLLOW US ON INSTAGRAM",
+    note: "Drop dates land here first.",
     points: 50,
     kind: "once",
     group: "SOCIAL",
@@ -151,8 +154,8 @@ export const MISSIONS: Mission[] = [
   },
   {
     id: "tiktok",
-    name: "FOLLOW ON TIKTOK",
-    note: "The cutting room floor, mostly.",
+    name: "FOLLOW US ON TIKTOK",
+    note: "Behind the drop, in short form.",
     points: 50,
     kind: "once",
     group: "SOCIAL",
@@ -161,7 +164,7 @@ export const MISSIONS: Mission[] = [
   {
     id: "youtube",
     name: "SUBSCRIBE ON YOUTUBE",
-    note: "Long-form: the İstanbul studio, the mills, the people who cut it.",
+    note: "The İstanbul studio, at length.",
     points: 50,
     kind: "once",
     group: "SOCIAL",
@@ -171,24 +174,24 @@ export const MISSIONS: Mission[] = [
   // --- Drop rituals ---------------------------------------------------------
   {
     id: "first-24",
-    name: "IN THE FIRST 24",
-    note: "Buy inside a drop's opening day. Every drop, not just the first.",
+    name: "BUY IN THE FIRST 24 HOURS",
+    note: "Order on a drop's opening day. Every drop.",
     points: 250,
     kind: "repeat",
     group: "RITUAL",
   },
   {
     id: "review",
-    name: "SAY WHAT IT'S LIKE",
-    note: "Write up a piece you own — fit, wash, what it became.",
+    name: "REVIEW A PIECE YOU OWN",
+    note: "Tell us how it fits and how it wears.",
     points: 150,
     kind: "repeat",
     group: "RITUAL",
   },
   {
     id: "lookbook",
-    name: "SHOOT IT YOURSELF",
-    note: "Send how you wore it. The good ones go in the next lookbook.",
+    name: "SHARE HOW YOU WORE IT",
+    note: "The best ones go in the next lookbook.",
     points: 300,
     kind: "repeat",
     group: "RITUAL",
@@ -197,16 +200,16 @@ export const MISSIONS: Mission[] = [
   // --- The dates ------------------------------------------------------------
   {
     id: "birthday",
-    name: "YOUR BIRTHDAY",
-    note: "Lands on the day, doubled from FILTER upward.",
+    name: "BIRTHDAY GIFT",
+    note: "Lands on the day. Doubled from FILTER up.",
     points: 500,
     kind: "auto",
     group: "DATE",
   },
   {
     id: "anniversary",
-    name: "A YEAR IN",
-    note: "Every year you stay in the committee, on the day you joined.",
+    name: "MEMBERSHIP ANNIVERSARY",
+    note: "Every year, on the day you joined.",
     points: 250,
     kind: "auto",
     group: "DATE",
@@ -247,7 +250,7 @@ export const REWARDS: Reward[] = [
   {
     id: "ship",
     name: "FREE SHIPPING",
-    detail: "One order, anywhere we ship, carriage paid.",
+    detail: "On one order, anywhere we ship.",
     cost: 300,
     kind: "shipping",
     repeatable: true,
@@ -273,7 +276,7 @@ export const REWARDS: Reward[] = [
   {
     id: "hold",
     name: "HOLD A PIECE",
-    detail: "We put one piece aside in your size and wait 48 hours.",
+    detail: "One piece held in your size for 48 hours.",
     cost: 1500,
     kind: "access",
     repeatable: true,
@@ -281,14 +284,14 @@ export const REWARDS: Reward[] = [
   {
     id: "archive",
     name: "ARCHIVE ACCESS",
-    detail: "Buy from a drop that already sold through, while it lasts.",
+    detail: "Buy from a drop that already sold out.",
     cost: 2500,
     kind: "access",
   },
   {
     id: "studio",
     name: "STUDIO DAY",
-    detail: "A seat in the İstanbul studio while the next drop is cut.",
+    detail: "A day in the İstanbul studio.",
     cost: 4000,
     kind: "access",
   },

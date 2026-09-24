@@ -530,18 +530,20 @@ export default function ClubScene({
     >
       <defs>
         {/* Light from the upper left, the same in every scene */}
+        {/* Light, not shading. Held well down so the card reads as an airy
+            frame with a drawing in it rather than a dark tile. */}
         <radialGradient id={`key-${uid}`} cx="20%" cy="2%" r="88%">
-          <stop offset="0%" stopColor="currentColor" stopOpacity="0.16" />
-          <stop offset="56%" stopColor="currentColor" stopOpacity="0.035" />
+          <stop offset="0%" stopColor="currentColor" stopOpacity="0.07" />
+          <stop offset="56%" stopColor="currentColor" stopOpacity="0.015" />
           <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
         </radialGradient>
         {/* The cyclorama: floor meeting wall without a seam */}
         <linearGradient id={`cyc-${uid}`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="currentColor" stopOpacity="0" />
-          <stop offset="100%" stopColor="currentColor" stopOpacity="0.07" />
+          <stop offset="100%" stopColor="currentColor" stopOpacity="0.035" />
         </linearGradient>
         <radialGradient id={`cast-${uid}`} cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="currentColor" stopOpacity="0.26" />
+          <stop offset="0%" stopColor="currentColor" stopOpacity="0.17" />
           <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
         </radialGradient>
       </defs>

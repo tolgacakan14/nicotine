@@ -59,7 +59,10 @@ export default function RewardGrid({ onJoin }: { onJoin?: () => void }) {
                       ? "text-blush"
                       : affordable
                         ? "text-mark group-hover/card:text-blush"
-                        : "text-line"
+                        // Subdued, not erased. A reward you cannot afford yet is
+                        // the reason to come back; on paper `text-line` left it
+                        // effectively invisible.
+                        : "text-ash"
                   }`}
                 >
                   <ClubScene motif={reward.id as SceneMotif} className="h-full w-full" />
@@ -67,7 +70,7 @@ export default function RewardGrid({ onJoin }: { onJoin?: () => void }) {
 
                 <div
                   aria-hidden
-                  className="grain-layer pointer-events-none absolute inset-0 opacity-[0.12]"
+                  className="grain-layer pointer-events-none absolute inset-0 opacity-[0.05]"
                 />
 
                 <p className="absolute left-4 top-4 font-mono text-[10px] uppercase tracking-wide2 text-ash">

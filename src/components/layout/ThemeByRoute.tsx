@@ -3,8 +3,12 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
-/** Routes that render on ink instead of paper. */
-const DARK_ROUTES = ["/club"];
+/** Routes that render on ink instead of paper. Currently none.
+    /club used to be here. It was the only dark page on the site, which made it
+    read as a different product rather than a room inside this one — and on a
+    page whose whole job is explaining a scheme, ink on black buried the thing
+    being explained. */
+const DARK_ROUTES: string[] = [];
 
 /**
  * Puts `.theme-dark` on <html> for the routes that want it.

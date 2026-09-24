@@ -64,7 +64,7 @@ export default function MissionGrid({ onJoin }: { onJoin?: () => void }) {
               <div className="relative aspect-[16/9] overflow-hidden bg-shade sm:aspect-[5/4]">
                 <div
                   className={`absolute inset-0 transition-[transform,color] duration-700 ease-editorial group-hover/card:scale-[1.05] ${
-                    spent ? "text-line" : just ? "text-blush" : "text-mark group-hover/card:text-blush"
+                    spent ? "text-ash" : just ? "text-blush" : "text-mark group-hover/card:text-blush"
                   }`}
                 >
                   <ClubScene motif={mission.id as SceneMotif} className="h-full w-full" />
@@ -72,7 +72,7 @@ export default function MissionGrid({ onJoin }: { onJoin?: () => void }) {
 
                 <div
                   aria-hidden
-                  className="grain-layer pointer-events-none absolute inset-0 opacity-[0.12]"
+                  className="grain-layer pointer-events-none absolute inset-0 opacity-[0.05]"
                 />
 
                 <p className="absolute left-4 top-4 font-mono text-[10px] uppercase tracking-wide2 text-ash">
