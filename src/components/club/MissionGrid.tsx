@@ -3,10 +3,11 @@
 import { useState } from "react";
 import { MISSIONS, type Mission } from "@/data/club";
 import { useClub } from "@/lib/club";
+import ClubPlate, { type PlateMotif } from "./ClubPlate";
 import Reveal from "@/components/ui/Reveal";
 
 /* ============================================================================
-   LEVEL UP — the missions grid
+   LEVEL UP — the missions board
    ----------------------------------------------------------------------------
    Every way points come in, on one board. Three kinds behave differently and
    the card has to say which without a legend:
@@ -50,72 +51,95 @@ export default function MissionGrid({ onJoin }: { onJoin?: () => void }) {
         // what today's multiplier would give — quoting a figure the member
         // will never receive is the kind of small lie that costs trust.
         const settled = takenTimes > 0 && mission.kind !== "repeat";
-        const award = settled
-          ? takes[0].points
-          : Math.round(mission.points * multiplier);
+        const award = settled ? takes[0].points : Math.round(mission.points * multiplier);
         const boosted = !settled && award !== mission.points;
+        const just = flash === mission.id;
 
         return (
           <Reveal key={mission.id} delay={0.03 * (i % 3)}>
-            <article className="flex h-full flex-col justify-between bg-ground p-6 sm:p-7">
-              <div>
-                <div className="flex items-start justify-between gap-4">
-                  <p className="eyebrow">{GROUP_LABEL[mission.group]}</p>
-                  <p className="shrink-0 text-right">
-                    <span className="font-mono text-sm tracking-wide2 text-blush">
-                      +{award.toLocaleString("de-DE")}
-                    </span>
-                    {boosted && (
-                      // Show the base rate too, so the tier bonus is legible as
-                      // a bonus rather than looking like the price changed.
-                      <span className="ml-2 font-mono text-[10px] tracking-wide2 text-ash line-through">
-                        {mission.points.toLocaleString("de-DE")}
-                      </span>
-                    )}
-                  </p>
+            <article className="group/card flex h-full flex-col bg-ground">
+              {/* ---- Plate ---- */}
+              {/* Shorter on a phone: eleven full-width 5:4 plates is a lot of
+                  thumb-scrolling before the first reward comes into view. */}
+              <div className="relative aspect-[16/9] overflow-hidden bg-shade sm:aspect-[5/4]">
+                <div
+                  className={`absolute inset-0 flex items-center justify-center transition-[transform,color] duration-700 ease-editorial group-hover/card:scale-[1.07] ${
+                    spent ? "text-line" : just ? "text-blush" : "text-mark group-hover/card:text-blush"
+                  }`}
+                >
+                  <ClubPlate motif={mission.id as PlateMotif} className="h-[46%] w-auto" />
                 </div>
 
-                <h3 className="mt-5 font-display text-lg font-black uppercase leading-[1.05] tracking-tight2 text-mark">
-                  {mission.name}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-haze">{mission.note}</p>
-              </div>
+                <p className="absolute left-4 top-4 font-mono text-[10px] uppercase tracking-wide2 text-ash">
+                  {GROUP_LABEL[mission.group]}
+                </p>
 
-              <div className="mt-7 flex items-center justify-between gap-4 border-t border-line pt-4">
-                {mission.kind === "auto" ? (
-                  <p className="font-mono text-[10px] uppercase tracking-wide2 text-ash">
-                    AWARDED AUTOMATICALLY
-                  </p>
-                ) : !member ? (
-                  <button
-                    type="button"
-                    onClick={onJoin}
-                    className="link-wipe font-mono text-[10px] uppercase tracking-wide2 text-mark"
-                  >
-                    JOIN TO COLLECT
-                  </button>
-                ) : spent ? (
-                  <p className="font-mono text-[10px] uppercase tracking-wide2 text-ash">
+                {spent && (
+                  <p className="absolute right-4 top-4 font-mono text-[10px] uppercase tracking-wide2 text-ash">
                     ✳ COLLECTED
                   </p>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => handleClaim(mission)}
-                    className="border border-line px-4 py-2 font-mono text-[10px] uppercase tracking-wide2 text-mark transition-colors duration-300 hover:border-blush hover:text-blush"
-                  >
-                    {flash === mission.id ? `+${award} BANKED` : "COLLECT"}
-                  </button>
                 )}
+              </div>
 
+              {/* ---- Name + action ---- */}
+              <div className="flex items-start justify-between gap-4 border-t border-line px-4 py-3">
+                <div className="min-w-0">
+                  <h3 className="font-display text-sm font-black uppercase leading-tight tracking-tight2 text-mark">
+                    {mission.name}
+                  </h3>
+                  <p className="mt-1.5 text-xs leading-relaxed text-haze">{mission.note}</p>
+                </div>
+
+                <div className="shrink-0 pt-0.5">
+                  {mission.kind === "auto" ? (
+                    <span className="font-mono text-[10px] uppercase tracking-wide2 text-ash">
+                      AUTOMATIC
+                    </span>
+                  ) : !member ? (
+                    <button
+                      type="button"
+                      onClick={onJoin}
+                      className="link-wipe font-mono text-[10px] uppercase tracking-wide2 text-mark"
+                    >
+                      SIGN UP
+                    </button>
+                  ) : spent ? (
+                    <span className="font-mono text-[10px] uppercase tracking-wide2 text-ash">
+                      DONE
+                    </span>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => handleClaim(mission)}
+                      className="font-mono text-[10px] uppercase tracking-wide2 text-mark underline-offset-4 transition-colors duration-300 hover:text-blush hover:underline"
+                    >
+                      {just ? "BANKED" : "COLLECT"}
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* ---- Points band ---- */}
+              <div className="mt-auto flex items-center justify-between gap-4 border-t border-line px-4 py-2.5">
+                <p>
+                  <span
+                    className={`font-mono text-xs tracking-wide2 transition-colors duration-500 ${
+                      just ? "text-blush" : "text-mark"
+                    }`}
+                  >
+                    +{award.toLocaleString("de-DE")} POINTS
+                  </span>
+                  {boosted && (
+                    // Show the base rate too, so the tier bonus reads as a
+                    // bonus rather than looking like the price moved.
+                    <span className="ml-2 font-mono text-[10px] tracking-wide2 text-ash line-through">
+                      {mission.points.toLocaleString("de-DE")}
+                    </span>
+                  )}
+                </p>
                 {mission.kind === "repeat" && (
-                  <p className="shrink-0 font-mono text-[10px] uppercase tracking-wide2 text-ash">
-                    {takenTimes > 0 ? `${takenTimes}× TAKEN` : "EVERY DROP"}
-                  </p>
-                )}
-                {mission.href && !member && (
                   <span className="shrink-0 font-mono text-[10px] uppercase tracking-wide2 text-ash">
-                    ↗
+                    {takenTimes > 0 ? `${takenTimes}× TAKEN` : "REPEATABLE"}
                   </span>
                 )}
               </div>

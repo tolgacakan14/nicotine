@@ -119,12 +119,12 @@ export default function ClubView() {
                     }`}
                   >
                     {t.label}
-                    {active && (
-                      <span
-                        aria-hidden
-                        className="absolute inset-x-3 bottom-0 h-[2px] bg-blush sm:inset-x-5"
-                      />
-                    )}
+                    <span
+                      aria-hidden
+                      className={`absolute inset-x-3 bottom-0 h-[2px] origin-left bg-blush transition-transform duration-500 ease-editorial sm:inset-x-5 ${
+                        active ? "scale-x-100" : "scale-x-0"
+                      }`}
+                    />
                   </button>
                 </li>
               );
@@ -133,7 +133,11 @@ export default function ClubView() {
         </div>
       </nav>
 
-      <div ref={panelRef} className="shell scroll-mt-[calc(var(--nav-h)+4rem)] py-16 sm:py-20">
+      <div
+        ref={panelRef}
+        key={tab}
+        className="club-panel shell scroll-mt-[calc(var(--nav-h)+4rem)] py-16 sm:py-20"
+      >
         {/* ================= ACCESS ================= */}
         {tab === "access" && (
           <section id="panel-access" role="tabpanel">

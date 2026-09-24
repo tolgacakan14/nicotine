@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { REWARDS, type Reward } from "@/data/club";
 import { useClub } from "@/lib/club";
+import ClubPlate, { type PlateMotif } from "./ClubPlate";
 import Reveal from "@/components/ui/Reveal";
 
 /* ============================================================================
@@ -40,67 +41,98 @@ export default function RewardGrid({ onJoin }: { onJoin?: () => void }) {
       {REWARDS.map((reward, i) => {
         const held = member?.vouchers.find((v) => v.rewardId === reward.id);
         const oneShotTaken = Boolean(held) && !reward.repeatable;
+        const code = issued[reward.id] ?? (oneShotTaken ? held?.code : undefined);
         const affordable = balance >= reward.cost;
         const short = reward.cost - balance;
+        const pct = Math.min(100, (balance / reward.cost) * 100);
 
         return (
           <Reveal key={reward.id} delay={0.03 * (i % 3)}>
-            <article className="flex h-full flex-col justify-between bg-ground p-6 sm:p-7">
-              <div>
-                <div className="flex items-start justify-between gap-4">
-                  <p className="eyebrow">{KIND_LABEL[reward.kind]}</p>
-                  <p className="shrink-0 font-mono text-sm tracking-wide2 text-mark">
-                    {reward.cost.toLocaleString("de-DE")} PTS
-                  </p>
+            <article className="group/card flex h-full flex-col bg-ground">
+              {/* ---- Plate ---- */}
+              {/* Shorter on a phone: eleven full-width 5:4 plates is a lot of
+                  thumb-scrolling before the first reward comes into view. */}
+              <div className="relative aspect-[16/9] overflow-hidden bg-shade sm:aspect-[5/4]">
+                <div
+                  className={`absolute inset-0 flex items-center justify-center transition-[transform,color] duration-700 ease-editorial group-hover/card:scale-[1.07] ${
+                    code
+                      ? "text-blush"
+                      : affordable
+                        ? "text-mark group-hover/card:text-blush"
+                        : "text-line"
+                  }`}
+                >
+                  <ClubPlate motif={reward.id as PlateMotif} className="h-[46%] w-auto" />
                 </div>
 
-                <h3 className="mt-5 font-display text-2xl font-black uppercase leading-[1.02] tracking-tight2 text-mark">
-                  {reward.name}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed text-haze">{reward.detail}</p>
-              </div>
+                <p className="absolute left-4 top-4 font-mono text-[10px] uppercase tracking-wide2 text-ash">
+                  {KIND_LABEL[reward.kind]}
+                </p>
 
-              <div className="mt-7 border-t border-line pt-4">
-                {/* A code the member is holding outranks everything else on the
-                    card — it is the only state they need to act on. */}
-                {issued[reward.id] || (held && oneShotTaken) ? (
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="font-mono text-[10px] uppercase tracking-wide2 text-ash">
-                      YOUR CODE
-                    </p>
-                    <p className="font-mono text-xs tracking-wide2 text-blush">
-                      {issued[reward.id] ?? held?.code}
-                    </p>
-                  </div>
-                ) : !member ? (
-                  <button
-                    type="button"
-                    onClick={onJoin}
-                    className="link-wipe font-mono text-[10px] uppercase tracking-wide2 text-mark"
-                  >
-                    JOIN TO REDEEM
-                  </button>
-                ) : affordable ? (
-                  <button
-                    type="button"
-                    onClick={() => handleRedeem(reward)}
-                    className="w-full border border-line px-4 py-2.5 font-mono text-[10px] uppercase tracking-wide2 text-mark transition-colors duration-300 hover:border-blush hover:bg-blush hover:text-ground"
-                  >
-                    REDEEM
-                  </button>
-                ) : (
-                  <div>
-                    <div className="h-[2px] w-full bg-line">
-                      <div
-                        className="h-[2px] bg-blush transition-[width] duration-1000 ease-editorial"
-                        style={{ width: `${Math.min(100, (balance / reward.cost) * 100)}%` }}
-                      />
-                    </div>
-                    <p className="mt-3 font-mono text-[10px] uppercase tracking-wide2 text-ash">
-                      {short.toLocaleString("de-DE")} POINTS SHORT
-                    </p>
+                {/* How close the member is, drawn on the plate itself so the
+                    gap is visible before the card is even read. */}
+                {member && !affordable && !code && (
+                  <div className="absolute inset-x-0 bottom-0 h-[2px] bg-line">
+                    <div
+                      className="h-[2px] bg-blush transition-[width] duration-1000 ease-editorial"
+                      style={{ width: `${pct}%` }}
+                    />
                   </div>
                 )}
+              </div>
+
+              {/* ---- Name + action ---- */}
+              <div className="flex items-start justify-between gap-4 border-t border-line px-4 py-3">
+                <div className="min-w-0">
+                  <h3 className="font-display text-base font-black uppercase leading-tight tracking-tight2 text-mark">
+                    {reward.name}
+                  </h3>
+                  <p className="mt-1.5 text-xs leading-relaxed text-haze">{reward.detail}</p>
+                </div>
+
+                <div className="shrink-0 pt-0.5">
+                  {code ? (
+                    <span className="font-mono text-[10px] uppercase tracking-wide2 text-ash">
+                      ISSUED
+                    </span>
+                  ) : !member ? (
+                    <button
+                      type="button"
+                      onClick={onJoin}
+                      className="link-wipe font-mono text-[10px] uppercase tracking-wide2 text-mark"
+                    >
+                      SIGN UP
+                    </button>
+                  ) : affordable ? (
+                    <button
+                      type="button"
+                      onClick={() => handleRedeem(reward)}
+                      className="font-mono text-[10px] uppercase tracking-wide2 text-mark underline-offset-4 transition-colors duration-300 hover:text-blush hover:underline"
+                    >
+                      REDEEM
+                    </button>
+                  ) : (
+                    <span className="font-mono text-[10px] uppercase tracking-wide2 text-ash">
+                      LOCKED
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* ---- Cost band ---- */}
+              <div className="mt-auto flex items-center justify-between gap-4 border-t border-line px-4 py-2.5">
+                <span className="font-mono text-xs tracking-wide2 text-mark">
+                  {reward.cost.toLocaleString("de-DE")} POINTS
+                </span>
+                {code ? (
+                  <span className="shrink-0 font-mono text-[10px] tracking-wide2 text-blush">
+                    {code}
+                  </span>
+                ) : member && !affordable ? (
+                  <span className="shrink-0 font-mono text-[10px] uppercase tracking-wide2 text-ash">
+                    {short.toLocaleString("de-DE")} SHORT
+                  </span>
+                ) : null}
               </div>
             </article>
           </Reveal>

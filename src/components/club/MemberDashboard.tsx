@@ -2,6 +2,7 @@
 
 import { REWARDS, TIERS } from "@/data/club";
 import { useClub } from "@/lib/club";
+import Counter from "./Counter";
 
 /* ============================================================================
    THE MEMBER'S OWN PAGE
@@ -51,10 +52,10 @@ export default function MemberDashboard() {
               <div>
                 <p className="eyebrow">POINTS TO SPEND</p>
                 <p className="mt-1 font-display text-5xl font-black leading-none text-mark">
-                  {member.points.toLocaleString("de-DE")}
+                  <Counter value={member.points} />
                 </p>
                 <p className="mt-2 font-mono text-[10px] uppercase tracking-wide2 text-ash">
-                  {member.lifetimePoints.toLocaleString("de-DE")} EARNED ALL TIME — SETS YOUR TIER
+                  <Counter value={member.lifetimePoints} /> EARNED ALL TIME — SETS YOUR TIER
                 </p>
               </div>
               <div className="text-right">
